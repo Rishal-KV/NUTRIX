@@ -1,0 +1,93 @@
+
+<%-include("../layouts/admin/sideBar.ejs")-%>
+<%-include("../layouts/admin/adminHeader.ejs")-%>
+
+<div class="col-10 grid-margin stretch-card">
+    <div class="card" >
+      <div class="card-body mt-5"  >
+        <form class="forms-sample" action="/admin/updateproduct" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="exampleInputName1">SNO</label>
+            <input type="text" class="form-control" i value="<%=pinfo.s_no%>"  name="s_no">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail3">Name</label>
+            <input type="text" class="form-control" id="exampleInputEmail3" value="<%=pinfo.name%>" name="name" >
+          </div>
+        
+          <div class="form-group">
+            <label for="exampleInputPassword4">Price</label>
+            <input type="text" class="form-control"  value="<%=pinfo.price%>" name="price">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword4">Stock</label>
+            <input type="text" class="form-control"  value="<%=pinfo.stock%>" name="stock">
+          </div>
+
+          
+          
+          <div class="form-group">
+            <label for="exampleTextarea1">Description</label>
+            <textarea name ="description"class="form-control" id="exampleTextarea1" rows="4"> <%=pinfo.description%></textarea>
+     
+          </div>
+        
+          
+        <div class="row d-flex justify-content-center ">
+
+          <div class="row d-flex justify-content-between ">
+
+            <div class="col-lg-3 col-md-6 rounded-image-preview">
+              <label for="imageInput1" class="image-label">Image 1
+                <div class="rounded-image-preview">
+                  <img id="imagePreview1"
+                    src="/product/img/<%= pinfo.image.image1%>"
+                    alt="Preview" />
+                </div>
+                <input name="image1" type="file" accept="image/*" id="imageInput1" class="imageInput" >
+              </label>
+            </div>
+
+            <div class="col-lg-3 col-md-6 rounded-image-preview ">
+              <label for="imageInput2" class="image-label ">Image 2
+                <div class="rounded-image-preview">
+                  <img id="imagePreview2"
+                    src="/product/img/<%= pinfo.image.image2 %>"
+                    alt="Preview" />
+                </div>
+                <input name="image2" type="file" accept="image/*" id="imageInput2" class="imageInput" >
+              </label>
+            </div>
+
+            <div class="col-lg-3 col-md-6 rounded-image-preview">
+              <label for="imageInput3" class="image-label">Image 3
+                <div class="rounded-image-preview">
+                  <img id="imagePreview3"
+                    src="/product/img/<%= pinfo.image.image3%>"
+                    alt="Preview" />
+                </div>
+                <input name="image3" type="file" accept="image/*" id="imageInput3" class="imageInput" >
+              </label>
+            </div>
+
+            <div class="col-lg-3 col-md-6 rounded-image-preview">
+              <label for="imageInput4" class="image-label">Image 4
+                <div class="rounded-image-preview">
+                  <img id="imagePreview4"
+                    src="/product/img/<%= pinfo.image.image4%>"
+                    alt="Preview" />
+                </div>
+                <input name="image4" type="file" accept="image/*" id="imageInput4" class="imageInput" >
+              </label>
+            </div>
+              <input name="id" type="hidden" name="id" value="<%=pinfo._id%>">  
+          </div>
+          </div>
+         
+       <button  type="submit" class="btn btn-primary mr-2">Update</button>
+          <a href="/admin/productmanagement"><button class="btn btn-dark" type="button">Back</button></a>
+        </form>
+      </div>
+    </div>
+  </div>
+  <%-include("../layouts/admin/adminFooter.ejs")-%>

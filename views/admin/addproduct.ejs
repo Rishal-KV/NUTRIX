@@ -1,0 +1,90 @@
+<%-include("../layouts/admin/sideBar.ejs")-%>
+<%-include("../layouts/admin/adminHeader.ejs")-%>
+
+<div class="col-8 grid-margin stretch-card mt-5">
+  <div class="card">
+    <div class="card-body">
+      <form
+        class="forms-sample"
+        action="/admin/addproduct"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group">
+          <label for="exampleInputName1">SNO</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputName1"
+            name="s_no"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail3">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail3"
+            name="name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleSelectGender">Categories</label>
+          <select class="form-control" id="exampleSelectGender" name="category">
+            <% category.filter(cat => !cat.Blocked).forEach(cat => { %>
+            <option value="<%= cat._id %>"><%= cat.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputCity1">Price</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputCity1"
+            name="price"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputCity1">Stock</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputCity1"
+            name="stock"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleTextarea1">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleTextarea1"
+            name="description"
+          />
+        </div>
+        <div class="form-group">
+          <label>File upload </label>
+          <input type="file" name="image1" style="display: block" multiple />
+        </div>
+        <div class="form-group">
+          <label>File upload </label>
+          <input type="file" name="image2" style="display: block" multiple />
+        </div>
+        <div class="form-group">
+          <label>File upload </label>
+          <input type="file" name="image3" style="display: block" multiple />
+        </div>
+        <div class="form-group">
+          <label>File upload </label>
+          <input type="file" name="image4" style="display: block" multiple />
+        </div>
+
+        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        <a href="/admin/productmanagement"><button class="btn btn-dark" type="button" >Cancel</button></a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%-include("../layouts/admin/adminFooter.ejs")-%>

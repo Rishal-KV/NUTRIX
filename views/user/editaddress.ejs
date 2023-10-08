@@ -1,0 +1,70 @@
+<%- include("../layouts/user/userHeader.ejs")-%>
+<div class="page-content">
+    <div class="checkout">
+        <div class="container">
+            
+            <form action="/editaddress" method="post">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Full Name *</label>
+                                    <input type="text" class="form-control" name="fullname" value="<%=address.fullname%>">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <label>Country *</label>
+                            <input type="text" class="form-control" name="country" value="<%=address.country%>" >
+
+                            <label>Street address *</label>
+                            <input type="text" class="form-control" placeholder="House number and Street name" name="housename" value="<%=address.housename%>">
+                     
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Town / City *</label>
+                                    <input type="text" class="form-control" name="city" value="<%=address.city%>">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>State / Country *</label>
+                                    <input type="text" class="form-control" name="state" value="<%=address.state%>" >
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Postcode / ZIP *</label>
+                                    <input type="text" class="form-control"  name="pin" value="<%=address.pin%>">
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>Phone *</label>
+                                    <input type="tel" class="form-control"  name="mobile" value="<%=address.mobile%>">
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <label>Email address *</label>
+                            <input type="email" class="form-control" name="email" value="<%=address.email%>">
+
+                            
+
+                            <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                <span class="btn-text">Add</span>
+                                <span class="btn-hover-text">Add</span>
+                            </button>
+                            
+ <input type="hidden" value="<%=address._id%>" name="id" >
+ <input
+ class="form-check-input"
+ required
+ type="hidden"
+ name="address"
+ value="<%= address.fullname %>,<%= address.mobile %>,<%= address.email %>,<%= address.houseName %>,<%= address.city %>,<%= address.state %>,<%= address.pin %>  "
+/>
+                </div><!-- End .row -->
+            </form>
+        </div><!-- End .container -->
+    </div><!-- End .checkout -->
+</div><!-- End .page-content -->
+<%- include("../layouts/user/userFooter.ejs")-%>

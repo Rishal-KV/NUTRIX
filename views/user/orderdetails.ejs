@@ -1,0 +1,45 @@
+
+<%- include("../layouts/user/userHeader.ejs")-%>
+<div class="col-lg-10 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+      
+
+        <div class="table-responsive mt-3 ">
+          <table class="table " >
+            <thead >
+              <tr>
+                <th  >S_NO</th>
+                <th  >NAME</th>
+                <th  >IMAGE</th>
+                <th>PRICE</th>
+            
+                
+       
+              
+                
+              </tr>
+
+              <% for (let i = 0; i < orderDetails.products.length; i++) { %>
+                <tr>
+                    <td> <%=i + 1%></td>
+                    <td> <%= orderDetails.products[i].productId.name %> </td>
+                    <td class="py-1"  >
+                      <img     style="border-radius:  0%; height: 50px; width : 50px;" src="product/img/<%= orderDetails.products[i].productId.image.image1 %>" alt="image" />
+                    </td>
+<td><%=orderDetails.products[i].productId.price%></td>
+                    
+                </tr>
+                <!-- Accessing productId within products array -->
+               <!-- Assuming productId has a "name" property -->
+              <% } %>
+       
+              
+            </thead>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<%- include("../layouts/user/userFooter.ejs")-%>

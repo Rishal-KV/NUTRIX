@@ -1,0 +1,50 @@
+
+<%-include("../layouts/admin/sideBar.ejs")-%>
+<%-include("../layouts/admin/adminHeader.ejs")-%>
+<div class="col-lg-10 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+      
+        <a href="/admin/addproduct"><button class=" btn btn-primary btn-md mt-5 ">Add Product+</button></a>  
+        <div class="table-responsive mt-3 ">
+          <table class="table table-dark text-white" >
+            <thead >
+              <tr>
+                <th  class="text-white">S_NO</th>
+                <th  class="text-white">NAME</th>
+                <th  class="text-white">IMAGE</th>
+                <th class="text-white"> CATEGORY</th>
+                
+                <th class="text-white">PRICE</th>
+                <th class="text-white">STOCK</th>
+                <th  class="text-white">ACTION</th>
+              </tr>
+              <%product.forEach((products,index)=>{ %>
+                <td> <%= products.s_no %></td>
+                <td><%= products.name%></td>
+                <td class="py-1"  >
+                  <img     style="border-radius:  0%; height: 50px; width : 50px;" src="/product/img/<%= product[index].image.image1%>" alt="image" />
+                </td>
+                <td><%= products.category?.name %></td>
+                <td><%= products.price%></td>
+                <td><%= products.stock%></td>
+                <td><a href="/admin/editproduct?id=<%=products._id%>"><button  class=" btn btn-warning btn-sm" data-toggle="modal" data-target="#edit" type="button">edit</button></a>
+                  
+                  <% if (products.is_blocked == false) { %>
+                    <a href="/admin/deleteproduct?id=<%=products._id%>"><button class="btn btn-danger btn-sm ml-2">List</button></a>
+                <% } else { %>
+                  <a href="/admin/deleteproduct?id=<%=products._id%>"><button class="btn btn-success btn-sm ml-2">Unlist</button></a>
+                <% } %>
+                </td>
+              </tr>    
+            <%}); %>
+            </thead>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <%-include("../layouts/admin/adminFooter.ejs")-%>

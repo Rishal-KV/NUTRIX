@@ -1,0 +1,77 @@
+<%-include("../layouts/admin/sideBar.ejs")-%>
+  <%-include("../layouts/admin/adminHeader.ejs")-%>
+    <div class="col-lg-10 grid-margin stretch-card">
+      <div class="card mt-5">
+        <div class="card-body">
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#exampleModal">
+            Add Category+
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Categories</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <form action="/admin/addcategory" method="post">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">Category</label>
+                      <input name="cat" type="text" class="form-control" id="exampleFormControlInput1">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          </p>
+          <div class="table-responsive mt-2">
+            <table class="table table-dark text-white">
+              <thead>
+                <tr>
+                  <th class="text-white">_id</th>
+                  <th class="text-white">Category</th>
+                  <th class="text-white"> Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <%category.forEach((cat)=>{ %>
+                    <td>
+                      <%= cat._id %>
+                    </td>
+                    <td>
+                      <%= cat.name %>
+                    </td>
+                    <td><a href="/admin/editcategory?id=<%=cat._id%>"><button class=" btn btn-warning btn-sm"
+                          data-toggle="modal" data-target="#edit" type="button">edit</button></a>
+                      <% if(cat.Blocked==true) { %><a href="/admin/unblockcategory?id=<%=cat._id%>"><button
+                            class=" btn btn-warning btn-sm" data-toggle="modal" data-target="#edit"
+                            type="button">Unblock</button></a>
+                        <% }else { %>
+                          <a href="/admin/blockcategory?id=<%=cat._id%>"><button class=" btn btn-danger btn-sm ml-2"
+                              data-toggle="modal" data-target="#edit" type="button">Block</button></a>
+                          <% } %>
+                    </td>
+                </tr>
+                <%}); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%-include("../layouts/admin/adminFooter.ejs")-%>

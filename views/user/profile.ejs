@@ -1,0 +1,276 @@
+<%- include("../layouts/user/userHeader.ejs")-%>
+    
+
+    <div class="page-content">
+        <div class="dashboard">
+            <div class="container">
+                <div class="row">
+                    <aside class="col-md-4 col-lg-3">
+                        <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="/signout">Sign Out</a>
+                            </li>
+                        </ul>
+                    </aside><!-- End .col-lg-3 -->
+
+                    <div class="col-md-8 col-lg-9">
+                      
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
+                                <p>Hello <span class="font-weight-normal text-dark"><%=userDetails.username%></span> 
+                                <br>
+                                From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
+                            </div><!-- .End .tab-pane -->
+                                
+                            <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+                                <% if (ordersDetails.length > 0) { %>
+                                    <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Sno</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Payment</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                    
+                                         
+                                           
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% ordersDetails.forEach(function(item,index) { %>
+                                          <tr>
+                                         
+                                                <td><%=index + 1%></td>
+                                                <td><%= new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></td>
+                                                <td><%=item.totalAmount%></td>
+    
+                                                
+                                                    <td><%=item.paymentMethod%></td>
+                                                    <td><%=item.status%></td>
+                                                    <% if (item.status=="placed") { %>
+                                                      <td><button class="btn btn-primary"  onclick="cancelOrder('<%=item._id%>')">Cancel Order</button></td>
+                                                    <% } else { %>
+                                                     <td>order Cancelled</td>
+                                                    <% } %>
+                                                    
+                                                    <td><a href="orderdetails?id=<%=item._id%>">details</a></td>
+                                                 
+                                         
+                                              
+                                
+                                            
+                                          </tr>
+                                          <% }); %>
+                                         
+                                        </tbody>
+                                      </table>
+                                  <% } else { %>
+                                    <p>No order has been made yet.</p>
+                                    <a href="/home" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+                                  <% } %>
+                     
+                                
+                                
+
+                            </div><!-- .End .tab-pane -->
+
+                            <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
+                                <p>No downloads available yet.</p>
+                                <a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+                            </div><!-- .End .tab-pane -->
+                 
+                            <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
+                                <h3 class="card-title p-3">Shipping Address</h3><!-- End .card-title -->
+                             <br>
+                           
+                                <div class="row">
+                      
+                                    <%addressDetails.address.forEach(function(add) { %>
+                                       
+                                    <div class="col-lg-9">
+                                                   
+                                    
+                                        <div class="col-lg-9">
+                                            <div id="re-load">
+                                            <div class="card card-dashboard">
+                                              
+                                                <div class="card-body">
+                                                    
+                                                    <p><%=add.fullname%><br>
+                                                        <%=add.mobile%><br>
+                                                       <%=add.email%><br>
+                                                        <%=add.houseName%>,<%=add.city%>, <%=add.state%>,<%=add.country%>,<%=add.pin%><br>
+                                                        <a href="/editaddress?id=<%=add._id%>">Edit Address<i class="icon-edit"></i></a></p>
+                                                        <button class="btn btn-primary" onclick="remove('<%=add._id%>')">Remove Address<i class="fas fa-trash-alt"></i></button>
+                                                        
+                                                </div><!-- End .card-body -->
+                                                
+                                            </div><!-- End .card-dashboard -->
+                                        </div>
+                                        </div><!-- End .col-lg-6 -->
+                              
+                                    </div><!-- End .col-lg-9 -->
+               
+                                    <% }); %>
+                            
+                                    <div class="col-lg-6">
+                                        <div class="card card-dashboard">
+                                            <div class="card-body">
+                                           
+
+                                                <p>Add Address<br>
+                                                <a href="/addaddress">Add<i class="icon-edit"></i></a></p>
+                                            </div><!-- End .card-body -->
+                                        </div><!-- End .card-dashboard -->
+                                    </div><!-- End .col-lg-6 -->
+                                </div><!-- End .row -->
+                            
+                            </div><!-- .End .tab-pane -->
+
+                            <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+                                <form action="#">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label>Full Name *</label>
+                                            <input type="text" class="form-control" required value="<%=userDetails.username%>">
+                                        </div><!-- End .col-sm-6 -->
+
+                                        
+                                    </div><!-- End .row -->
+
+                                    
+                                    <label>Email address *</label>
+                                    <input type="email" class="form-control" required>
+
+                                    <label>Current password (leave blank to leave unchanged)</label>
+                                    <input type="password" class="form-control">
+
+                                    <label>New password (leave blank to leave unchanged)</label>
+                                    <input type="password" class="form-control">
+
+                                    <label>Confirm new password</label>
+                                    <input type="password" class="form-control mb-2">
+
+                                    <button type="submit" class="btn btn-outline-primary-2">
+                                        <span>SAVE CHANGES</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </button>
+                                </form>
+                            </div><!-- .End .tab-pane -->
+                        </div>
+                    </div><!-- End .col-lg-9 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .dashboard -->
+    </div><!-- End .page-content -->
+
+<script>
+ function remove(id) {
+  let addressId = id;
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this address!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // User confirmed, proceed with the deletion
+      $.ajax({
+        url: `/remove?id=${addressId}`,
+        method: 'GET',
+        success: function (response) {
+            if (response.success) {
+                $("#re-load").load("/remove #re-load");
+            }
+          // Handle success here
+          console.log('Address removed successfully');
+          // You can also update the UI or take other actions as needed
+        },
+        error: function (error) {
+          // Handle errors here
+          console.error('Error removing address', error);
+        }
+      });
+    } else {
+      // User clicked "No" or closed the dialog, do nothing
+    }
+  });
+}
+
+function cancelOrder(id) {
+  const orderId = id; // Assuming you're using `id` for the order
+ const order = document.getElementById('tab-orders-link');
+  Swal.fire({
+    title: 'Are you sure you want to cancel this order?',
+    text: 'This action cannot be undone.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, cancel it',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // User confirmed, proceed with the order cancellation
+      $.ajax({
+        url: '/cancelorder',
+        method: 'POST',
+        data: {
+          orderId: orderId
+        },
+        success: function (response) {
+          if (response.success) {
+            // Order cancellation was successful
+        
+            Swal.fire({
+              icon: 'success',
+              title: 'Order Canceled Successfully',
+              text: 'Your order has been canceled.'
+            }).then(() => {
+              // Reload or redirect to a different page if needed
+              
+              // $("#re-load").load("/cancelorder #re-load");
+              location.reload();
+              order.click();
+            });
+          } else {
+            // Handle the case where cancellation was not successful
+            Swal.fire({
+              icon: 'error',
+              title: 'Order Cancellation Failed',
+              text: 'Unable to cancel the order at this time.'
+            });
+          }
+        },
+        error: function (error) {
+          // Handle AJAX errors here
+          console.error('Error canceling the order', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while canceling the order.'
+          });
+        }
+      });
+    } else {
+      // User clicked "No" or closed the dialog, do nothing
+    }
+  });
+}
+
+</script>
+<%- include("../layouts/user/userFooter.ejs")-%>
