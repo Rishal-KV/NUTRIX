@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
   deliveryDetails: {
-    type: String,
+    type: Object,
     required: true,
   },
   user: {

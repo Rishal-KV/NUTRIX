@@ -21,6 +21,7 @@ userRoute.post("/confirm", userController.otpConfirm);
 userRoute.get("/signout", userController.signout);
 userRoute.get("/productdetails", userController.productDetails);
 userRoute.get("/shop", userController.shop);
+userRoute.post('/changepassword',userController.changePassword);
 
 
 userRoute.get('/getcart',cartController.getCart);

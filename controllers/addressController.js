@@ -1,6 +1,7 @@
 const Address = require('../model/addressModel');
 const User = require('../model/userModel');
 const Order = require('../model/orderModel')
+const Cart = require('../model/cartModel')
 
 exports.profile = async (req, res) =>{
     try {
@@ -8,10 +9,13 @@ exports.profile = async (req, res) =>{
       const userDetails = await User.findOne({_id : userId})
       const addressDetails = await Address.findOne({user : userId})
       const ordersDetails = await Order.find()
+
       .populate("products.productId")
       .sort({ date: -1 });
-     
-      res.render('profile',{user : req.session.user,addressDetails,userDetails,ordersDetails})
+      const carts = await Cart.findOne({ userId: req.session.userId }); 
+     let count = 0;
+     count = count + carts.products.length;
+      res.render('profile',{user : req.session.user,addressDetails,userDetails,ordersDetails,count})
     } catch (error) {
        console.log(error.message);
     }
@@ -20,8 +24,12 @@ exports.profile = async (req, res) =>{
 
   exports.address = async (req, res) =>{
     try {
+
+      const carts = await Cart.findOne({ userId: req.session.userId }); 
+      let count = 0;
+      count = count + carts.products.length;
       
-      res.render('addAddress',{user : req.session.user});
+      res.render('addAddress',{user : req.session.user,count});
 
     } catch (error) {
         console.log(error.message);
@@ -109,10 +117,13 @@ exports.geteditaddress = async(req, res) =>{
       { user: userId, "address._id": addressId },
       { "address.$": 1 }
     );
+    const carts = await Cart.findOne({ userId: req.session.userId }); 
+    let count = 0;
+     count = count + carts.products.length;
     const address = addressData.address[0]
     console.log(address);
 // console.log(addressDetails);
-      res.render('editaddress',{user : req.session.user,address})
+      res.render('editaddress',{user : req.session.user,address,count})
 
       
     

@@ -53,13 +53,7 @@ exports.signIn = async (req, res) => {
   }
 };
 
-exports.home = async (req, res) => {
-  try {
-    res.render("home");
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+
 
 // Registration page rendering
 exports.register = async (req, res) => {
@@ -107,14 +101,21 @@ exports.register = async (req, res) => {
 exports.home = async (req, res) => {
   try {
     const items = await Product.find();
-    const carts = await Cart.findOne({ user: req.session.userId }); //
+    const carts = await Cart.findOne({ userId: req.session.userId }); //
     let count = 0;
-
-    if (carts && carts.products) {
-      count = carts.products.length; // Count the number of products in the cart
+    if(req.session.user){
+      if(carts){
+        count = count + carts.products.length;
+      }else{
+        count = 0
+      }
+     
+    }else{
+       count = ""
     }
-
-    res.render("home", { user: req.session.user, items, count });
+   
+ 
+    res.render("home", { user: req.session.user, items, count  });
   } catch (error) {
     console.log(error.message);
   }
@@ -189,9 +190,18 @@ exports.productDetails = async (req, res) => {
   try {
     const id = req.query.id;
     const pdata = await Product.findById({ _id: id });
-    const product = await Product.find();
 
-    res.render("product", { pdata, product, user: req.session.user });
+    const cart = await Cart.findOne({userId : req.session.userId})
+    let count = 0
+    if(req.session.user){
+      if(cart.products.length > 0){
+        count = count + cart.products.length
+      }else{
+        count = 0
+      }
+    }
+   
+    res.render("product", { pdata,user: req.session.user ,count});
   } catch (error) {
     console.log(error.message);
   }
@@ -207,3 +217,25 @@ exports.shop = async (req, res) => {
 };
 
 
+exports.changePassword = async (req, res) =>{
+  try {
+    const userId = req.session.userId
+    const user = await User.findOne({_id : userId});
+    const  oldPassword = user.password;
+
+    const  {currentpassword, newpassword} = req.body;
+    const passwordMatch = await bcrypt.compare(currentpassword, oldPassword);
+    if(passwordMatch){
+      const newpass = await bcrypt.hash(newpassword,10)
+      user.password = newpass
+      console.log("changed");
+      const updatedPassword = await user.save(); 
+      res.redirect('/profile')
+    }else{
+      console.log("password doesnt match");
+      res.redirect('/profile')
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}

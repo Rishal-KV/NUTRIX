@@ -141,7 +141,7 @@
                                 </div><!-- End .accordion -->
 
                                
-                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block   ">
+                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block   " onclick="order('<%products.productId%>')">
                                     <span class="btn-text">Place Order</span>
                                     <span class="btn-hover-text">Proceed to Checkout</span>
                                 </button>
@@ -154,10 +154,14 @@
     </div><!-- End .page-content -->
 </main><!-- End .main -->
 <script>
-    function order(){
+    function order(productId){
+        let productId = productId
         $.ajax({
             url : "/placeorder",
             type : "POST",
+            data : {
+      productId : productId
+            },
             success : function(response){
                 if(response.success){
                     

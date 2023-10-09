@@ -8,7 +8,7 @@
                     <aside class="col-md-4 col-lg-3">
                         <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+                                <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Change Password</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
@@ -61,7 +61,7 @@
                                                     <td><%=item.paymentMethod%></td>
                                                     <td><%=item.status%></td>
                                                     <% if (item.status=="placed") { %>
-                                                      <td><button class="btn btn-primary"  onclick="cancelOrder('<%=item._id%>')">Cancel Order</button></td>
+                                                      <td><button class="btn btn-primary"  onclick="cancelOrder('<%=item._id%>',  '<%=item.products.productId%>')">Cancel Order</button></td>
                                                     <% } else { %>
                                                      <td>order Cancelled</td>
                                                     <% } %>
@@ -98,7 +98,7 @@
                            
                                 <div class="row">
                       
-                                    <%addressDetails.address.forEach(function(add) { %>
+                                    <%addressDetails?.address.forEach(function(add) { %>
                                        
                                     <div class="col-lg-9">
                                                    
@@ -141,7 +141,7 @@
                             </div><!-- .End .tab-pane -->
 
                             <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-                                <form action="#">
+                                <form action="/changepassword" method="post">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label>Full Name *</label>
@@ -153,18 +153,18 @@
 
                                     
                                     <label>Email address *</label>
-                                    <input type="email" class="form-control" required>
+                                    <input type="email" class="form-control"  name="email" required>
 
-                                    <label>Current password (leave blank to leave unchanged)</label>
-                                    <input type="password" class="form-control">
+                                    <label>Current password</label>
+                                    <input type="password" class="form-control" name="currentpassword">
 
-                                    <label>New password (leave blank to leave unchanged)</label>
-                                    <input type="password" class="form-control">
-
+                                    <label>New password</label>
+                                    <input type="password" class="form-control" name="newpassword">
+<!-- 
                                     <label>Confirm new password</label>
-                                    <input type="password" class="form-control mb-2">
+                                    <input type="password" class="form-control mb-2"> -->
 
-                                    <button type="submit" class="btn btn-outline-primary-2">
+                                    <button type="submit" class="btn btn-outline-primary-2" >
                                         <span>SAVE CHANGES</span>
                                         <i class="icon-long-arrow-right"></i>
                                     </button>
@@ -213,7 +213,7 @@
   });
 }
 
-function cancelOrder(id) {
+function cancelOrder(id,productId) {
   const orderId = id; // Assuming you're using `id` for the order
  const order = document.getElementById('tab-orders-link');
   Swal.fire({
@@ -230,7 +230,8 @@ function cancelOrder(id) {
         url: '/cancelorder',
         method: 'POST',
         data: {
-          orderId: orderId
+          orderId: orderId,
+          productId : productId
         },
         success: function (response) {
           if (response.success) {

@@ -38,5 +38,7 @@ adminRoute.get('/editcategory',categoryController.editCategory);
 adminRoute.post('/updatecategory',categoryController.updateCategory)
 adminRoute.get("/blockcategory",categoryController.blockCategory);
 adminRoute.get('/unblockcategory',categoryController.unblockCategory)
-
+adminRoute.get('/ordermanagement',adminController.orderManagement)
+adminRoute.get('/viewdetails',adminController.orderDetails)
+adminRoute.get('/admin/deliver',adminController.deliver)
 module.exports = adminRoute;

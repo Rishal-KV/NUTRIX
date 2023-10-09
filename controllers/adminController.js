@@ -1,6 +1,7 @@
 const User = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const Product = require("../model/productModel");
+const Order = require('../model/orderModel')
 
 
 //to render login page
@@ -102,3 +103,44 @@ exports.editUser = async (req, res) => {
     console.log(error.message);
   }
 };
+
+exports.orderManagement = async (req, res) =>{
+  try {
+    const orderData = await Order.find()
+    res.render('order',{orderData,admin : req.session.admin})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.orderDetails = async(req, res) => {
+
+  try {
+
+    const id = req.query.id;
+    const orderDetails = await Order.findOne({_id : id}).populate('products.productId',);
+  
+    // const deliveryDetails = JSON.parse(orderDetails.deliveryDetails);
+
+
+    res.render('orderdetails',{orderDetails});
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.deliver = async(req, res) =>{
+  try {
+    const deliverId = req.query.deliverId;
+    console.log(deliverId);
+    const deliverUpdate = await Order.findByIdAndUpdate({_id : deliverId},{$set :
+     {
+      status : "Delivered"
+     }
+    
+    })
+    res.redirect('/admin/ordermanagement')
+  } catch (error) {
+    console.log(error.message);
+  }
+}

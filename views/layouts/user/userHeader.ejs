@@ -462,8 +462,15 @@
 
                         <div class="dropdown cart-dropdown">
                             <a href="/getcart" class="dropdown-toggle" role="button"  aria-haspopup="true">
+                            
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                   <% if (user) { %>
+              <span class="cart-count"><%=count%></span>
+  <% } else { %>
+  
+  <% } %>
+
+                             
                             </a>
 
                            

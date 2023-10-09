@@ -1,0 +1,57 @@
+<%-include("../layouts/admin/sideBar.ejs")-%>
+<%-include("../layouts/admin/adminHeader.ejs")-%>
+
+
+<div class="col-lg-10 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+      
+      
+        <div class="table-responsive mt-5">
+          <table class="table table-dark text-white" >
+            <thead >
+              <tr>
+                <th  class="text-white">S_NO</th>
+                <th  class="text-white">ORDER_ID</th>
+                <th class="text-white">Name</th>
+          <th>DATE</th>
+                
+               
+                <th>STATUS</th>
+                <th>DETAILS</th>
+                <th  class="text-white">ACTION</th>
+              </tr>
+            <% orderData.forEach((info,index)=>{ %>
+            <tr>
+    <td><%=index + 1%></td>
+    <td><%=info.uniqueId%></td>
+    <td><%=info.userName%></td>
+    <td><%= new Date(info.date).toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }) %></td>
+  </td>  
+
+  <% if (info.status == "cancelled") { %>
+    <td class="text-danger"><%=info.status%></td>
+  <% } else { %>
+    <td class="text-success"><%=info.status%></td>
+  <% } %>
+               
+               <td><a href="/admin/viewdetails?id=<%=info._id%>">view details</a></td>
+                
+               <% if (info.status === 'cancelled') { %>
+              
+              <% } else if (info.status === 'Delivered') { %>
+             
+              <% } else { %>
+                <td><a href="admin/deliver?deliverId=<%=info._id%>"><button class="btn  btn-success">Delivered</button></a></td>
+              <% } %>
+                </tr>
+                    <%  }) %>
+         
+            </thead>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<%-include("../layouts/admin/adminFooter.ejs")-%>

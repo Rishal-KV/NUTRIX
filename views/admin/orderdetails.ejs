@@ -1,0 +1,25 @@
+<%-include("../layouts/admin/sideBar.ejs")-%>
+<%-include("../layouts/admin/adminHeader.ejs")-%>
+
+  <div class="jumbotron bg-dark mt-5 col-lg-12">
+  <h1 class="display-4 h1">Products</h1>
+   <ol>
+    <% orderDetails.products.forEach(function(item) { %>
+        <li><%=item.productId.name %></li>
+      <% }); %>
+
+   </ol>
+  <hr class="my-4">
+  
+  OrderedDate: <%= orderDetails.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %><br>
+  
+  Address : <%=orderDetails.deliveryDetails.fullname%>, <%=orderDetails.deliveryDetails.mobile%>,<br>
+   <%=orderDetails.deliveryDetails.houseName%><br>
+   <%=orderDetails.deliveryDetails.city%>
+   <%=orderDetails.deliveryDetails.state%>
+   <%=orderDetails.deliveryDetails.country%>
+   <%=orderDetails.deliveryDetails.pin%><br>
+  Total Price : <%=orderDetails.totalAmount%>
+  
+</div>
+  <%-include("../layouts/admin/adminFooter.ejs")-%>

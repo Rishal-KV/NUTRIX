@@ -81,7 +81,8 @@ exports.getCart = async (req, res) =>{
           const userId = req.session.userId;
           // console.log(userId);
           const cartData = await Cart.findOne({ userId: userId }).populate("products.productId");
-   
+          let count = 0;
+          count = count + cartData.products.length;
    
       
           if (cartData) {
@@ -104,12 +105,12 @@ exports.getCart = async (req, res) =>{
               ]);
               
       
-              res.render("cart", { user: req.session.user, products: products, total: total[0].total});
+              res.render("cart", { user: req.session.user, products: products, total: total[0].total,count});
             } else {
-              res.render("cart", { user: req.session.user, products: undefined, total: 0 });
+              res.render("cart", { user: req.session.user, products: undefined, total: 0,count});
             }
           } else {
-            res.render("cart", { user: req.session.user, products: undefined, total: 0 });
+            res.render("cart", { user: req.session.user, products: undefined, total: 0,count});
           }
         }else{
           res.redirect('/login')
@@ -210,8 +211,10 @@ exports.updateCart = async(req, res) =>{
 
       const userId = req.session.userId
       const addressDetails = await Address.findOne({user : userId})
- 
-      
+      const carts = await Cart.findOne({ userId: req.session.userId }); //
+      let count = 0;
+      count = count + carts.products.length;
+        
       const total = await Cart.aggregate([
         { $match: { userId: userId } },
         { $unwind: "$products" },
@@ -231,7 +234,7 @@ exports.updateCart = async(req, res) =>{
       const products = cartData.products
 
 
-      res.render('checkout',{user : req.session.user,addressDetails,Total,products})
+      res.render('checkout',{user : req.session.user,addressDetails,Total,products,count})
     } catch (error) {
       
     }
