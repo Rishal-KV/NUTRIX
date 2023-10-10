@@ -63,10 +63,11 @@ exports.register = async (req, res) => {
     console.log(verified);
     emailOne = email;
     // Generate a random 4-digit OTP
-    randomNumber = Math.floor(Math.random() * 900000) + 100000;
+    randomNumber = Math.floor(Math.random() * 9000) + 1000;
+
     setTimeout(() => {
       randomNumber = null;
-    }, 120000); // 2 minutes (120,000 milliseconds)
+    }, 60000); // 1 minute (60,000 milliseconds)
     
     if (verified.is_verified === true) {
       req.app.locals.specialContext = "Email already exists";
@@ -98,7 +99,7 @@ exports.register = async (req, res) => {
   }
 };
 
-// exports.getResendOtp = 
+
 
 // Render the home page
 exports.home = async (req, res) => {
@@ -153,9 +154,10 @@ exports.verifyLogin = async (req, res) => {
 // Confirm OTP and redirect to home page if correct, or back to OTP confirmation page if incorrect
 exports.otpConfirm = async (req, res) => {
   try {
-    const { a,b,c,d,e,f } = req.body;
+    const {first, second, third, fourth} = req.body;
 
-    const otp = parseInt(`${a}${b}${c}${d}${e}${f}`, 10);
+    const otp = parseInt(`${first}${second}${third}${fourth}`, 10);
+    console.log(otp);
     const user = await User.findOne({ email: emailOne });
     if (randomNumber == otp) {
       const verified = await User.updateOne(

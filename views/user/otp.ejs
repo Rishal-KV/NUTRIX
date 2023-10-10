@@ -2,78 +2,201 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Verification Form</title>
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Include Bootstrap JS and Popper.js (for Bootstrap's JavaScript functionality) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-pzjw2f5M3h8HtAq9OjllFpWyb+st9R6lCvq/rVm2p+pOA+M/zDd5PpaT+pDK9Usl" crossorigin="anonymous">
-
-    <!-- Your custom CSS -->
-    <link rel="stylesheet" href="/user/css/otp.css">
-    
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="user/css/verification.css">
 </head>
-<body class="container-fluid h-100 bg-body-tertiary  d-block">
-    <div class="row justify-content-center align-items-center d-flex otp-box">
-        <div class="col-12 col-md-6 col-lg-4" style="min-width: 500px;">
-          <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
-            <div class="card-body p-5 text-center shadow">
-              <h4>Verify</h4>
-              <p>Your code was sent to you via email <br>Check your email at <b><span id="maskedEmail"></span></b> for the OTP:</p>
-              <p></p>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('/user/images/signup&login\ bg.jpg');
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+body, html:after{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.318);
+}
 
-              
-            <form action="/confirm" method="post">
-          
+.height-100 {
+   min-height: 100vh;
+}
 
-              <div class="otp-field mb-4">
-                <input name="a" type="number" />
-                <input name="b" type="number" disabled />
-                <input name="c" type="number" disabled />
-                <input name="d"type="number" disabled />
-                <input name="e" type="number" disabled />
-                <input name="f"type="number" disabled />
-              </div>
-  
-              <button type="submit" class="btn btn-primary mb-3">
-                Verify
-              </button>
-            </form>
-            <p>Time left: <span class="text-danger" id="timer">02:00</span></p>
-              <!-- <p class="resend text-muted mb-0">
-                Didn't receive code? <a href="">Request again</a>
-              </p> -->
+.card {
+    width: 400px;
+    border: none;
+    height: 300px;
+    box-shadow: 0px 5px 20px 0px #d2dae3;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.card h6 {
+    color: red;
+    font-size: 20px
+}
+
+.inputs input {
+    width: 40px;
+    height: 40px
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0
+}
+
+.card-2 {
+    background-color: #fff;
+    padding: 10px;
+    width: 350px;
+    height: 100px;
+    bottom: -50px;
+    left: 20px;
+    position: absolute;
+    border-radius: 5px
+}
+
+.card-2 .content {
+    margin-top: 50px
+}
+
+.card-2 .content a {
+    color: red
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border: 2px solid red
+}
+
+.validate {
+    border-radius: 20px;
+    height: 40px;
+    background-color: red;
+    border: 1px solid red;
+    width: 140px
+}
+</style>
+<body>
+<!-- Add a timer display element -->
+<div class="bg-img">
+    <div class="position-relative">
+        <form action="/confirm" method="post">
+            <div class="card p-2 text-center">
+                <h6>Please enter the one-time password <br> to verify your account</h6>
+                <!-- <div> <span>A code has been sent to</span> <small>*******9897</small> </div> -->
+                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                    <input class="m-2 text-center form-control rounded" type="text" id="first" name="first" maxlength="1" />
+                    <input class="m-2 text-center form-control rounded" type="text" id="second" name="second" maxlength="1" />
+                    <input class="m-2 text-center form-control rounded" type="text" id="third" name="third" maxlength="1" />
+                    <input class="m-2 text-center form-control rounded" type="text" id="fourth" name="fourth" maxlength="1" />
+                </div>
+                <div >
+               
+                      
+                  </div>
+                <div class="mt-4">
+                    <button class="btn btn-danger px-4 validate" type="submit">Validate</button>
+                    <!-- Resend Button -->
+                    <a href="/resend">
+                        <button class="btn btn-primary px-4 ml-2" id="resend">Resend</button>
+                    </a>
+                </div>
+                <!-- Timer Display -->
+                <div id="timer" class="mt-2">
+                    Resend in: <span id="countdown">60</span> seconds <!-- Initial countdown value -->
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-      
-            <script>
-              function redirectToPage() {
-              setTimeout(function () {
-              
-              }, 123000); 
+        </form>
+    </div>
+</div>
+
+    
+<script>
+  // verification page input 
+document.addEventListener("DOMContentLoaded", function(event) {
+            function OTPInput() {
+                const inputs = document.querySelectorAll('#otp > *[id]');
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].addEventListener('keydown', function(event) {
+                        if (event.key === "Backspace") {
+                            inputs[i].value = '';
+                            if (i !== 0) inputs[i - 1].focus();
+                        } else {
+                            if (i === inputs.length - 1 && inputs[i].value !== '') {
+                                return true;
+                            } else if (event.keyCode > 47 && event.keyCode < 58) {
+                                inputs[i].value = event.key;
+                                if (i !== inputs.length - 1) inputs[i + 1].focus();
+                                event.preventDefault();
+                            } else if (event.keyCode > 64 && event.keyCode < 91) {
+                                inputs[i].value = String.fromCharCode(event.keyCode);
+                                if (i !== inputs.length - 1) inputs[i + 1].focus();
+                                event.preventDefault();
+                            }
+                        }
+                    });
+                }
             }
-            redirectToPage();
-            </script>
-      
-      <script>
-        // Replace 'test@gmail.com' with the actual email address
+            OTPInput();
+          });
 
 
-        // Display the masked email in the <span> element
-        const maskedEmail = email.substr(0, 3) + '****' + email.substr(-9);
-        document.getElementById('maskedEmail').textContent = maskedEmail;
 
-        function submitOTP() {
-            const enteredOTP = document.getElementById('otpInput').value;
-            // Validate the OTP and continue with your logic
-        }
-    </script>
-      <script src="/user/js/otp.js"></script>
-  </body>
+// resend button and countdown
+document.addEventListener("DOMContentLoaded", function () {
+    const resendButton = document.getElementById("resend");
+    const countdownDisplay = document.getElementById("countdown");
+    
+    let countdownTime = 60;
+    
+    function updateTimerDisplay() {
+        countdownDisplay.textContent = countdownTime; 
+    }
+    
+    function startCountdown() {
+        resendButton.disabled = true;
+        updateTimerDisplay();
+        
+        const countdownInterval = setInterval(function () {
+            countdownTime--;
+            updateTimerDisplay();
+            
+            if (countdownTime <= 0) {
+                clearInterval(countdownInterval);
+                resendButton.disabled = false;
+                countdownDisplay.textContent = "";
+            }
+        }, 1000);
+    }
+    
+    resendButton.addEventListener("click", function () {
+        countdownTime = 60;
+        startCountdown();
+    });
+
+    startCountdown();
+});
+</script>
+</body>
 </html>
