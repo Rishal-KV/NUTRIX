@@ -1,26 +1,145 @@
-
-<%- include("../layouts/user/userHeader.ejs")-%>
-<div class="container">
-        <h1>Product Details</h1>
-        
-        <!-- Product Details Section -->
-        <div class="product-details">
-            <img src="your-product-image.jpg" alt="Product Image" class="product-image">
-            <h2>Product Name: Your Product Name</h2>
-            <p>Description: This is a detailed description of your product.</p>
-            <p>Price: $99.99</p>
-            <!-- Add more product details here -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Add your CSS styling here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .order-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+        }
+        .address {
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .cancel-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF0000;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="order-card">
+            <h1>Order Details</h1>
+            <% orderDetails.products.forEach(function(product,index) { %>
+                <div class="product">
+                    <h2><%=product.productId.name%></h2>
+                    <p><%=product.productId.description%></p>
+                    <p>Price: <%=product.productId.price%></p>
+                </div>
+            <% }); %>
+            
+            
+            <div class="address">
+                <h2>Shipping Address</h2>
+                <p><%=orderDetails.deliveryDetails.houseName%></p>
+                <p><%=orderDetails.deliveryDetails.country%>, <%=orderDetails.deliveryDetails.state%> <%=orderDetails.deliveryDetails.pin%></p>
+            </div>
+            <a href="#" class="btn">Complete Order</a>
+            <button  id="tab-orders-link" button class="cancel-btn" onclick="cancelOrder('<%=orderDetails._id%>')">Cancel Order</button>
         </div>
         
-        <!-- Delivery Address Section -->
-        <div class="address">
-            <h2>Delivery Address</h2>
-            <p>Name: John Doe</p>
-            <p>Address: 123 Main Street, City, State, ZIP</p>
-            <!-- Add more address details here -->
-        </div>
-
-        <!-- Cancel Button -->
-        <button class="cancel-button">Cancel Order</button>
+       
     </div>
-<%- include("../layouts/user/userFooter.ejs")-%>
+<script>
+    
+function cancelOrder(id) {
+  const orderId = id; // Assuming you're using `id` for the order
+
+  Swal.fire({
+    title: 'Are you sure you want to cancel this order?',
+    text: 'This action cannot be undone.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, cancel it',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // User confirmed, proceed with the order cancellation
+      $.ajax({
+        url: '/cancelorder',
+        method: 'POST',
+        data: {
+          orderId: orderId,
+         
+        },
+        success: function (response) {
+          if (response.success) {
+            // Order cancellation was successful
+        
+            Swal.fire({
+              icon: 'success',
+              title: 'Order Canceled Successfully',
+              text: 'Your order has been canceled.'
+            }).then(() => {
+              // Reload or redirect to a different page if needed
+              
+              // $("#re-load").load("/cancelorder #re-load");
+         window.location.href = '/home'
+              order.click();
+            });
+          } else {
+            // Handle the case where cancellation was not successful
+            Swal.fire({
+              icon: 'error',
+              title: 'Order Cancellation Failed',
+              text: 'Unable to cancel the order at this time.'
+            });
+          }
+        },
+        error: function (error) {
+          // Handle AJAX errors here
+          console.error('Error canceling the order', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while canceling the order.'
+          });
+        }
+      });
+    } else {
+      // User clicked "No" or closed the dialog, do nothing
+    }
+  });
+}
+
+</script>
+</body>
+</html>

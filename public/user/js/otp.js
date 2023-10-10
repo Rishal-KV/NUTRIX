@@ -17,6 +17,7 @@ function startCountdown(durationInSeconds) {
 			clearInterval(countdownInterval);
 			timerElement.textContent = "00:00";
 			timerElement.textContent="The OTP has expired"
+
 		} else {
 			timeLeft--;
 		}
@@ -33,7 +34,7 @@ button.setAttribute("disabled", "disabled");
 inputs[0].addEventListener("paste", function (event) {
   event.preventDefault();
 
-  const pastedValue = (event.clipboardData || window.clipboardData).getData(
+  const pastedValue = (event.clipboardData || window.Clipboard).getData(
     "text"
   );
   const otpLength = inputs.length;

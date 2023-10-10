@@ -16,20 +16,20 @@ exports.addToCart = async (req, res) => {
     }
 
     const cart = await Cart.findOne({ userId: userId });
+    const cartData = await Cart.findOneAndUpdate(
+      { userId: userId },
+      {
+        $setOnInsert: {
+          userId: userId,
+          userName: name,
+          products: [],
+        },
+      },
+      { upsert: true, new: true }
+    );
+  
 
     if (cart) {
-      const cartData = await Cart.findOneAndUpdate(
-        { userId: userId },
-        {
-          $setOnInsert: {
-            userId: userId,
-            userName: name,
-            products: [],
-          },
-        },
-        { upsert: true, new: true }
-      );
-
       const updatedProduct = cartData.products  .find(
         (product) => product.productId === productId
       );
@@ -62,6 +62,7 @@ exports.addToCart = async (req, res) => {
         await cartData.save();
       }
     }
+     
 
     res.json({ success: true });
   } catch (error) {

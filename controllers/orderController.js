@@ -2,6 +2,7 @@ const Cart = require("../model/cartModel");
 const Address = require("../model/addressModel");
 const User = require("../model/userModel");
 const Order = require("../model/orderModel");
+const Product = require('../model/productModel');
 exports.orderPlace = async(req, res) =>{
     try {
         const userId = req.session.userId;
@@ -16,7 +17,9 @@ exports.orderPlace = async(req, res) =>{
         const name = userData.username;
         const uniNum = Math.floor(Math.random() * 900000) + 100000;
         const status = paymentMethods === "COD" ? "placed" : "pending";
+
       
+     
           const  selectedAddress = await Address.findOne(
             { user: userId, 'address._id': addressId },
             { 'address.$': 1 }
@@ -41,7 +44,7 @@ exports.orderPlace = async(req, res) =>{
                 products : {}
               }})
           }
-          console.log();
+     
           const cart = await Cart.findOne({userId : req.session.userId})
           let count = 0
           count = count + cart.products.length
@@ -58,6 +61,7 @@ exports.orderPlace = async(req, res) =>{
 exports.cancelOrder = async(req, res) =>{
   try {
     const orderId = req.body.orderId;
+    console.log(orderId);
    const cancelOrder = await  Order.updateOne({_id : orderId},{
     $set :{
       status : "cancelled"
@@ -77,12 +81,10 @@ exports.orderDetails = async(req, res) =>{
   try {
     const orderId = req.query.id;
     const orderDetails = await Order.findOne({_id : orderId}).populate('products.productId');
-    const cart = await Cart.findOne({userId : req.session.userId})
-    let count = 0;
 
-    count = count + cart.products.length;
-    console.log(orderDetails);
-    res.render('orderdetails',{user : req.session.user,orderDetails,count})
+  
+  
+    res.render('orderdetails',{user : req.session.user,orderDetails})
   } catch (error) {
     console.log(error.message);
   }

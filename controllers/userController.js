@@ -64,7 +64,10 @@ exports.register = async (req, res) => {
     emailOne = email;
     // Generate a random 4-digit OTP
     randomNumber = Math.floor(Math.random() * 900000) + 100000;
-
+    setTimeout(() => {
+      randomNumber = null;
+    }, 120000); // 2 minutes (120,000 milliseconds)
+    
     if (verified.is_verified === true) {
       req.app.locals.specialContext = "Email already exists";
       return res.redirect("/register");
@@ -95,7 +98,7 @@ exports.register = async (req, res) => {
   }
 };
 
-
+// exports.getResendOtp = 
 
 // Render the home page
 exports.home = async (req, res) => {
@@ -111,7 +114,7 @@ exports.home = async (req, res) => {
       }
      
     }else{
-       count = ""
+       count = 0
     }
    
  
