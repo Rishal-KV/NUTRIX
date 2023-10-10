@@ -194,7 +194,7 @@ exports.productDetails = async (req, res) => {
     const cart = await Cart.findOne({userId : req.session.userId})
     let count = 0
     if(req.session.user){
-      if(cart.products.length > 0){
+      if(cart?.products?.length > 0){
         count = count + cart.products.length
       }else{
         count = 0

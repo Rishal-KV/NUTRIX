@@ -52,7 +52,7 @@
                             <form action="/user_registration" method="post">
                                 <div class="form-group">
                                     <label for="register-email-2">Name*</label>
-                                    <input type="name" class="form-control" id="register-email-2" name="name" required>
+                                    <input type="name" class="form-control" id="register-name-2" name="name" required>
                                 </div><!-- End .form-group -->
                                 <div class="form-group">
                                     <label for="register-email-2">Your email address *</label>
@@ -67,7 +67,7 @@
                                 
                                 <div class="form-group">
                                     <label for="register-password-2">Confirm Password*</label>
-                                    <input type="password" class="form-control" id="register-password-2" name="confirm-password" required>
+                                    <input type="password" class="form-control" id="register-confirm-password-2" name="confirm-password" required>
                                 </div><!-- End .form-group -->
 
                                 <div class="form-footer">
@@ -95,5 +95,63 @@
             </div><!-- End .form-box -->
         </div><!-- End .container -->
     </div><!-- End .login-page section-bg -->
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                event.preventDefault(); // Prevent the default form submission
+    
+                // Get the values entered by the user
+                var name = $('#register-name-2').val();
+                var email = $('#register-email-2').val();
+                var password = $('#register-password-2').val();
+                var confirmPassword = $('#register-confirm-password-2').val();
+    
+                // Reset validation messages
+                $('.error-message').text('');
+    
+                // Perform validation checks
+    
+                // Check if name is empty or shorter than 3 characters
+                if (name.trim() === '' || name.length < 3) {
+                    $('#name-error').text('Name must be at least 3 characters long');
+                    return false; // Prevent form submission
+                }
+    
+                // Check if email is empty and in the correct format
+                if (email.trim() === '' || !isValidEmail(email)) {
+                    $('#email-error').text('Please enter a valid email address');
+                    return false; // Prevent form submission
+                }
+    
+                // Check if password is empty and has a minimum length of 5 characters
+                if (password.trim() === '' || password.length < 5) {
+                    $('#password-error').text('Password must be at least 5 characters long');
+                    return false; // Prevent form submission
+                }
+    
+                // Check if confirmPassword matches password
+                if (confirmPassword !== password) {
+                    $('#confirm-password-error').text('Passwords do not match');
+                    // Display a SweetAlert error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: '',
+                        text: 'Passwords do not match'
+                    });
+                    return false; // Prevent form submission
+                }
+    
+                // If all validation checks pass, you can submit the form
+                this.submit();
+            });
+        });
+    
+        // Function to validate email format using regex
+        function isValidEmail(email) {
+            var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return emailRegex.test(email);
+        }
+    </script>
+    
 </body>
 </html>

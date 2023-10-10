@@ -246,55 +246,14 @@
 </div><!-- End .mobile-menu-container -->
 
 
-<script>
-    $(document).ready(function () {
-      $('.add-to-cart').click(function () {
-        const productId = $(this).data('product-id');
-    
-        $.ajax({
-          type: 'POST',
-          url: '/addtoCart',
-          data: { productId: productId },
-          success: function (response) {
-            if (response.success) {
-              showSuccessAlert(); // Call the SweetAlert success function
-            } else {
-              showErrorAlert(); // Call the SweetAlert error function
-            }
-          },
-          error: function () {
-            showErrorAlert(); // Call the SweetAlert error function
-          },
-        });
-      });
-    
-      // Function to show a success SweetAlert message
-      function showSuccessAlert() {
-        Swal.fire({
-          title: 'Product Added to Cart!',
-          text: 'The selected product has been added to your cart.',
-          icon: 'success',
-          confirmButtonText: 'OK',
-        });
-      }
-    
-      // Function to show an error SweetAlert message
-      function showErrorAlert() {
-        Swal.fire({
-            icon: 'warning',
-          title: 'Quantity Limit Reached',
-          text: 'You have reached the maximum quantity allowed for this product.',
-        });
-      }
-    });
+
 
     
 
 
 
 
-    </script>
-    
+
 
 
 <script src="user/js/jquery.min.js"></script>

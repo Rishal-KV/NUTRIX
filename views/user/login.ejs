@@ -85,5 +85,44 @@
             </div><!-- End .form-box -->
         </div><!-- End .container -->
     </div><!-- End .login-page section-bg -->
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                event.preventDefault(); // Prevent the default form submission
+    
+                // Get the values entered by the user
+                var email = $('#register-email-2').val();
+                var password = $('#register-password-2').val();
+    
+                // Reset validation messages
+                $('.error-message').text('');
+    
+                // Perform validation checks
+    
+                // Check if email is empty
+                if (email.trim() === '') {
+                    $('#email-error').text('Please enter your email address');
+                    return false; // Prevent form submission
+                }
+    
+                // Check if email is a valid Gmail address using regex
+                var gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                if (!gmailRegex.test(email)) {
+                    $('#email-error').text('Please enter a valid Gmail address');
+                    return false; // Prevent form submission
+                }
+    
+                // Check if password is empty
+                if (password.trim() === '') {
+                    $('#password-error').text('Please enter your password');
+                    return false; // Prevent form submission
+                }
+    
+                // If all validation checks pass, you can submit the form
+                this.submit();
+            });
+        });
+    </script>
+    
 </body>
 </html>

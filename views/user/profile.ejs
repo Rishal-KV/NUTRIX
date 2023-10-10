@@ -43,7 +43,7 @@
                                             <th scope="col">Amount</th>
                                             <th scope="col">Payment</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Action</th>
+                                            <th scope="col">Details</th>
                                     
                                          
                                            
@@ -60,13 +60,9 @@
                                                 
                                                     <td><%=item.paymentMethod%></td>
                                                     <td><%=item.status%></td>
-                                                    <% if (item.status=="placed") { %>
-                                                      <td><button class="btn btn-primary"  onclick="cancelOrder('<%=item._id%>',  '<%=item.products.productId%>')">Cancel Order</button></td>
-                                                    <% } else { %>
-                                                     <td>order Cancelled</td>
-                                                    <% } %>
                                                     
-                                                    <td><a href="orderdetails?id=<%=item._id%>">details</a></td>
+                                                    
+                                                    <td><a href="orderdetails?id=<%=item._id%>">Show details</a></td>
                                                  
                                          
                                               
