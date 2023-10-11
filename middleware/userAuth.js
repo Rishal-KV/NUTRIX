@@ -1,7 +1,18 @@
+const User = require('../model/userModel');
 exports.isLoggedIn = async(req,res,next) => {
   try {
-      if (req.session.user || req.session.otp) {
-          next()
+       
+      if (req.session.user || req.session.otp)  {
+      const userId = req.session.userId
+        const user = await User.findOne({_id : userId})
+     
+        if (user.blocked) {
+            req.session.destroy();
+            res.redirect('/login')
+        }else{
+            next();
+        }
+      
       }else{
           res.redirect('/login')
       }

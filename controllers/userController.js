@@ -63,8 +63,12 @@ exports.register = async (req, res) => {
     console.log(verified);
     emailOne = email;
     // Generate a random 4-digit OTP
-    randomNumber = Math.floor(Math.random() * 900000) + 100000;
+    randomNumber = Math.floor(Math.random() * 9000) + 1000;
 
+    setTimeout(() => {
+      randomNumber = null;
+    }, 60000); // 1 minute (60,000 milliseconds)
+    
     if (verified.is_verified === true) {
       req.app.locals.specialContext = "Email already exists";
       return res.redirect("/register");
@@ -111,7 +115,7 @@ exports.home = async (req, res) => {
       }
      
     }else{
-       count = ""
+       count = 0
     }
    
  
@@ -150,9 +154,10 @@ exports.verifyLogin = async (req, res) => {
 // Confirm OTP and redirect to home page if correct, or back to OTP confirmation page if incorrect
 exports.otpConfirm = async (req, res) => {
   try {
-    const { a,b,c,d,e,f } = req.body;
+    const {first, second, third, fourth} = req.body;
 
-    const otp = parseInt(`${a}${b}${c}${d}${e}${f}`, 10);
+    const otp = parseInt(`${first}${second}${third}${fourth}`, 10);
+    console.log(otp);
     const user = await User.findOne({ email: emailOne });
     if (randomNumber == otp) {
       const verified = await User.updateOne(
@@ -167,10 +172,10 @@ exports.otpConfirm = async (req, res) => {
         // req.app.locals.specialContext = "Sign up successful! Please login";
         res.redirect("/home");
       } else {
-        res.redirect("/confirm_otp");
+        res.render("otp");
       }
     } else {
-      res.redirect("/confirm_otp");
+      res.render("otp ");
     }
   } catch (error) {
     console.log(error.message);
@@ -190,6 +195,7 @@ exports.productDetails = async (req, res) => {
   try {
     const id = req.query.id;
     const pdata = await Product.findById({ _id: id });
+    const  similar = await Product.find({category : pdata.category}).populate('category');
 
     const cart = await Cart.findOne({userId : req.session.userId})
     let count = 0
@@ -201,7 +207,7 @@ exports.productDetails = async (req, res) => {
       }
     }
    
-    res.render("product", { pdata,user: req.session.user ,count});
+    res.render("product", { pdata,user: req.session.user ,count,similar});
   } catch (error) {
     console.log(error.message);
   }

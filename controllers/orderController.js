@@ -36,14 +36,15 @@ exports.orderPlace = async(req, res) =>{
         
           const orderDetails = order.save();
           if(orderDetails){
-            const removeCart = await Cart.findOneAndUpdate({},
+            const removeCart = await Cart.findOneAndUpdate({userId : userId},
               {$pull : {
                 products : {}
               }})
           }
-          console.log();
+          
           const cart = await Cart.findOne({userId : req.session.userId})
           let count = 0
+
           count = count + cart.products.length
           res.render('successful',{user : req.session.user,count})
             
