@@ -44,7 +44,21 @@ exports.orderPlace = async(req, res) =>{
                 products : {}
               }})
           }
-          
+
+           const stockReduce = cartData.products
+           for(let i = 0; i < stockReduce.length; i++){
+
+                    const productId = stockReduce[i].productId;
+                    const updatedProduct = await Product.findByIdAndUpdate(
+                      productId, 
+                      {
+                          $inc: { stock: -stockReduce[i].count } 
+                      },
+                      { new: true }
+                  );
+
+           }
+        
           const cart = await Cart.findOne({userId : req.session.userId})
           let count = 0
 
