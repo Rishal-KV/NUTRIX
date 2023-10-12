@@ -83,6 +83,20 @@ exports.cancelOrder = async(req, res) =>{
     }
   
    })
+   for(let i = 0; i < stockReduce.length; i++){
+
+    const productId = stockReduce[i].productId;
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId, 
+      {
+          $inc: { stock: stockReduce[i].count } 
+      },
+      { new: true }
+  );
+
+}
+
+
    if (cancelOrder) {
        res.json({success : true})
    }

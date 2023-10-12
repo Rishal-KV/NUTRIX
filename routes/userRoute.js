@@ -18,6 +18,7 @@ userRoute.post("/user_registration", userController.register);
 userRoute.get("/home", userAuth.isLoggedIn,userController.home);
 userRoute.post("/login", userController.verifyLogin);
 userRoute.post("/confirm", userController.otpConfirm);
+userRoute.post('/resend',userController.resendOtp)
 userRoute.get("/signout", userController.signout);
 userRoute.get("/productdetails", userController.productDetails);
 userRoute.get("/shop", userController.shop);

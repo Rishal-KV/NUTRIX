@@ -33,7 +33,7 @@
                                             <div class="row">
                                                 <div class="col-lg-9">
                                                    
-                                                    <%addressDetails.address.forEach(function(add) { %>
+                                                    <%addressDetails?.address.forEach(function(add) { %>
                                                     <div class="col-lg-9">
                                                         <div class="card card-dashboard">
                                                             <div class="card-body">
@@ -54,7 +54,7 @@
                                                     <% }); %>
                                                     <!-- <a href="/addAddress" class="p-4">Add address<i class="icon-edit"></i></a></p> -->
                                                    
-                                                    <input type="hidden" name="address" value="<%= addressDetails.address.fullname %>,<%= addressDetails.address.mobile %>,<%= addressDetails.address.email %>,<%= addressDetails.address.houseName %>,<%= addressDetails.address.city %>,<%= addressDetails.address.state %>,<%= addressDetails.address.pin %>">
+                                                    <input type="hidden" name="address" value="<%= addressDetails?.address.fullname %>,<%= addressDetails?.address.mobile %>,<%= addressDetails?.address.email %>,<%= addressDetails?.address.houseName %>,<%= addressDetails?.address.city %>,<%= addressDetails?.address.state %>,<%= addressDetails?.address.pin %>">
 
                                         
                                                    

@@ -8,7 +8,7 @@ require("dotenv").config();
 
 
 
-let randomNumber = 0; // Variable to store a random number
+let otp = 0; // Variable to store a random number
 let emailOne;
 const smtpConfig = {
   service: "Gmail", // Your email service provider
@@ -58,47 +58,34 @@ exports.signIn = async (req, res) => {
 // Registration page rendering
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    const verified = await User.find({ email });
-    console.log(verified);
-    emailOne = email;
-    // Generate a random 4-digit OTP
-    randomNumber = Math.floor(Math.random() * 9000) + 1000;
-
-    setTimeout(() => {
-      randomNumber = null;
-    }, 60000); // 1 minute (60,000 milliseconds)
     
-    if (verified.is_verified === true) {
-      req.app.locals.specialContext = "Email already exists";
-      return res.redirect("/register");
-    } else {
-      const spassword = await securePassword(password);
-      const newUser = new User({
-        username: name,
-        email: email,
-        password: spassword,
-        is_admin: 0,
-      });
-      const userData = await newUser.save();
+    // Generate a random 4-digit OTP
+    otp = Math.floor(Math.random() * 90000) + 10000;
 
-      // req.app.locals.specialContext = "Sign up successful! Please login";
-      res.render("otp");
+     req.session.username = req.body.name;
+     req.session.email = req.body.email;
+     req.session.password = req.body.password;
+     email = req.body.email
+     const userFound = await User.findOne({email : email});
 
-      // Send an email with the OTP
-      const mailOptions = {
-        from: process.env.GMAIL, // Your email address
-        to: emailOne, // User's email address
-        subject: "Your OTP for Sign-Up",
-        html: ` <h1>Your OTP is: ${randomNumber}</h1>`,
-      };
-      transporter.sendMail(mailOptions);
-    }
+     if (userFound) {
+         res.redirect('/login')
+     }else{
+           // Send an email with the OTP
+           const mailOptions = {
+            from: process.env.GMAIL, // Your email address
+            to: req.session.email, // User's email address
+            subject: "Your OTP for Sign-Up",
+            html: ` <h1>Your OTP is: ${otp}</h1>`,
+          };
+          transporter.sendMail(mailOptions);
+
+               res.render("otp");
+     }
   } catch (error) {
     console.log(error.message);
   }
 };
-
 
 
 // Render the home page
@@ -129,12 +116,12 @@ exports.home = async (req, res) => {
 exports.verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+console.log("he");
     const userData = await User.findOne({ email: email });
 
     if (userData) {
       const passMatch = await bcrypt.compare(password, userData.password);
-      if (passMatch && userData.is_admin == 0 && userData.blocked == false) {
+      if (passMatch && userData.blocked == false) {
         req.session.userId = userData._id;
         req.session.user = userData.username;
         return res.redirect("/home");
@@ -154,33 +141,51 @@ exports.verifyLogin = async (req, res) => {
 // Confirm OTP and redirect to home page if correct, or back to OTP confirmation page if incorrect
 exports.otpConfirm = async (req, res) => {
   try {
-    const {first, second, third, fourth} = req.body;
+    const {first, second, third, fourth,fifth} = req.body;
 
-    const otp = parseInt(`${first}${second}${third}${fourth}`, 10);
-    console.log(otp);
-    const user = await User.findOne({ email: emailOne });
-    if (randomNumber == otp) {
-      const verified = await User.updateOne(
-        { email: emailOne },
-        { $set: { is_verified: true } }
-      );
+    const  userOtp = parseInt(`${first}${second}${third}${fourth}${fifth}`, 10);
+    console.log(userOtp + "  "  + otp);
 
-      if (verified) {
-        req.session.otp = otp;
-        req.session.user = user.username;
+       if(userOtp === otp){
+    
+        req.session.password = await bcrypt.hash(req.session.password,10);
+        const newUser = new User({
+          username : req.session.username ,
+          email : req.session.email,
+          password : req.session.password
+        })
+        newUser.save()
 
-        // req.app.locals.specialContext = "Sign up successful! Please login";
-        res.redirect("/home");
-      } else {
-        res.render("otp");
-      }
-    } else {
-      res.render("otp ");
-    }
+        res.json({success : true})
+      
+       
+
+       }else{
+        res.json({success : false})
+          res.render('otp',)
+       }
+
+
   } catch (error) {
     console.log(error.message);
   }
 };
+
+exports.resendOtp = async(req, res) =>{
+  try {
+    otp = Math.floor(Math.random() * 90000) + 10000;
+    const mailOptions = {
+      from: process.env.GMAIL, // Your email address
+      to: req.session.email, // User's email address
+      subject: "Your OTP for Sign-Up",
+      html: ` <h1>Your OTP is: ${otp}</h1>`,
+    };
+    transporter.sendMail(mailOptions);
+    res.render('otp',{msg : 'otp has been sent'})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 exports.signout = async (req, res) => {
   try {

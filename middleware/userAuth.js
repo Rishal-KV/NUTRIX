@@ -2,7 +2,7 @@ const User = require('../model/userModel');
 exports.isLoggedIn = async(req,res,next) => {
   try {
        
-      if (req.session.user || req.session.otp)  {
+      if (req.session.user)  {
       const userId = req.session.userId
         const user = await User.findOne({_id : userId})
      

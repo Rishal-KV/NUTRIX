@@ -8,9 +8,7 @@ exports.profile = async (req, res) =>{
       const  userId = req.session.userId
       const userDetails = await User.findOne({_id : userId})
       const addressDetails = await Address.findOne({user : userId})
-      const ordersDetails = await Order.find()
-
-      .populate("products.productId")
+      const ordersDetails = await Order.find({userId : userId}).populate("products.productId")
       .sort({ date: -1 });
       const carts = await Cart.findOne({ userId: req.session.userId }); 
      let count = 0;

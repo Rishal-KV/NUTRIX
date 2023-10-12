@@ -72,7 +72,7 @@ exports.addToCart = async (req, res) => {
 
 exports.getCart = async (req, res) => {
   try {
-    if (req.session.user) {
+
       const userId = req.session.userId;
       // console.log(userId);
       const cartData = await Cart.findOne({ userId: userId }).populate(
@@ -82,7 +82,8 @@ exports.getCart = async (req, res) => {
       count = count + cartData.products.length;
 
       if (cartData) {
-        const products = cartData.products;
+      
+        let products = cartData.products;
         if (products.length > 0) {
           const total = await Cart.aggregate([
             { $match: { userId: userId } },
@@ -106,6 +107,7 @@ exports.getCart = async (req, res) => {
             count,
           });
         } else {
+         
           res.render("cart", {
             user: req.session.user,
             products: undefined,
@@ -114,6 +116,8 @@ exports.getCart = async (req, res) => {
           });
         }
       } else {
+
+     
         res.render("cart", {
           user: req.session.user,
           products: undefined,
@@ -121,9 +125,7 @@ exports.getCart = async (req, res) => {
           count,
         });
       }
-    } else {
-      res.redirect("/login");
-    }
+  
   } catch (error) {
     console.error(error.message);
   }

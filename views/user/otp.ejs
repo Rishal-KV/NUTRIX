@@ -1,202 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<html>
+  <head>
+    <title>OTP Verification Card Design | Rustcode</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="user/css/verification.css">
-</head>
-<style>
-  body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: url('/user/images/signup&login\ bg.jpg');
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-}
-body, html:after{
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.318);
-}
+    <!-- Add SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700");
+    * {
+      border-radius: 0px !important;
+      font-family: "Poppins", sans-serif;
+    }
 
-.height-100 {
-   min-height: 100vh;
-}
+    body {
+      background-color: #e1e1e1 !important;
+      display: flex;
+      align-items: center;
+      height: 100vh;
+    }
 
-.card {
-    width: 400px;
-    border: none;
-    height: 300px;
-    box-shadow: 0px 5px 20px 0px #d2dae3;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center
-}
+    .card {
+      border: none !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    }
 
-.card h6 {
-    color: red;
-    font-size: 20px
-}
+    .card-header {
+      color: white !important;
+      background: #3366ff !important;
+      text-align: center;
+    }
 
-.inputs input {
-    width: 40px;
-    height: 40px
-}
+    .card-header > img {
+      width: 180px;
+    }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0
-}
+    .input-container input {
+      width: 40px;
+      height: 40px;
+    }
 
-.card-2 {
-    background-color: #fff;
-    padding: 10px;
-    width: 350px;
-    height: 100px;
-    bottom: -50px;
-    left: 20px;
-    position: absolute;
-    border-radius: 5px
-}
+    .form-control:focus {
+      box-shadow: none !important;
+      border: 1px solid #3366ff !important;
+    }
 
-.card-2 .content {
-    margin-top: 50px
-}
-
-.card-2 .content a {
-    color: red
-}
-
-.form-control:focus {
-    box-shadow: none;
-    border: 2px solid red
-}
-
-.validate {
-    border-radius: 20px;
-    height: 40px;
-    background-color: red;
-    border: 1px solid red;
-    width: 140px
-}
-</style>
-<body>
-<!-- Add a timer display element -->
-<div class="bg-img">
-    <div class="position-relative">
-        <form action="/confirm" method="post">
-            <div class="card p-2 text-center">
-                <h6>Please enter the one-time password <br> to verify your account</h6>
-                <!-- <div> <span>A code has been sent to</span> <small>*******9897</small> </div> -->
-                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
-                    <input class="m-2 text-center form-control rounded" type="text" id="first" name="first" maxlength="1" />
-                    <input class="m-2 text-center form-control rounded" type="text" id="second" name="second" maxlength="1" />
-                    <input class="m-2 text-center form-control rounded" type="text" id="third" name="third" maxlength="1" />
-                    <input class="m-2 text-center form-control rounded" type="text" id="fourth" name="fourth" maxlength="1" />
-                </div>
-                <div >
-               
-                      
-                  </div>
-                <div class="mt-4">
-                    <button class="btn btn-danger px-4 validate" type="submit">Validate</button>
-                    <!-- Resend Button -->
-                    <a href="/resend">
-                        <button class="btn btn-primary px-4 ml-2" id="resend">Resend</button>
-                    </a>
-                </div>
-                <!-- Timer Display -->
-                <div id="timer" class="mt-2">
-                    Resend in: <span id="countdown">60</span> seconds <!-- Initial countdown value -->
-                </div>
-            </div>
-        </form>
+    .verify-btn {
+      border-radius: 20px !important;
+      border: 0px !important;
+      width: 140px;
+      background-color: #3366ff !important;
+    }
+  </style>
+  <body>
+    <div class="container d-flex justify-content-center align-items-center">
+      <div class="card text-center">
+        <div class="card-header p-5">
+          <h5 class="mb-2">OTP VERIFICATION</h5>
+          <div>
+            <small>code has been sent to ******1258</small>
+          </div>
+        </div>
+        <div
+          class="input-container d-flex flex-row justify-content-center mt-2"
+        >
+          <input
+            type="text"
+            class="m-1 text-center form-control rounded"
+            maxlength="1"
+            name="first"
+          />
+          <input
+            type="text"
+            class="m-1 text-center form-control rounded"
+            maxlength="1"
+            name="second"
+          />
+          <input
+            type="text"
+            class="m-1 text-center form-control rounded"
+            maxlength="1"
+            name="third"
+          />
+          <input
+            type="text"
+            class="m-1 text-center form-control rounded"
+            maxlength="1"
+            name="fourth"
+          />
+          <input
+            type="text"
+            class="m-1 text-center form-control rounded"
+            maxlength="1"
+            name="fifth"
+          />
+        </div>
+        <small>
+          didn't get the otp
+          <a href="/resend" class="text-decoration-none">Resend</a>
+        </small>
+        <div class="mt-3 mb-5">
+          <button id="verifyButton" class="btn btn-success px-4 verify-btn">
+            Verify
+          </button>
+        </div>
+      </div>
     </div>
-</div>
 
-    
-<script>
-  // verification page input 
-document.addEventListener("DOMContentLoaded", function(event) {
-            function OTPInput() {
-                const inputs = document.querySelectorAll('#otp > *[id]');
-                for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].addEventListener('keydown', function(event) {
-                        if (event.key === "Backspace") {
-                            inputs[i].value = '';
-                            if (i !== 0) inputs[i - 1].focus();
-                        } else {
-                            if (i === inputs.length - 1 && inputs[i].value !== '') {
-                                return true;
-                            } else if (event.keyCode > 47 && event.keyCode < 58) {
-                                inputs[i].value = event.key;
-                                if (i !== inputs.length - 1) inputs[i + 1].focus();
-                                event.preventDefault();
-                            } else if (event.keyCode > 64 && event.keyCode < 91) {
-                                inputs[i].value = String.fromCharCode(event.keyCode);
-                                if (i !== inputs.length - 1) inputs[i + 1].focus();
-                                event.preventDefault();
-                            }
-                        }
-                    });
-                }
-            }
-            OTPInput();
+    <script>
+      $(document).ready(function () {
+        $("#verifyButton").click(function () {
+          const first = $('input[name="first"]').val();
+          const second = $('input[name="second"]').val();
+          const third = $('input[name="third"]').val();
+          const fourth = $('input[name="fourth"]').val();
+          const fifth = $('input[name="fifth"]').val();
+
+          $.ajax({
+            type: "POST",
+            url: "/confirm", // Replace with your server endpoint
+            data: {
+              first: first,
+              second: second,
+              third: third,
+              fourth: fourth,
+              fifth: fifth,
+            },
+            success: function (response) {
+              if (response.success) {
+                   window.location.href = '/home'
+              }else{
+                Swal.fire({
+                  icon: "error",
+                  title: "Incorrect OTP",
+                  text: "The OTP you entered is incorrect. Please try again.",
+                });
+              }
+            },
+            error: function (error) {
+              console.error("Error:", error);
+            },
           });
-
-
-
-// resend button and countdown
-document.addEventListener("DOMContentLoaded", function () {
-    const resendButton = document.getElementById("resend");
-    const countdownDisplay = document.getElementById("countdown");
-    
-    let countdownTime = 60;
-    
-    function updateTimerDisplay() {
-        countdownDisplay.textContent = countdownTime; 
-    }
-    
-    function startCountdown() {
-        resendButton.disabled = true;
-        updateTimerDisplay();
-        
-        const countdownInterval = setInterval(function () {
-            countdownTime--;
-            updateTimerDisplay();
-            
-            if (countdownTime <= 0) {
-                clearInterval(countdownInterval);
-                resendButton.disabled = false;
-                countdownDisplay.textContent = "";
-            }
-        }, 1000);
-    }
-    
-    resendButton.addEventListener("click", function () {
-        countdownTime = 60;
-        startCountdown();
-    });
-
-    startCountdown();
-});
-</script>
-</body>
+        });
+      });
+    </script>
+  </body>
 </html>
