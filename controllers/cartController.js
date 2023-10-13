@@ -15,9 +15,9 @@ exports.addToCart = async (req, res) => {
            res.json({login : true})
     }else{
           if(!cart){
-                const cart = new choicecart({
+                const cart = new Cart({
                    userId : userId,
-                   userName : user.name,
+                   userName : user.username,
                    products : [{
                          productId : productId,
                          count : 1,
@@ -43,7 +43,7 @@ exports.addToCart = async (req, res) => {
                       totalPrice : 1 * price
                 }
 
-                const updatedCart = await choicecart.findOneAndUpdate(
+                const updatedCart = await Cart.findOneAndUpdate(
                       { userId: userId },
                       { $push: { products: newProduct } },
                       { new: true }

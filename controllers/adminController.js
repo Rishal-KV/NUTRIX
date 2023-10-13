@@ -131,15 +131,60 @@ exports.orderDetails = async(req, res) => {
 
 exports.deliver = async(req, res) =>{
   try {
-    const deliverId = req.query.deliverId;
-    console.log(deliverId);
-    const deliverUpdate = await Order.findByIdAndUpdate({_id : deliverId},{$set :
-     {
-      status : "Delivered"
-     }
-    
-    })
-    res.redirect('/admin/ordermanagement')
+    const statusId = req.query.statusid;
+    const status = await Order.findById({_id: statusId})
+    if (status.status === "placed") {
+      const deliverUpdate = await Order.findByIdAndUpdate({_id: statusId},{$set :
+        {
+         status : "shipped"
+        }
+       
+       })
+           res.redirect('/admin/ordermanagement')
+      
+    }else if(status.status === "shipped"){
+      console.log("Rer ");
+      const deliverUpdate = await Order.findByIdAndUpdate({_id: statusId},{$set :
+        {
+         status : "out for delivery"
+        }
+       
+       })
+       res.redirect('/admin/ordermanagement')
+       
+      
+    }else if(status.status = "delivered"){
+      const deliverUpdate = await Order.findByIdAndUpdate({_id: statusId},{$set :
+        {
+         status : "delivered"
+        }
+       
+       })
+       res.redirect('/admin/ordermanagement')
+    }
+ 
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+exports.cancelOrder = async(req, res) =>{
+  try {
+    const cancelId = req.query.cancelid;
+    console.log(cancelId);
+
+   const cancelOrder = await  Order.updateOne({_id : cancelId},{
+    $set :{
+      status : "cancelled"
+    }
+  
+   })
+res.redirect('/admin/ordermanagement')
+
+
+ 
   } catch (error) {
     console.log(error.message);
   }

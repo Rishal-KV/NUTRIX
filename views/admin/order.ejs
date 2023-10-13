@@ -18,32 +18,48 @@
                 
                
                 <th>STATUS</th>
+                <th>Action</th>
                 <th>DETAILS</th>
-                <th  class="text-white">ACTION</th>
+             
               </tr>
             <% orderData.forEach((info,index)=>{ %>
             <tr>
     <td><%=index + 1%></td>
     <td><%=info.uniqueId%></td>
     <td><%=info.userName%></td>
+    
     <td><%= new Date(info.date).toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }) %></td>
-  </td>  
+   
+ 
+               <td>
+                <% if (info.status === "cancelled") { %>
+                  <label class="badge badge-danger"><%=info.status%></label>
+                  <% } %>
+                <% if (info.status === "placed") { %>
+                  <a href="/admin/updatestatus?statusid=<%=info._id%>"><button class="btn - btn-primary">Shipped</button></a>
+                <% } else if (info.status === "shipped") { %>
+<a href="/admin/updatestatus?statusid=<%=info._id%>"><button class="btn - btn-primary">Out for delivery</button></a>
+                <% } else if(info.status === "out for delivery"){ %>
+                  <a href="/admin/updatestatus?statusid=<%=info._id%>"><button class="btn - btn-primary">Delivered</button></a>
 
-  <% if (info.status == "cancelled") { %>
-    <td class="text-danger"><%=info.status%></td>
-  <% } else { %>
-    <td class="text-success"><%=info.status%></td>
-  <% } %>
-               
+                  <% } else if (info.status === "delivered") { %>
+                    <label class="badge badge-success"><%=info.status%></label>
+
+                <% } %>
+                
+
+               </td>
+               <% if (info.status == "cancelled") { %>
+            <td></td>
+              <% } else if (info.status === "delivered") { %>
+              <td></td>
+              <% } else { %>
+                <td><a href="/admin/cancel?cancelid=<%=info._id%>"><button class="btn btn-warning">Cancel</button></a></td>
+              <% } %>
+              
+              
                <td><a href="/admin/viewdetails?id=<%=info._id%>">view details</a></td>
                 
-               <% if (info.status === 'cancelled') { %>
-              
-              <% } else if (info.status === 'Delivered') { %>
-             
-              <% } else { %>
-                <td><a href="admin/deliver?deliverId=<%=info._id%>"><button class="btn  btn-success">Delivered</button></a></td>
-              <% } %>
                 </tr>
                     <%  }) %>
          

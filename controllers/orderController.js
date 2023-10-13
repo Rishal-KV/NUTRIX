@@ -28,7 +28,7 @@ exports.orderPlace = async(req, res) =>{
           const order = new Order({
             deliveryDetails: address,
             uniqueId: uniNum,
-            userId: userId,
+            user: userId,
             userName: name,
             paymentMethod: paymentMethods,
             products: products,
@@ -83,18 +83,7 @@ exports.cancelOrder = async(req, res) =>{
     }
   
    })
-   for(let i = 0; i < stockReduce.length; i++){
-
-    const productId = stockReduce[i].productId;
-    const updatedProduct = await Product.findByIdAndUpdate(
-      productId, 
-      {
-          $inc: { stock: stockReduce[i].count } 
-      },
-      { new: true }
-  );
-
-}
+ 
 
 
    if (cancelOrder) {

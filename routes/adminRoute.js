@@ -40,5 +40,6 @@ adminRoute.get("/blockcategory",categoryController.blockCategory);
 adminRoute.get('/unblockcategory',categoryController.unblockCategory)
 adminRoute.get('/ordermanagement',adminController.orderManagement)
 adminRoute.get('/viewdetails',adminController.orderDetails)
-adminRoute.get('/admin/deliver',adminController.deliver)
+adminRoute.get('/updatestatus',adminController.deliver)
+adminRoute.get('/cancel',adminController.cancelOrder)
 module.exports = adminRoute;

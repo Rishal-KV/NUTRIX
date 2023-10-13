@@ -218,7 +218,7 @@ exports.productDetails = async (req, res) => {
 
 exports.shop = async (req, res) => {
   try {
-    const product = await Product.find();
+    const product = await Product.find({});
     res.render("shop", { product, user: req.session.user });
   } catch (error) {
     console.log(error.message);
