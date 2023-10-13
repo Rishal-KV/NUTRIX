@@ -72,8 +72,15 @@
                 <p><%=orderDetails.deliveryDetails.houseName%></p>
                 <p><%=orderDetails.deliveryDetails.country%>, <%=orderDetails.deliveryDetails.state%> <%=orderDetails.deliveryDetails.pin%></p>
             </div>
-            <a href="#" class="btn">Complete Order</a>
-            <button  id="tab-orders-link" button class="cancel-btn" onclick="cancelOrder('<%=orderDetails._id%>')">Cancel Order</button>
+            <% if (orderDetails.status === "cancelled") { %>
+       
+          <% } else { %>
+              <!-- Code to display if the condition is false -->
+              <button  id="tab-orders-link" button class="cancel-btn" onclick="cancelOrder('<%=orderDetails._id%>')">Cancel Order</button>
+              
+          <% } %>
+          
+           
         </div>
         
        

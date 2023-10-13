@@ -104,9 +104,7 @@ exports.home = async (req, res) => {
     }else{
        count = 0
     }
-   
- 
-    res.render("home", { user: req.session.user, items, count  });
+ res.render("home", { user: req.session.user, items, count  });
   } catch (error) {
     console.log(error.message);
   }
@@ -147,7 +145,7 @@ exports.otpConfirm = async (req, res) => {
     console.log(userOtp + "  "  + otp);
 
        if(userOtp === otp){
-    
+
         req.session.password = await bcrypt.hash(req.session.password,10);
         const newUser = new User({
           username : req.session.username ,

@@ -6,63 +6,55 @@ const Address = require("../model/addressModel");
 exports.addToCart = async (req, res) => {
   try {
     const userId = req.session.userId;
-    const productId = req.body.productId;
-    const userData = await User.findOne({ _id: userId });
-    let name = userData?.username;
-    const productData = await Product.findOne({ _id: productId });
-    let productQuantity = productData.stock;
+    const productId = req.body.id
+    const user = await User.findOne({_id : userId})
+    const product = await Product.findOne({_id : productId})
+    const cart = await Cart.findOne({userId : userId })
+    const price = product.price
     if (userId === undefined) {
-      res.json({ login: true, message: "Please login and continue shopping!" });
-    }
+           res.json({login : true})
+    }else{
+          if(!cart){
+                const cart = new choicecart({
+                   userId : userId,
+                   userName : user.name,
+                   products : [{
+                         productId : productId,
+                         count : 1,
+                         productPrice : price ,
+                         totalPrice : 1 * price 
+                   }]
+ 
+                })
+                const cartAdded =  await cart.save()
+          }else{
+                
+                const existingProduct = await cart.products.find(
+                      (product) => product.productId.toString() === productId.toString()
+                );
+                      
+                if (existingProduct) {
+                      res.json({exist : true})
+                }else{
+                const newProduct = {
+                      productId : productId,
+                      count : 1,
+                      productPrice : price,
+                      totalPrice : 1 * price
+                }
 
-    const cart = await Cart.findOne({ userId: userId });
-    const cartData = await Cart.findOneAndUpdate(
-      { userId: userId },
-      {
-        $setOnInsert: {
-          userId: userId,
-          userName: name,
-          products: [],
-        },
-      },
-      { upsert: true, new: true }
-    );
-  
+                const updatedCart = await choicecart.findOneAndUpdate(
+                      { userId: userId },
+                      { $push: { products: newProduct } },
+                      { new: true }
+                    );
 
-    if (cart) {
-      const updatedProduct = cartData.products  .find(
-        (product) => product.productId === productId
-      );
-      const updatedQuantity = updatedProduct ? updatedProduct.count : 0;
-      if (updatedQuantity + 1 > productQuantity) {
-        return res.json({
-          success: false,
-          message: "Quantity limit reached!",
-        });
-      }
-      const price = productData.price;
-      const total = price;
+                res.json({success : true})
 
-      if (updatedProduct) {
-        await Cart.updateOne(
-          { userId: userId, "products.productId": productId },
-          {
-            $inc: {
-              "products.$.count": 1,
-              "products.$.totalPrice": total,
-            },
+                }
           }
-        );
-      } else {
-        cartData.products.push({
-          productId: productId,
-          productPrice: total,
-          totalPrice: total,
-        });
-        await cartData.save();
-      }
     }
-     
+
 
     res.json({ success: true });
   } catch (error) {
