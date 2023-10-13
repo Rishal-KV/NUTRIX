@@ -11,8 +11,12 @@ exports.profile = async (req, res) =>{
       const ordersDetails = await Order.find({userId : userId}).populate("products.productId")
       .sort({ date: -1 });
       const carts = await Cart.findOne({ userId: req.session.userId }); 
-     let count = 0;
-     count = count + carts.products.length;
+       
+let count = 0
+      if (carts) {
+        count = count + carts.products.length;
+      }
+ 
       res.render('profile',{user : req.session.user,addressDetails,userDetails,ordersDetails,count})
     } catch (error) {
        console.log(error.message);

@@ -78,11 +78,12 @@ exports.getCart = async (req, res) => {
       const cartData = await Cart.findOne({ userId: userId }).populate(
         "products.productId"
       );
+      console.log(cartData);
       let count = 0;
-      count = count + cartData.products.length;
 
       if (cartData) {
-      
+        
+        count = count + cartData.products.length;
         let products = cartData.products;
         if (products.length > 0) {
           const total = await Cart.aggregate([
