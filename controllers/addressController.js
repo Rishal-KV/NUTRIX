@@ -1,15 +1,16 @@
 const Address = require('../model/addressModel');
 const User = require('../model/userModel');
 const Order = require('../model/orderModel')
-const Cart = require('../model/cartModel')
+const Cart = require('../model/cartModel');
+
 
 exports.profile = async (req, res) =>{
     try {
       const  userId = req.session.userId
       const userDetails = await User.findOne({_id : userId})
       const addressDetails = await Address.findOne({user : userId})
-      const ordersDetails = await Order.find({userId : userId}).populate("products.productId")
-      .sort({ date: -1 });
+      const ordersDetails = await Order.find({user : userId}).populate("products.productId").sort({ date: -1 });
+      console.log(ordersDetails);
       const carts = await Cart.findOne({ userId: req.session.userId }); 
        
 let count = 0

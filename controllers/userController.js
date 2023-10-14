@@ -67,7 +67,7 @@ exports.register = async (req, res) => {
      req.session.password = req.body.password;
      email = req.body.email
      const userFound = await User.findOne({email : email});
-
+console.log(otp);
      if (userFound) {
          res.redirect('/login')
      }else{
@@ -91,7 +91,7 @@ exports.register = async (req, res) => {
 // Render the home page
 exports.home = async (req, res) => {
   try {
-    const items = await Product.find();
+    const items = await Product.find({is_blocked : false});
     const carts = await Cart.findOne({ userId: req.session.userId }); //
     let count = 0;
     if(req.session.user){

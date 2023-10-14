@@ -2,6 +2,7 @@ const User = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const Product = require("../model/productModel");
 const Order = require('../model/orderModel')
+const Category = require('../model/catergoryModel')
 
 
 //to render login page
@@ -97,7 +98,8 @@ exports.editUser = async (req, res) => {
       path: "category",
       select: "name",
     });
-    res.render("editproduct", { pinfo, admin: req.session.admin });
+    const category = await Category.find();
+    res.render("editproduct", { pinfo, admin: req.session.admin,category});
     // console.log(pinfo);
   } catch (error) {
     console.log(error.message);

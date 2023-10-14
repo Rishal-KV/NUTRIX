@@ -1,14 +1,9 @@
 const Category = require("../model/catergoryModel");
 const Product = require("../model/productModel");
-const Sharp = require("sharp");
-const path = require('path'); 
-const fs = require('fs');
+
 exports.productmanagement = async (req, res) => {
   try {
-    const product = await Product.find().populate({
-      path: "category",
-      select: "name", // Specify the field(s) you want to include
-    });
+    const product = await Product.find().populate('category')
 
     res.render("pmanagement", { admin: req.session.admin, product });
   } catch (error) {
@@ -55,6 +50,7 @@ exports.updateProduct = async (req, res) => {
     const { s_no, name, category, price, stock, description, id } = req.body
     let imageFiles = req.files
     const data = await Product.findById({_id : id});
+   
    let image1 = imageFiles.image1 ? imageFiles.image1[0].filename : data.image.image1;
    let image2 = imageFiles.image2 ? imageFiles.image2[0].filename : data.image.image2;
    let image3 = imageFiles.image3 ? imageFiles.image3[0].filename : data.image.image3;

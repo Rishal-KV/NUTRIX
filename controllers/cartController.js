@@ -9,6 +9,7 @@ exports.addToCart = async (req, res) => {
     const productId = req.body.id
     const user = await User.findOne({_id : userId})
     const product = await Product.findOne({_id : productId})
+    
     const cart = await Cart.findOne({userId : userId })
     const price = product.price
     if (userId === undefined) {

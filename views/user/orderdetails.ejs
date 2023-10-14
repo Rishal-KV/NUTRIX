@@ -66,22 +66,19 @@
                 </div>
             <% }); %>
             
-            
             <div class="address">
-                <h2>Shipping Address</h2>
-                <p><%=orderDetails.deliveryDetails.houseName%></p>
-                <p><%=orderDetails.deliveryDetails.country%>, <%=orderDetails.deliveryDetails.state%> <%=orderDetails.deliveryDetails.pin%></p>
-            </div>
-            <% if (orderDetails.status === "cancelled") { %>
-       
+              <h2>Shipping Address</h2>
+              <p><%= orderDetails.deliveryDetails.houseName %></p>
+              <p><%= orderDetails.deliveryDetails.country %>, <%= orderDetails.deliveryDetails.state %> <%= orderDetails.deliveryDetails.pin %></p>
+          </div>
+          <% if (orderDetails.status === "cancelled") { %>
+              <!-- Code for the "cancelled" status -->
+          <% } else if (orderDetails.status === "delivered") { %>
+              <!-- Code for the "delivered" status -->
           <% } else { %>
-              <!-- Code to display if the condition is false -->
-              <button  id="tab-orders-link" button class="cancel-btn" onclick="cancelOrder('<%=orderDetails._id%>')">Cancel Order</button>
-              
+              <button id="tab-orders-link" class="cancel-btn" onclick="cancelOrder('<%= orderDetails._id %>')">Cancel Order</button>
           <% } %>
           
-           
-        </div>
         
        
     </div>

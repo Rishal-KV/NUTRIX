@@ -13,7 +13,7 @@
 
         userRoute.get("/", userAuth.isLoggedOut, userController.home);
         userRoute.get("/login", userAuth.isLoggedOut, userController.signIn);
-        userRoute.get('/register',userController.signup);
+        userRoute.get('/register' ,userAuth.isLoggedOut,userController.signup);
         userRoute.post("/user_registration", userController.register);
         userRoute.get("/home", userAuth.isLoggedIn,userController.home);
         userRoute.post("/login", userController.verifyLogin);
