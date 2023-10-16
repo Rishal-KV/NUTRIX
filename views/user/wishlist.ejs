@@ -67,7 +67,7 @@
 										
 								
 								</td>
-								<td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
+								<td class="remove-col"><button onclick="remove('<%=item.productId._id%>')" class="btn-remove"><i class="icon-close"></i></button></td>
 							</tr>
 					<%	}) %>
 						</tbody>
@@ -85,4 +85,22 @@
             	</div><!-- End .container -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
+		<script>
+			function remove(productId) {
+console.log(productId);
+				$.ajax({
+					url : '/removewishlist',
+				type : 'POST',
+				data : {
+                     productId : productId
+				},
+				success : function(response){
+					if(response.remove){
+						 location.reload();
+					}
+				}
+				})
+			
+			}
+		</script>
         <%- include("../layouts/user/userFooter.ejs")-%>

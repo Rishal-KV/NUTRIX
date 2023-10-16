@@ -50,6 +50,9 @@ exports.addToWishList = async (req, res) => {
               },
               { new: true }
             );
+            if (removedProduct) {
+                 res.json({removed : true})
+            }
           } else {
             const addToWishList = await Wishlist.findOneAndUpdate(
                {user : userId},
@@ -67,3 +70,26 @@ exports.addToWishList = async (req, res) => {
     console.log(error.message);
   }
 };
+
+
+exports.removeWishlist = async (req, res) =>{
+    try {
+        const productId = req.body.productId
+        const  userId = req.session.userId;
+        const remove = await Wishlist.findOneAndUpdate({user : userId},
+            {
+                $pull :{
+                    products : {
+                        productId : productId
+                    }
+                }
+            }
+            )
+            console.log(remove);
+            if (remove) {
+                 res.json({remove : true})
+            }
+    } catch (error) {
+        console.log(error.message);
+    }
+}

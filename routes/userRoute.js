@@ -49,5 +49,6 @@
 
         userRoute.get('/wishlist',wishListController.Wishlist)
         userRoute.post('/addToWishlist',wishListController.addToWishList)
+        userRoute.post('/removewishlist',wishListController.removeWishlist)
 
         module.exports = userRoute;

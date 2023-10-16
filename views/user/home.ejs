@@ -402,8 +402,10 @@
             },
             success : function(response){
                 if (response.added) {
- 
-                }
+                 location.reload();
+                }else if(response.removed){
+                location.reload()
+            }
             }
         })
     }
