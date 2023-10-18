@@ -5,6 +5,7 @@
         const cartController = require('../controllers/cartController')
         const addressController = require('../controllers/addressController')
         const orderController = require('../controllers/orderController')
+        const wishListController = require('../controllers/wishListController')
 
 userRoute.set("view engine", "ejs"); // Set the view engine
 userRoute.set("views", "./views/user"); // Specify the views directory
