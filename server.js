@@ -17,13 +17,11 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-app.use(nocache());
+app.use(nocache())
 
 
-
-
-app.use('/', userRoute)
-app.use('/admin', adminRoute)
+app.use('/', userRoute);
+app.use('/admin', adminRoute);
 app.use((req, res)=>{
   res.status(404).render(__dirname + '/views/user/error.ejs')
 })
