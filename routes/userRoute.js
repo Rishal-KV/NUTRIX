@@ -1,11 +1,10 @@
-const express = require("express");
-const userRoute = express();
-const userController = require("../controllers/userController");
-const userAuth = require("../middleware/userAuth");
-const cartController = require('../controllers/cartController')
-const addressController = require('../controllers/addressController')
-const orderController = require('../controllers/orderController')
-const wishListController = require('../controllers/wishListController');
+        const express = require("express");
+        const userRoute = express();
+        const userController = require("../controllers/userController");
+        const userAuth = require("../middleware/userAuth");
+        const cartController = require('../controllers/cartController')
+        const addressController = require('../controllers/addressController')
+        const orderController = require('../controllers/orderController')
 
 userRoute.set("view engine", "ejs"); // Set the view engine
 userRoute.set("views", "./views/user"); // Specify the views directory
@@ -52,4 +51,4 @@ userRoute.get('/wishlist',wishListController.Wishlist)
 userRoute.post('/addToWishlist',wishListController.addToWishList)
 userRoute.post('/removewishlist',wishListController.removeWishlist)
 
-module.exports = userRoute;
+        module.exports = userRoute;

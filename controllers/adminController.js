@@ -121,7 +121,7 @@ exports.orderDetails = async(req, res) => {
   try {
 
     const id = req.query.id;
-    const orderDetails = await Order.findOne({_id : id}).populate('products.productId',);
+    const orderDetails = await Order.findOne({_id : id}).populate('products.productId',).sort({date: -1});
   
     // const deliveryDetails = JSON.parse(orderDetails.deliveryDetails);
 

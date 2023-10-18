@@ -106,13 +106,7 @@ exports.home = async (req, res) => {
     }else{
        count = 0
     }
-    let wishListStrin = []
-    const wishlist = await Wishlist.findOne({user: userId })
-      wishlist?.products.map((ele)=>{
-      wishListStrin.push(ele.productId)
-      })
-      console.log(wishListStrin);
- res.render("home", { user: req.session.user, items, count,wishListStrin });
+ res.render("home", { user: req.session.user, items, count  });
   } catch (error) {
     console.log(error.message);
   }
