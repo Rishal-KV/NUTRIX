@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const Product = require("../model/productModel");
 const Cart = require("../model/cartModel");
+const Wishlist = require('../model/wishlistModel');
 
 require("dotenv").config();
 
@@ -91,8 +92,9 @@ console.log(otp);
 // Render the home page
 exports.home = async (req, res) => {
   try {
+    const userId = req.session.userId
     const items = await Product.find({is_blocked : false});
-    const carts = await Cart.findOne({ userId: req.session.userId }); //
+    const carts = await Cart?.findOne({ userId: req.session.userId }); //
     let count = 0;
     if(req.session.user){
       if(carts){
@@ -104,7 +106,13 @@ exports.home = async (req, res) => {
     }else{
        count = 0
     }
- res.render("home", { user: req.session.user, items, count  });
+    let wishListStrin = []
+    const wishlist = await Wishlist.findOne({user: userId })
+      wishlist?.products.map((ele)=>{
+      wishListStrin.push(ele.productId)
+      })
+      console.log(wishListStrin);
+ res.render("home", { user: req.session.user, items, count,wishListStrin });
   } catch (error) {
     console.log(error.message);
   }
@@ -150,7 +158,8 @@ exports.otpConfirm = async (req, res) => {
         const newUser = new User({
           username : req.session.username ,
           email : req.session.email,
-          password : req.session.password
+          password : req.session.password,
+          is_admin : 0
         })
         newUser.save()
 

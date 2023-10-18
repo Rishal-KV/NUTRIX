@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/FITVITA');
+mongoose.connect('mongodb://localhost:27017/NUTRIX');
 const express = require('express');
 const app = express();
 const session = require('express-session')

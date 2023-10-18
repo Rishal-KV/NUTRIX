@@ -59,6 +59,7 @@ exports.logout = async (req, res) => {
 exports.user = async (req, res) => {
   try {
     const data = await User.find({ is_admin: 0 });
+    console.log(data);
     res.render("users", { admin: req.session.admin, data });
   } catch (error) {
     console.log(error.message);

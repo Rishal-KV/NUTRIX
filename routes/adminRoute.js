@@ -1,6 +1,7 @@
 const adminController = require("../controllers/adminController");
 const categoryController = require('../controllers/categoryController')
 const productController = require('../controllers/productController')
+const couponController = require('../controllers/couponController')
 const express = require("express");
 const adminRoute = express();
 const adminAuth = require("../middleware/adminAuth");
@@ -42,4 +43,6 @@ adminRoute.get('/ordermanagement',adminController.orderManagement)
 adminRoute.get('/viewdetails',adminController.orderDetails)
 adminRoute.get('/updatestatus',adminController.deliver)
 adminRoute.get('/cancel',adminController.cancelOrder)
+adminRoute.get('/couponmanagement', couponController.coupon)
+adminRoute.get('/addcoupon',couponController.addCoupon)
 module.exports = adminRoute;
