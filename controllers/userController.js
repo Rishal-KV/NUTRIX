@@ -97,9 +97,13 @@ exports.home = async (req, res) => {
     const items = await Product.find({is_blocked : false});
     const carts = await Cart?.findOne({ userId: req.session.userId }); //
     let count = 0;
-    
+    let wishListStrin = [];
     if(req.session.user){
+      const wishlist = await Wishlist.findOne({user : req.session.userId});
    
+      wishlist.products.map((ele)=>{
+          wishListStrin.push(ele.productId)
+      })
       if(carts){
         count = count + carts.products.length;
       }else{
@@ -109,13 +113,9 @@ exports.home = async (req, res) => {
     }else{
        count = 0
     }
-    let wishListStrin = [];
-     
-    const wishlist = await Wishlist.findOne({user : req.session.userId});
    
-    wishlist.products.map((ele)=>{
-        wishListStrin.push(ele.productId)
-    })
+     
+   
  console.log(wishListStrin);
  res.render("home", { user: req.session.user, items, count,wishListStrin  });
   } catch (error) {

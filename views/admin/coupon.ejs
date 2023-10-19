@@ -10,24 +10,33 @@
           <table class="table table-dark text-white" >
             <thead >
               <tr>
-                <th  class="text-white">S_NO</th>
-                <th  class="text-white">NAME</th>
-                <th  class="text-white">IMAGE</th>
-                <th class="text-white"> CATEGORY</th>
-                <th class="text-white">PRICE</th>
-                <th class="text-white">STOCK</th>
+                <th  class="text-white">Coupon Name</th>
+                <th  class="text-white">Min purchase</th>
+                <th class="text-white"> Max discount</th>
+                <th class="text-white">Exp date</th>
                 <th  class="text-white">ACTION</th>
               </tr>
+              <%coupons.forEach((cp)=>{%>
+               
+                <tr id="couponRow_<%= cp._id %>">
+                  <td><%=cp.couponName%></td>
+                  <td><%=cp.minimumPurchase%></td>
+                  
+                  <td><%=cp.maximumDiscount%></td>
+                  <td><%= new Date(cp.lastDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) %></td>
+                     <% if(cp.showStatus){ %>
+                      <td><button onclick="Action('<%=cp._id%>')" class="btn btn-primary">Hide</button></td>
+
+                   <%}else{ %>
+                    <td><button onclick="Action('<%=cp._id%>')" class="btn btn-danger">Unhide</button></td>
+                  <% } %>
+                 
+                  
              
-                <td> </td>
-                <td></td>
-                
-                <td></td>
-                <td></td>
-                <td></td>
-                
-                </td>
-              </tr>    
+                </tr>    
+          
+           <%})%>
+             
            
             </thead>
             </tbody>
@@ -36,6 +45,24 @@
       </div>
     </div>
   </div>
-  
+  <script>
+    function Action(cpid) {
+        $.ajax({
+            url: `/admin/updatecouponstatus?cpid=${cpid}`,
+            type: 'GET',
+            success: function(response) {
+                // Assuming response contains the updated showStatus
+                // Update the button text based on the updated showStatus
+                var button = $('#couponRow_' + cpid).find('button');
+                if (response.showStatus) {
+                    button.text('Hide');
+                } else {
+                    button.text('Unhide');
+                }
+            }
+        });
+    }
+</script>
+
   
   <%-include("../layouts/admin/adminFooter.ejs")-%>
