@@ -151,7 +151,7 @@ exports.orderDetails = async (req, res) => {
 
 exports.verifypayment = async (req, res) => {
   try {
-    console.log("jrhehrj");
+ 
    
    
     const details = req.body;
@@ -184,6 +184,12 @@ exports.verifypayment = async (req, res) => {
         );
 
       }
+      const removeCart = await Cart.findOneAndUpdate({ userId: userId },
+        {
+          $pull: {
+            products: {}
+          }
+        })
 
       await Order.findByIdAndUpdate(
         { _id: details.order.receipt },

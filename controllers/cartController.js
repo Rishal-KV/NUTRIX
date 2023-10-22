@@ -2,6 +2,7 @@ const Cart = require("../model/cartModel");
 const Product = require("../model/productModel");
 const User = require("../model/userModel");
 const Address = require("../model/addressModel");
+const Coupon = require('../model/couponModel')
 
 exports.addToCart = async (req, res) => {
   try {
@@ -65,13 +66,20 @@ exports.addToCart = async (req, res) => {
 
 exports.getCart = async (req, res) => {
   try {
-
-      const userId = req.session.userId;
+    const userId = req.session.userId;
+    const coupon = await Coupon.find({ usedUsers: { $nin: [userId] } })
+    
       // console.log(userId);
       const cartData = await Cart.findOne({ userId: userId }).populate(
         "products.productId"
       );
-      console.log(cartData);
+      // console.log(cartData);
+      let Total = cartData.products.reduce((acc, val)=> acc+val.totalPrice,0);
+      let couponApplied = await Coupon.findOne({couponName : cartData?.couponApplied})
+      console.log(couponApplied);
+      if (couponApplied) {
+        Total = Total - couponApplied.maximumDiscount;
+      }
       let count = 0;
 
       if (cartData) {
@@ -79,26 +87,26 @@ exports.getCart = async (req, res) => {
         count = count + cartData.products.length;
         let products = cartData.products;
         if (products.length > 0) {
-          const total = await Cart.aggregate([
-            { $match: { userId: userId } },
-            { $unwind: "$products" },
-            {
-              $group: {
-                _id: null,
-                total: {
-                  $sum: {
-                    $multiply: ["$products.productPrice", "$products.count"],
-                  },
-                },
-              },
-            },
-          ]);
+          // const total = await Cart.aggregate([
+          //   { $match: { userId: userId } },
+          //   { $unwind: "$products" },
+          //   {
+          //     $group: {
+          //       _id: null,
+          //       total: {
+          //         $sum: {
+          //           $multiply: ["$products.productPrice", "$products.count"],
+          //         },
+          //       },
+          //     },
+          //   },
+          // ]);
 
           res.render("cart", {
             user: req.session.user,
             products: products,
-            total: total[0].total,
-            count,
+            total: Total,
+            count,coupon
           });
         } else {
          

@@ -31,6 +31,9 @@ const cartSchema = new mongoose.Schema({
       },
     },
   ],
+  couponApplied:{
+    type:String
+}
 },{strictPopulate : false});
 
 module.exports = mongoose.model("Cart", cartSchema);

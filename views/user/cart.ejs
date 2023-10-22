@@ -107,6 +107,17 @@
                                                 </div><!-- End .input-group -->
                                             
                                         </div><!-- End .cart-discount -->
+                                        <div class="border border-1 p-2 mt-1" style="width: 32.450rem; height: 35rem ; overflow: auto;">
+                                            <%coupon.forEach((val)=>{ %>
+                                                <div class="border border-1 w-100 p-2 mb-1">
+                                                    <h5><%=val.couponName%></h5>
+                                                    <h6>save ₹<%=val.maximumDiscount%></h6>
+                                                    <p>₹<%=val.maximumDiscount%> of on minimum purchase of ₹<%=val.minimumPurchase%></p>
+                                                    <p>expires on date  </p>
+                                                   </div> 
+                                           <% })%>
+                                           
+                                        </div>
         
                                         <!-- <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a> -->
                                     </div><!-- End .cart-bottom -->
@@ -212,9 +223,15 @@
                 url : "/applycoupon",
                 type : "POST",
                 data : {
-                    couponame : value
+                    coupon : value
+                },
+                success : function(response){
+                    if(response.applied){
+                        location.href = "/getcart"
+                    }
                 }
             })
+
          }
         </script>
       <% } %>
