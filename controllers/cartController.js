@@ -74,16 +74,18 @@ exports.getCart = async (req, res) => {
         "products.productId"
       );
       // console.log(cartData);
-      let Total = cartData.products.reduce((acc, val)=> acc+val.totalPrice,0);
-      let couponApplied = await Coupon.findOne({couponName : cartData?.couponApplied})
-      console.log(couponApplied);
-      if (couponApplied) {
-        Total = Total - couponApplied.maximumDiscount;
-      }
+    
       let count = 0;
 
       if (cartData) {
+        const subTotal = cartData.products.reduce((acc, val)=> acc+val.totalPrice,0);
+        let Total = cartData.products.reduce((acc, val)=> acc+val.totalPrice,0);
         
+        let couponApplied = await Coupon.findOne({couponName : cartData?.couponApplied})
+     
+        if (couponApplied) {
+          Total = Total - couponApplied.maximumDiscount;
+        }
         count = count + cartData.products.length;
         let products = cartData.products;
         if (products.length > 0) {
@@ -106,7 +108,9 @@ exports.getCart = async (req, res) => {
             user: req.session.user,
             products: products,
             total: Total,
-            count,coupon
+            count,coupon,
+            subTotal,
+            couponApplied
           });
         } else {
          
@@ -217,22 +221,28 @@ exports.checkout = async (req, res) => {
     const carts = await Cart.findOne({ userId: req.session.userId }); //
     let count = 0;
     count = count + carts.products.length;
-
-    const total = await Cart.aggregate([
-      { $match: { userId: userId } },
-      { $unwind: "$products" },
-      {
-        $group: {
-          _id: null,
-          total: {
-            $sum: {
-              $multiply: ["$products.productPrice", "$products.count"],
-            },
-          },
-        },
-      },
-    ]);
-    const Total = total[0].total;
+    let Total = carts.products.reduce((acc, val)=> acc+val.totalPrice,0);
+        
+    let couponApplied = await Coupon.findOne({couponName : carts?.couponApplied})
+ 
+    if (couponApplied) {
+      Total = Total - couponApplied.maximumDiscount;
+    }
+    // const total = await Cart.aggregate([
+    //   { $match: { userId: userId } },
+    //   { $unwind: "$products" },
+    //   {
+    //     $group: {
+    //       _id: null,
+    //       total: {
+    //         $sum: {
+    //           $multiply: ["$products.productPrice", "$products.count"],
+    //         },
+    //       },
+    //     },
+    //   },
+    // ]);
+    // const Total = total[0].total;
     const cartData = await Cart.findOne({ userId: userId }).populate(
       "products.productId"
     );
@@ -245,5 +255,7 @@ exports.checkout = async (req, res) => {
       products,
       count,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message);
+  }
 };

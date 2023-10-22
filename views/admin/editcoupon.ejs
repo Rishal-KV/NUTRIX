@@ -1,0 +1,28 @@
+<%-include("../layouts/admin/sideBar.ejs")-%>
+<%-include("../layouts/admin/adminHeader.ejs")-%>
+<div class="container-fluid px-1 py-5 mx-auto ">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center ">
+            
+            <div class="mt-5 border border-1  p-4">
+                <h5 class="text-center m-5">Coupon Edit</h5>
+                <form class="form-card" action="/admin/updatecoupon" method="POST">
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Coupon name</label> <input type="text" id="fname" name="couponname" class="form-control " value="<%=coupon.couponName%>" > </div>
+                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Min purchase</label> <input type="text" id="lname" name="minpurachase" class="form-control" value="<%=coupon.minimumPurchase%>" > </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Discount</label> <input type="text" id="email" name="discount" class="form-control" value="<%=coupon.maximumDiscount%>"> </div>
+                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Date</label> <input type="date" id="mob" name="date" class="form-control" value="<%= new Date(coupon.lastDate).toISOString().split('T')[0] %>"> </div>
+                    </div>
+                    <input type="hidden" value="<%=coupon._id%>" name="id">
+                    
+                    <div class="row justify-content-center">
+                        <div class="form-group col-sm-6"> <button type="submit" class="btn-block btn-primary">Update</button> </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>  
+<%-include("../layouts/admin/adminFooter.ejs")-%>

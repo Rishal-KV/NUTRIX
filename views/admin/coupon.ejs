@@ -24,6 +24,7 @@
                   
                   <td><%=cp.maximumDiscount%></td>
                   <td><%= new Date(cp.lastDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) %></td>
+                  <td><a href="/admin/editcoupon?id=<%=cp._id%>"><button class="btn btn-primary">edit</button></a></td>
                      <% if(cp.showStatus){ %>
                       <td><button onclick="Action('<%=cp._id%>')" class="btn btn-primary">Hide</button></td>
 
@@ -62,6 +63,8 @@
             }
         });
     }
+
+
 </script>
 
   

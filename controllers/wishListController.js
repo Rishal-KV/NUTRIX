@@ -9,7 +9,7 @@ exports.Wishlist = async (req, res) => {
     const cart = await Cart.findOne({ userId: req.session.userId });
     let count = 0;
 
-    count = count + cart.products.length;
+    count = count + cart?.products.length;
     const wishlistItem = await Wishlist.findOne({ user: userId }).populate(
       "products.productId"
     );

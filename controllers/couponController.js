@@ -37,6 +37,34 @@ exports.addcouponPost = async(req,res) =>{
     }
 }
 
+
+exports.editcoupon = async(req, res) =>{
+    try {
+        const couponId = req.query.id
+        const coupon = await Coupon.findOne({_id : couponId})
+         res.render("editcoupon",{coupon})
+
+    } catch (error) {
+        
+    }
+}
+exports.updateCoupon = async(req, res) =>{
+    try {
+        const {id,couponname,minimumPurchase,discount,date} = req.body;
+        console.log(id);
+        await Coupon.updateOne({_id : id},{
+            $set:{
+                 couponName : couponname,
+                 minimumPurchase : minimumPurchase,
+                 maximumDiscount : discount,
+                 lastDate : date
+            }
+        })
+        res.redirect('/admin/couponmanagement')
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 exports.action = async(req, res) =>{
     try {
         const couponId = req.query.cpid;
@@ -72,9 +100,10 @@ exports.applyCoupon = async(req, res) =>{
      const couponName = req.body.coupon
      console.log(couponName);
      const cart = await Cart.findOne({userId : user}).populate('products.productId');
-    //  const Total = cart.products.reduce((acc, val)=> acc+val.totalPrice,0);
+     const Total = cart.products.reduce((acc, val)=> acc+val.totalPrice,0);
     //  console.log(Total);
-    const couponFound = Coupon.findOne({couponName});
+    const couponFound = await Coupon.findOne({couponName});
+    // console.log(couponFound);
     const currentDate = new Date()
 
     const usedCoupon = await Coupon.find({couponName, usedUsers: { $in: [user] } })
@@ -83,10 +112,12 @@ exports.applyCoupon = async(req, res) =>{
         
         res.json({expired : true})
     }else if(couponFound && usedCoupon.length == 0){
-          console.log("NKENRKENRN");
+        
         if(Total < couponFound.minimumPurchase){
             // res.json({})
+           
         }else{
+            console.log("heyyy");
             await Cart.findOneAndUpdate({userId : user},{$set:{couponApplied:couponName}})
             
             res.json({applied : true,message:'Coupon applied'})
