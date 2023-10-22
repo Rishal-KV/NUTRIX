@@ -5,6 +5,7 @@ const Order = require("../model/orderModel");
 const Product = require('../model/productModel');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
+const Coupon = require('../model/couponModel')
 
 var instance = new Razorpay({
   key_id: process.env.RAZ_ID,
@@ -49,7 +50,12 @@ exports.orderPlace = async (req, res) => {
     const orderDetails = await order.save();
     const orderId = orderDetails._id
 
-
+      const couponFound = await Coupon.findOne({couponName : cartData?.couponApplied});
+      if (couponFound) {
+        await Coupon.findOneAndUpdate({couponName:cartData.couponApplied},{$addToSet:{usedUsers:userId}});
+      }
+        
+      
 
  
 
@@ -67,12 +73,7 @@ exports.orderPlace = async (req, res) => {
         );
 
       }
-      const removeCart = await Cart.findOneAndUpdate({ userId: userId },
-        {
-          $pull: {
-            products: {}
-          }
-        })
+      await Cart.findOneAndUpdate({userId},{$set:{product:[],couponApplied:''}});
       res.json({ cash: true })
     } else {
 
@@ -80,7 +81,7 @@ exports.orderPlace = async (req, res) => {
         return acc = acc + curr.totalPrice
       }, 0)
       // console.log(orderId);
-    
+      await Cart.findOneAndUpdate({userId},{$set:{product:[],couponApplied:''}});
       instance.orders.create({
         amount: Total * 100,
         currency: "INR",
