@@ -29,7 +29,7 @@
                                 <div class="checkout">
                                     <div class="container">
                                         <h3 class="card-title p-3">Billing Address</h3><!-- End .card-title -->
-                                        <form action="/selectedAddress" method="post" id="addressForm">
+                                        <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
                                             <div class="row">
                                                 <div class="col-lg-9">
                                                    
@@ -37,7 +37,7 @@
                                                     <div class="col-lg-9">
                                                         <div class="card card-dashboard">
                                                             <div class="card-body">
-                                                                <input type="radio" name="selectedAddress" value="<%= add._id %> " <%= (add._id ===  addressDetails.address[0]._id) ? 'checked' : ''%>>
+                                                                <input id="selectedAddress" type="radio" name="selectedAddress" value="<%= add._id %> " <%= (add._id ===  addressDetails.address[0]._id) ? 'checked' : ''%>>
                                                                
                                                                
                                                              
@@ -54,20 +54,20 @@
                                                     <% }); %>
                                                     <!-- <a href="/addAddress" class="p-4">Add address<i class="icon-edit"></i></a></p> -->
                                                    
-                                                    <input type="hidden" name="address" value="<%= addressDetails?.address.fullname %>,<%= addressDetails?.address.mobile %>,<%= addressDetails?.address.email %>,<%= addressDetails?.address.houseName %>,<%= addressDetails?.address.city %>,<%= addressDetails?.address.state %>,<%= addressDetails?.address.pin %>">
+                      
 
                                         
                                                    
                                                 </div><!-- End .col-lg-9 -->
                                              
                                             </div><!-- End .row -->
-                                        </form>
+                                        <!-- </form> -->
                                     </div><!-- End .container -->
                                 </div><!-- End .checkout -->
                             </div><!-- End .page-content -->
                     
                                
-                             
+                            
                            
                         </div><!-- End .col-lg-9 -->
                         <aside class="col-lg-3">
@@ -98,7 +98,7 @@
                                         <tr class="summary-total">
                                             <td>Total:</td>
                                             <td>$<%=Total%></td>
-                                            <input type="hidden" value="<%=Total%>" name="Total">
+                                            <input id="total" type="hidden" value="<%=Total%>" name="Total">
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                 </table><!-- End .table table-summary -->
@@ -122,8 +122,8 @@
                                         <div class="card-header" id="heading-3">
                                             <h2 class="card-title">
                                                
-                                                <input type="radio" value="COD" name="payment"  checked >  Cash on delivery<br>
-                                                <input type="radio" value="online payment" name="payment" class="mt-1" >  Online payment
+                                                <input  type="radio" value="COD" name="payment"  checked >  Cash on delivery<br>
+                                                <input  type="radio" value="online payment" name="payment" class="mt-1" >  Online payment
                                             </h2>       
                                         </div><!-- End .card-header -->
                                         
@@ -148,26 +148,91 @@
                             </div><!-- End .summary -->
                         </aside><!-- End .col-lg-3 -->
                     </div><!-- End .row -->
-                </form>
+                <!-- </form> -->
             </div><!-- End .container -->
         </div><!-- End .checkout -->
     </div><!-- End .page-content -->
 </main><!-- End .main -->
+
 <script>
-    function order(productId){
-        let productId = productId
+    function order(pId){
+        let sA = document.getElementById('selectedAddress');
+        let selectedAddress = sA.value
+        let payment = $("input[name=payment]:checked").val();
+        let total = document.getElementById('total').value
+        console.log(total);
+
+        console.log(payment);
+        let productId = pId
         $.ajax({
             url : "/placeorder",
             type : "POST",
             data : {
-      productId : productId
+      productId : productId,
+      selectedAddress : selectedAddress,
+      payment : payment,
+     Total : total
             },
             success : function(response){
-                if(response.success){
-                    
+                if(response.cash){
+                    console.log(response.cash);
+                    location.href ='/ordersuccess'
+                }else{
+                  
+                         razorpay(response.order)
                 }
             }
         })
     }
+
+    function razorpay(order){
+       console.log(order);
+        var options = {
+    "key": "rzp_test_WNBjJNLwpHznQ3", 
+    "amount": order.amount, 
+    "currency": "INR",
+    "name": "NUTRIX",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id,
+     handler : function (response){
+             verifyPayment(response, order)
+     },
+    "prefill": {
+        "name": "NUTRIX", 
+        "email": "nutrix@gmail.com",
+        "contact": "9000090000" 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+    }
+
+    function verifyPayment(payment, order){
+       
+        const amount = document.getElementById('total').value
+        $.ajax({
+            url : '/verifypayment',
+            type : 'POST',
+            data : {
+              payment : payment,
+              amount : amount,
+              order : order
+            },
+            success : function(response){
+                console.log(response);
+                  if (response.payment) {
+                    location.href = "/ordersuccess"
+                  }         
+            }
+        })
+          }
 </script>
 <%- include("../layouts/user/userFooter.ejs")-%>

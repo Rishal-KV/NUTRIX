@@ -98,14 +98,14 @@
         
                                     <div class="cart-bottom">
                                         <div class="cart-discount">
-                                            <form action="#">
+                                           
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" required placeholder="coupon code">
+                                                    <input id="coupon" type="text" class="form-control" name="couponame" required placeholder="coupon code">
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
+                                                        <button class="btn btn-outline-primary-2" onclick="applyCoupon()" type="submit"><i class="icon-long-arrow-right"></i></button>
                                                     </div><!-- .End .input-group-append -->
                                                 </div><!-- End .input-group -->
-                                            </form>
+                                            
                                         </div><!-- End .cart-discount -->
         
                                         <!-- <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a> -->
@@ -201,6 +201,19 @@
                     }
                 }
                 
+            })
+         }
+         function applyCoupon(){
+            const couponame = document.getElementById('coupon')
+          const value = couponame.value
+            
+            console.log(couponame);
+            $.ajax({
+                url : "/applycoupon",
+                type : "POST",
+                data : {
+                    couponame : value
+                }
             })
          }
         </script>

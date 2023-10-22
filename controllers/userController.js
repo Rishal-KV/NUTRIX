@@ -213,6 +213,7 @@ exports.productDetails = async (req, res) => {
     const id = req.query.id;
     const pdata = await Product.findById({ _id: id });
     const  similar = await Product.find({category : pdata.category}).populate('category');
+    console.log(similar);
 
     const cart = await Cart.findOne({userId : req.session.userId})
     let count = 0

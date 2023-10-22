@@ -6,7 +6,7 @@
         const addressController = require('../controllers/addressController')
         const orderController = require('../controllers/orderController')
         const wishListController = require('../controllers/wishListController')
-
+        const couponController = require('../controllers/couponController')
 userRoute.set("view engine", "ejs"); // Set the view engine
 userRoute.set("views", "./views/user"); // Specify the views directory
 userRoute.use(express.json());
@@ -43,6 +43,8 @@ userRoute.post('/selectedAddress',addressController.selectedAddress)
 userRoute.get('/editaddress', userAuth.isLoggedIn,addressController.geteditaddress);
 userRoute.post('/editaddress',addressController.editaddress)
 userRoute.post('/placeorder',orderController.orderPlace)
+userRoute.post('/verifypayment',orderController.verifypayment)
+userRoute.get('/ordersuccess',userAuth.isLoggedIn,orderController.success);
 userRoute.get('/remove',addressController.remove);
 userRoute.post('/cancelorder',orderController.cancelOrder)
 userRoute.get('/orderdetails',orderController.orderDetails);
@@ -51,5 +53,7 @@ userRoute.get('/orderdetails',orderController.orderDetails);
 userRoute.get('/wishlist',wishListController.Wishlist)
 userRoute.post('/addToWishlist',wishListController.addToWishList)
 userRoute.post('/removewishlist',wishListController.removeWishlist)
+
+userRoute.post('/applycoupon',couponController.applyCoupon);
 
         module.exports = userRoute;

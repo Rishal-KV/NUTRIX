@@ -1,3 +1,4 @@
+
 const Coupon = require('../model/couponModel')
 exports.coupon = async(req, res) =>{
     try {
@@ -62,3 +63,34 @@ exports.action = async(req, res) =>{
         console.log(error.message);
     }
 }
+
+exports.applyCoupon = async(req, res) =>{
+    try {
+    
+        const couponName = req.body.couponame
+        const Total = Number(req.body.total)
+        const user = req.session.userId
+            const couponUsed = Coupon.findOne({couponName: couponName,
+             usedUsers :{
+                $in : [req.session.userId]
+             }
+            })
+         if (couponUsed) {
+            res.json({used : true});
+         }else{
+            const coupon = await Coupon.findOne({couponName : couponName});
+             if(coupon){
+                if(coupon.lastDate<= new Date()){
+                    res.json({date :true})
+                }
+             }
+         }
+        
+      
+        
+    } catch (error) {
+        
+    }
+}
+
+
