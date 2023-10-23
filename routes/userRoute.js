@@ -55,5 +55,6 @@ userRoute.post('/addToWishlist',wishListController.addToWishList)
 userRoute.post('/removewishlist',wishListController.removeWishlist)
 
 userRoute.post('/applycoupon',couponController.applyCoupon);
+userRoute.get('/remove_coupon',couponController.removecoupon);
 
         module.exports = userRoute;

@@ -114,15 +114,29 @@
 
                                         <div class="cart-bottom">
                                             <div class="cart-discount">
-
+                                                  
                                                 <div class="input-group">
-                                                    <input id="coupon" type="text" class="form-control" name="couponame"
+
+
+                                                    <%if(couponSelected == undefined){%>
+                                                        <input id="coupon" type="text" class="form-control" name="couponame"
                                                         required placeholder="coupon code">
                                                     <div class="input-group-append">
                                                         <button class="btn btn-outline-primary-2"
                                                             onclick="applyCoupon()" type="submit"><i
                                                                 class="icon-long-arrow-right"></i></button>
                                                     </div><!-- .End .input-group-append -->
+                                                        <%}else{ %>
+
+                                                            <div class="d-flex border p-3 w-100 justify-content-between my-2" style="background-color:#c96;">
+                                                                <h6  class="p-2 text-white">Coupon Applied : <b><%=couponSelected.couponName%></b></h6>
+                                                                <a  href="/remove_coupon"><i class="fa-solid fa-trash text-white" style="color: #666b70;"></i></a>
+                                                            </div>
+                                                               
+                                                            <%}%>
+
+            
+                                                   
                                                 </div><!-- End .input-group -->
 
                                             </div><!-- End .cart-discount -->
@@ -138,7 +152,9 @@
                                                         <p>₹<%=val.maximumDiscount%> of on minimum purchase of ₹
                                                                 <%=val.minimumPurchase%>
                                                         </p>
-                                                        <p class="text-danger">expires on date <%=val.lastDate%>
+                                                        <p>expires on date <%= val.lastDate.toISOString().split('T')[0] %></p>
+
+
                                                         </p>
                                                     </div>
                                                     <% })%>

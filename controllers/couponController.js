@@ -117,20 +117,31 @@ exports.applyCoupon = async(req, res) =>{
             // res.json({})
            
         }else{
-            console.log("heyyy");
+            // console.log("heyyy");
             await Cart.findOneAndUpdate({userId : user},{$set:{couponApplied:couponName}})
             
             res.json({applied : true,message:'Coupon applied'})
         }
     }
 
-  
-
-        
-      
-        
     } catch (error) {
+
+        console.log(error.message);
         
+    }
+}
+
+exports.removecoupon = async(req, res) =>{
+    try {
+        const userId = req.session.userId
+        await Cart.updateOne({userId},{
+            $set :{
+                couponApplied : ""
+            }
+        })
+        res.redirect('/getcart')
+    } catch (error) {
+        console.log(error.message);
     }
 }
 
