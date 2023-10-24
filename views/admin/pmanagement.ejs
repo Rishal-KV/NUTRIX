@@ -19,7 +19,7 @@
                 <th  class="text-white">ACTION</th>
               </tr>
               <%product.forEach((products,index)=>{ %>
-                <td> <%= products.s_no %></td>
+                <td> <%=index+1%></td>
                 <td><%= products.name%></td>
                 <td class="py-1"  >
                   <img     style="border-radius:  0%; height: 50px; width : 50px;" src="/product/img/<%= product[index].image.image1%>" alt="image" />

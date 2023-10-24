@@ -20,7 +20,7 @@
       </div>
    
   </div>
- 
+
 
 
 <div class="row">
@@ -101,13 +101,44 @@
     </div>
   </div>
 </div>
-
+<input id="jan" type="hidden" name="jan" value="<%=monthlySalesArr[0]%>">
+        <input id="feb" type="hidden" name="feb" value="<%=monthlySalesArr[1]%>">
+        <input id="mar" type="hidden" name="mar" value="<%=monthlySalesArr[2]%>">
+        <input id="apr" type="hidden" name="apr" value="<%=monthlySalesArr[3]%>">
+        <input id="may" type="hidden" name="may" value="<%=monthlySalesArr[4]%>">
+        <input id="jun" type="hidden" name="jun" value="<%=monthlySalesArr[5]%>">
+        <input id="jul" type="hidden" name="jul" value="<%=monthlySalesArr[6]%>">
+        <input id="aug" type="hidden" name="aug" value="<%=monthlySalesArr[7]%>">
+        <input id="sep" type="hidden" name="sep" value="<%=monthlySalesArr[8]%>">
+        <input id="oct" type="hidden" name="oct" value="<%=monthlySalesArr[9]%>">
+        <input id="nov" type="hidden" name="nov" value="<%=monthlySalesArr[10]%>">
+        <input id="dec" type="hidden" name="dec" value="<%=monthlySalesArr[11]%>">
 
 </div>
 <script>
   function pageLoad(){
+    var jan = document.getElementById("jan").value,
+    feb = document.getElementById("feb").value,
+    mar = document.getElementById("mar").value,
+    apr = document.getElementById("apr").value,
+    may = document.getElementById("may").value,
+    jun = document.getElementById("jun").value,
+    jul = document.getElementById("jul").value,
+    aug = document.getElementById("aug").value,
+    sep = document.getElementById("sep").value,
+    oct = document.getElementById("oct").value,
+    nov = document.getElementById("nov").value,
+    dec = document.getElementById("dec").value;
     let online = document.getElementById('online').value
   let cash = document.getElementById('cash').value
+
+
+ 
+
+// Declare variables for each input element using a single line per variable
+
+  
+// Now, you can use these variables to work with the input elements
 
 // Calculate the percentages
 var total = online + cash;
@@ -141,7 +172,57 @@ var options = {
         chart.render();
       
       
-    
+        
+      
+      
+        var options = {
+          series: [  {
+          name: 'Free Cash Flow',
+          data: [jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec]
+        }],
+          chart: {
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct','Nov','Dec'],
+        },
+        yaxis: {
+          title: {
+            text: '$ (thousands)'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return "$ " + val + " thousands"
+            }
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#barchart"), options);
+        chart.render();
+      
+      
       
       
   }
@@ -150,90 +231,8 @@ var options = {
 
 
  
-      
- var options = {
-          series: [{
-          name: 'Inflation',
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-        }],
-          chart: {
-          height: 350,
-          type: 'bar',
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val + "%";
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },
-        
-        xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + "%";
-            }
-          }
-        
-        },
-        title: {
-          text: 'Monthly Inflation in Argentina, 2002',
-          floating: true,
-          offsetY: 330,
-          align: 'center',
-          style: {
-            color: '#444'
-          }
-        }
-        };
 
-        var chart = new ApexCharts(document.querySelector("#barchart"), options);
-        chart.render();
-      
+
     
 </script>
 <%-include("../layouts/admin/adminFooter.ejs")-%>

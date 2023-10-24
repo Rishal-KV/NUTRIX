@@ -47,14 +47,70 @@ exports.dashboard = async (req, res) => {
       }
     }
   ]);
-  console.log(Payment);
+
+// Generate an array of all months from 1 (January) to 12 (December)
+const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
+
+const monthly = await Order.aggregate([
+    {
+        $match: {
+            "status": "delivered"
+        }
+    },
+    {
+        $addFields: {
+            date: { $toDate: "$date" }
+        }
+    },
+    {
+        $group: {
+            _id: {
+                year: { $year: "$date" },
+                month: { $month: "$date" }
+            },
+            count: { $sum: 1 }
+        }
+    },
+    {
+        $sort: {
+            "_id.year": 1,
+            "_id.month": 1
+        }
+    },
+    {
+        $group: {
+            _id: "$_id.year",
+            months: {
+                $push: {
+                    month: "$_id.month",
+                    count: "$count"
+                }
+            }
+        }
+    },
+    {
+        $project: {
+            _id: 1,
+            months: {
+                $setUnion: ["$months", allMonths.map(month => ({ month, count: 0 }))]
+            }
+        }
+    }
+]);
+
+
+let monthlySalesArray  = monthly[0]
+let monthlySalesArr = []
+
+ monthlySalesArray.months.map(monthInfo => monthlySalesArr.push(monthInfo.count));
+ console.log(monthlySalesArr);
   
   let onlinePaymentCount = Payment[0].count
   let cashCount = Payment[1].count
   
 
 let Total = revenue[0].totalAmount
-    res.render("dashboard", { admin: req.session.admin,Total,totalSales,onlinePaymentCount,cashCount,users});
+    res.render("dashboard", { admin: req.session.admin,Total,totalSales,onlinePaymentCount,cashCount,users,monthlySalesArr});
 
   } catch (error) {
     console.log(error.message);

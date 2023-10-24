@@ -7,6 +7,7 @@
         const orderController = require('../controllers/orderController')
         const wishListController = require('../controllers/wishListController')
         const couponController = require('../controllers/couponController')
+        const productController = require('../controllers/productController')
 userRoute.set("view engine", "ejs"); // Set the view engine
 userRoute.set("views", "./views/user"); // Specify the views directory
 userRoute.use(express.json());
@@ -22,6 +23,7 @@ userRoute.post("/confirm", userController.otpConfirm);
 userRoute.post('/resend',userController.resendOtp)
 userRoute.get("/signout", userController.signout);
 userRoute.get("/productdetails", userController.productDetails);
+userRoute.post('/search',productController.searchProduct)
 userRoute.get("/shop", userController.shop);
 userRoute.post('/changepassword',userController.changePassword);
 

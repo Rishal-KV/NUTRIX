@@ -27,7 +27,6 @@ exports.addProduct = async (req, res) => {
     
 
     const products = new Product({
-      s_no: s_no,
       name: name,
       category: req.body.category,
       price: price,
@@ -103,3 +102,11 @@ exports.deleteProduct = async (req, res) => {
     console.error(error.message);
   }
 };
+
+exports.searchProduct = async(req, res) => {
+try {
+  console.log(req.body.search)
+} catch (error) {
+   console.log(error.message);
+}
+}

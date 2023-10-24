@@ -23,6 +23,7 @@ exports.Wishlist = async (req, res) => {
 exports.addToWishList = async (req, res) => {
   try {
     const userId = req.session.userId;
+    
     const productId = req.body.productId;
     const wishlist = await Wishlist.findOne({ user: userId });
     if (!wishlist) {
