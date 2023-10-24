@@ -62,7 +62,12 @@ exports.orderPlace = async (req, res) => {
     if (status == "placed") {
       const stockReduce = cartData.products
       for (let i = 0; i < stockReduce.length; i++) {
-
+        const removeCart = await Cart.findOneAndUpdate({ userId: userId },
+          {
+            $pull: {
+              products: {}
+            }
+          })
         const productId = stockReduce[i].productId;
         const updatedProduct = await Product.findByIdAndUpdate(
           productId,

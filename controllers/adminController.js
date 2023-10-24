@@ -34,8 +34,27 @@ exports.dashboard = async (req, res) => {
   let sales =  await Order.find({ "status": "delivered" });
   let totalSales = sales.length
 
+  let Payment = await Order.aggregate([
+    {
+      $match: {
+        "status": "delivered"
+      }
+    },
+    {
+      $group: {
+        _id: "$paymentMethod",
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+  console.log(Payment);
+  
+  let onlinePaymentCount = Payment[0].count
+  let cashCount = Payment[1].count
+  
+
 let Total = revenue[0].totalAmount
-    res.render("dashboard", { admin: req.session.admin,Total,totalSales});
+    res.render("dashboard", { admin: req.session.admin,Total,totalSales,onlinePaymentCount,cashCount});
 
   } catch (error) {
     console.log(error.message);

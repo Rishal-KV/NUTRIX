@@ -4,8 +4,9 @@
   <div class="row">
     <div class="col-sm-12 grid-margin mt-5">
       <div class="card">
-        <div id="chart">
-
+        <div  id="chart" style="color: black;">
+ <input id="online" type="hidden" name="online" value="<%=onlinePaymentCount%>">
+ <input id="cash" type="hidden" name="cash" value="<%=cashCount%>">
         </div>
       </div>
     </div>
@@ -73,90 +74,43 @@
 </div>
 </div>
 <script>
-  
+  function pageLoad(){
+    let online = document.getElementById('online').value
+  let cash = document.getElementById('cash').value
   var options = {
-          series: [{
-          name: 'Inflation',
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-        }],
-          chart: {
-          height: 350,
-          type: 'bar',
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val + "%";
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["white"]
-          }
-        },
-        
-        xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + "%";
-            }
-          }
-        
-        },
-        title: {
-          text: 'Monthly Inflation in Argentina, 2002',
-          floating: true,
-          offsetY: 330,
-          align: 'center',
-          style: {
-            color: 'white'
-          }
-        }
-        };
+  series: [6, 2],
+  chart: {
+    width: 480,
+    type: 'pie',
+  },
+  labels: ['Cash', 'Online payment'],
+  plotOptions: {
+    pie: {
+      startAngle: 0,
+      endAngle: 360,
+      donut: {
+        size: '65%', // You can adjust the size of the donut hole
+      },
+    },
+  },
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        width: 200
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }],
+};
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
-      
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
+
+  }
+ window.onload = pageLoad()
       
     
 </script>
