@@ -68,7 +68,16 @@ exports.getCart = async (req, res) => {
   try {
     let couponSelected;
     const userId = req.session.userId;
-    const coupon = await Coupon.find({ usedUsers: { $nin: [userId] } })
+    const coupon = await Coupon.find({
+      $and: [
+        { usedUsers: { $nin: [userId] } },
+        { showStatus: true }
+      ]
+    });
+    
+      
+        
+      
     
       // console.log(userId);
       const cartData = await Cart.findOne({ userId: userId }).populate(
@@ -86,7 +95,7 @@ exports.getCart = async (req, res) => {
      
         if (couponApplied) {
           Total = Total - couponApplied.maximumDiscount;
-          couponSelected = await Coupon.findOne({couponName:cartData.couponApplied});
+          couponSelected = await Coupon.findOne({couponName:cartData?.couponApplied});
           console.log(couponSelected);
         }
         count = count + cartData.products.length;
