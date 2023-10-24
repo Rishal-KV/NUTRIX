@@ -17,7 +17,7 @@ exports.adminLogin = async (req, res) => {
 //to render dashboard
 exports.dashboard = async (req, res) => {
   try {
-
+     const users = await User.find({is_admin : 0});
     const revenue = await Order.aggregate([
       {
         $match: {
@@ -54,7 +54,7 @@ exports.dashboard = async (req, res) => {
   
 
 let Total = revenue[0].totalAmount
-    res.render("dashboard", { admin: req.session.admin,Total,totalSales,onlinePaymentCount,cashCount});
+    res.render("dashboard", { admin: req.session.admin,Total,totalSales,onlinePaymentCount,cashCount,users});
 
   } catch (error) {
     console.log(error.message);
