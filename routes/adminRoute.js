@@ -49,4 +49,6 @@ adminRoute.post('/addcoupon',couponController.addcouponPost)
 adminRoute.get('/editcoupon',couponController.editcoupon)
 adminRoute.post("/updatecoupon",couponController.updateCoupon)
 adminRoute.get('/updatecouponstatus',couponController.action);
+adminRoute.get('/salesreport',adminController.salesReport)
+adminRoute.get('/sort',adminController.Sorting)
 module.exports = adminRoute;

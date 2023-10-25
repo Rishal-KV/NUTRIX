@@ -17,7 +17,7 @@ exports.adminLogin = async (req, res) => {
 //to render dashboard
 exports.dashboard = async (req, res) => {
   try {
-     const users = await User.find({is_admin : 0});
+    const users = await User.find({ is_admin: 0 });
     const revenue = await Order.aggregate([
       {
         $match: {
@@ -30,92 +30,105 @@ exports.dashboard = async (req, res) => {
           totalAmount: { $sum: "$totalAmount" }
         }
       }
-    ])
-  let sales =  await Order.find({ "status": "delivered" });
-  let totalSales = sales.length
+    ]);
 
-  let Payment = await Order.aggregate([
-    {
-      $match: {
-        "status": "delivered"
-      }
-    },
-    {
-      $group: {
-        _id: "$paymentMethod",
-        count: { $sum: 1 }
-      }
-    }
-  ]);
+    let sales = await Order.find({ "status": "delivered" });
+    let totalSales = sales.length;
 
-// Generate an array of all months from 1 (January) to 12 (December)
-const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
-
-const monthly = await Order.aggregate([
-    {
+    let Payment = await Order.aggregate([
+      {
         $match: {
-            "status": "delivered"
+          "status": "delivered"
         }
-    },
-    {
+      },
+      {
+        $group: {
+          _id: "$paymentMethod",
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
+
+    const monthly = await Order.aggregate([
+      {
+        $match: {
+          "status": "delivered"
+        }
+      },
+      {
         $addFields: {
-            date: { $toDate: "$date" }
+          date: { $toDate: "$date" }
         }
-    },
-    {
+      },
+      {
         $group: {
-            _id: {
-                year: { $year: "$date" },
-                month: { $month: "$date" }
-            },
-            count: { $sum: 1 }
+          _id: {
+            year: { $year: "$date" },
+            month: { $month: "$date" }
+          },
+          count: { $sum: 1 }
         }
-    },
-    {
+      },
+      {
         $sort: {
-            "_id.year": 1,
-            "_id.month": 1
+          "_id.year": 1,
+          "_id.month": 1
         }
-    },
-    {
+      },
+      {
         $group: {
-            _id: "$_id.year",
-            months: {
-                $push: {
-                    month: "$_id.month",
-                    count: "$count"
-                }
+          _id: "$_id.year",
+          months: {
+            $push: {
+              month: "$_id.month",
+              count: "$count"
             }
+          }
         }
-    },
-    {
+      },
+      {
         $project: {
-            _id: 1,
-            months: {
-                $setUnion: ["$months", allMonths.map(month => ({ month, count: 0 }))]
-            }
+          _id: 1,
+          months: {
+            $setUnion: ["$months", allMonths.map(month => ({ month, count: 0 }))]
+          }
         }
+      }
+    ]);
+
+    let monthlySalesArr = [];
+
+    if (monthly.length > 0) {
+      let monthlySalesArray = monthly[0];
+      if (monthlySalesArray && monthlySalesArray.months) {
+        monthlySalesArray.months.map(monthInfo => monthlySalesArr.push(monthInfo.count));
+      }
     }
-]);
 
+    let onlinePaymentCount = 0;
+    let cashCount = 0;
 
-let monthlySalesArray  = monthly[0]
-let monthlySalesArr = []
+    if (Payment.length > 0) {
+      const onlinePayment = Payment.find(payment => payment._id === "online payment");
+      const cashPayment = Payment.find(payment => payment._id === "COD");
+      if (onlinePayment) onlinePaymentCount = onlinePayment.count || 0;
+      if (cashPayment) cashCount = cashPayment.count || 0;
+    }
 
- monthlySalesArray.months.map(monthInfo => monthlySalesArr.push(monthInfo.count));
- console.log(monthlySalesArr);
-  
-  let onlinePaymentCount = Payment[0].count
-  let cashCount = Payment[1].count
-  
+    let Total = 0;
 
-let Total = revenue[0].totalAmount
-    res.render("dashboard", { admin: req.session.admin,Total,totalSales,onlinePaymentCount,cashCount,users,monthlySalesArr});
+    if (revenue.length > 0) {
+      Total = revenue[0]?.totalAmount || 0;
+    }
 
+    res.render("dashboard", { admin: req.session.admin, Total, totalSales, onlinePaymentCount, cashCount, users, monthlySalesArr });
   } catch (error) {
     console.log(error.message);
   }
 };
+
 
 //verifying the admin
 exports.verifyAdmin = async (req, res) => {
@@ -282,6 +295,24 @@ res.redirect('/admin/ordermanagement')
 
 
  
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+exports.salesReport = async(req, res) =>{
+  try {
+    const sales = await Order.find({status : "delivered"}).populate('user')
+    res.render('salesreport',{admin : req.session.admin,sales})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+exports.Sorting = async(req, res) =>{
+  try {
+       
   } catch (error) {
     console.log(error.message);
   }

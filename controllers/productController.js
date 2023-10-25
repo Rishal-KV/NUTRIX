@@ -103,10 +103,3 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-exports.searchProduct = async(req, res) => {
-try {
-  console.log(req.body.search)
-} catch (error) {
-   console.log(error.message);
-}
-}

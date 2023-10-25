@@ -94,8 +94,14 @@ console.log(otp);
 exports.home = async (req, res) => {
   try {
     const userId = req.session.userId
-    const items = await Product.find({is_blocked : false});
-    const carts = await Cart?.findOne({ userId: req.session.userId }); //
+    let search = req.query.search || ""
+    const items = await Product.find({
+      is_blocked: false,
+      name: { $regex: '^' + search, $options: "i" }
+    });
+  
+   
+    const carts = await Cart?.findOne({ userId }); //
     let count = 0;
     let wishListStrin = [];
     if(req.session.user){
@@ -116,7 +122,7 @@ exports.home = async (req, res) => {
    
      
    
- console.log(wishListStrin);
+
  res.render("home", { user: req.session.user, items, count,wishListStrin  });
   } catch (error) {
     console.log(error.message);

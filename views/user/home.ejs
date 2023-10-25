@@ -336,11 +336,12 @@
                 </div><!-- End .row -->
             </div><!-- End .filter-area-wrapper -->
         </div><!-- End #product-filter-area.widget-filter-area -->
-        
+        <h1 class="text-center p-5">NEW ARRIVAL</h1>
         <div class="products-container" data-layout="fitRows">
+          
 
             <% items.forEach(function(item) { %>
-        
+        <div id="product-list">
             <div class="product-item furniture col-6 col-md-4 col-lg-3">
                 <div class="product product-4">
                     <div class="product-media">
@@ -375,6 +376,7 @@
                     </div><!-- End .product-body -->
                 </div><!-- End .product -->
             </div><!-- End .product-item -->
+        </div>
 
            <% });%>
             
@@ -388,16 +390,8 @@
     </div><!-- End .container -->
 
     <div class="more-container d-flex justify-content-center mt-0 mt-7">
-        <!-- <a href="category.html" class="btn btn-outline-dark-3 btn-more"><span>more products</span><i class="la la-refresh"></i></a> -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-          </nav>
+        <a href="category.html" class="btn btn-outline-dark-3 btn-more"><span>more products</span><i class="la la-refresh"></i></a>
+        
     </div><!-- End .more-container -->
     
 </main><!-- End .main -->
@@ -419,5 +413,8 @@
             }
         })
     }
+    
+
+    
 </script>
     <%- include("../layouts/user/userFooter.ejs")-%>

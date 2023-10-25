@@ -23,7 +23,7 @@ userRoute.post("/confirm", userController.otpConfirm);
 userRoute.post('/resend',userController.resendOtp)
 userRoute.get("/signout", userController.signout);
 userRoute.get("/productdetails", userController.productDetails);
-userRoute.post('/search',productController.searchProduct)
+// userRoute.post('/search',productController.searchProduct)
 userRoute.get("/shop", userController.shop);
 userRoute.post('/changepassword',userController.changePassword);
 
