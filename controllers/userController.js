@@ -11,7 +11,6 @@ require("dotenv").config();
 
 
 let otp = 0; // Variable to store a random number
-let emailOne;
 const smtpConfig = {
   service: "Gmail", // Your email service provider
   auth: {
@@ -21,15 +20,6 @@ const smtpConfig = {
   },
 };
 
-// Function to securely hash a password using bcrypt
-const securePassword = async (password) => {
-  try {
-    const passwordHash = await bcrypt.hash(password, 10);
-    return passwordHash;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 const transporter = nodemailer.createTransport(smtpConfig);
 
@@ -107,7 +97,7 @@ exports.home = async (req, res) => {
     if(req.session.user){
       const wishlist = await Wishlist.findOne({user : req.session.userId});
    
-      wishlist.products.map((ele)=>{
+      wishlist?.products.map((ele)=>{
           wishListStrin.push(ele.productId)
       })
       if(carts){
@@ -180,7 +170,7 @@ exports.otpConfirm = async (req, res) => {
 
        }else{
         res.json({success : false})
-          res.render('otp',)
+          res.render('otp',{email : req.session.email})
        }
 
 

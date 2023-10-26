@@ -67,7 +67,7 @@
         <div class="card-header p-5">
           <h5 class="mb-2">OTP VERIFICATION</h5>
           <div>
-            <small>code has been sent to ******1258</small>
+            <small>code has been sent to <%=email?email : "email"%></small>
           </div>
         </div>
         <div
@@ -118,6 +118,13 @@
 
     <script>
       $(document).ready(function () {
+        // Automatically select the next input field after one character is entered
+        $("input[type='text']").on("input", function () {
+          if (this.value.length === 1) {
+            $(this).next("input[type='text']").focus();
+          }
+        });
+
         $("#verifyButton").click(function () {
           const first = $('input[name="first"]').val();
           const second = $('input[name="second"]').val();
