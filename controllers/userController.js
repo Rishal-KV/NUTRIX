@@ -123,7 +123,7 @@ exports.home = async (req, res) => {
 exports.verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-console.log("he");
+// console.log("he");
     const userData = await User.findOne({ email: email });
 
     if (userData) {
