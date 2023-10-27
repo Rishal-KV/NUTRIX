@@ -301,19 +301,75 @@ res.redirect('/admin/ordermanagement')
 }
 
 exports.salesReport = async(req, res) =>{
-  try {
-    const sales = await Order.find({status : "delivered"}).populate('user')
-    res.render('salesreport',{admin : req.session.admin,sales})
-  } catch (error) {
-    console.log(error.message);
+
+
+    try {
+      const orderData = await Order.aggregate([
+        { $unwind: "$products" },
+        { $match: { status: "delivered" } },
+        { $sort: { date: -1 } },
+        {
+          $lookup: {
+            from: "products",
+            let: { productId: { $toObjectId: "$products.productId" } },
+            pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+            as: "products.productDetails",
+          },
+        },
+        {
+          $addFields: {
+            "products.productDetails": {
+              $arrayElemAt: ["$products.productDetails", 0],
+            },
+          },
+        },
+      ]);
+      // console.log(orderData);
+   res.render('salesreport',{orderData});
+  }catch(error){
+console.log(error.message);
   }
 }
 
-
-exports.Sorting = async(req, res) =>{
+exports.Sorting = async (req, res) => {
   try {
-       
+    const duration = parseInt(req.query.id);
+    const currentDate = new Date();
+    const startDate = new Date(currentDate - duration * 24 * 60 * 60 * 1000);
+
+    const orderData = await Order.aggregate([
+      {
+        $unwind: "$products",
+      },
+      {
+        $match: {
+          status: "delivered",
+          date: { $gte: startDate, $lt: currentDate },
+        },
+      },
+      {
+        $sort: { date: -1 },
+      },
+      {
+        $lookup: {
+          from: "products",
+          let: { productId: { $toObjectId: "$products.productId" } },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+          as: "products.productDetails",
+        },
+      },
+      {
+        $addFields: {
+          "products.productDetails": {
+            $arrayElemAt: ["$products.productDetails", 0],
+          },
+        },
+      },
+    ]);
+console.log(orderData);
+    res.render('salesReport', { orderData });
   } catch (error) {
     console.log(error.message);
+
   }
-}
+};

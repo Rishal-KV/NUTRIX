@@ -1,67 +1,105 @@
 
+
+
 <%-include("../layouts/admin/sideBar.ejs")-%>
 <%-include("../layouts/admin/adminHeader.ejs")-%>
+<div class="main-panel">
+  <div class="content-wrapper">
 
 
- 
-<div class="col-lg-10 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
+   
+    <div class="page-header">
+      <h3 class="page-title" > NURTIX Sales Report </h3>
       
-        <div class="dropdown mt-5">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Filter
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" onclick="filter(1)">Action</a>
-              <a class="dropdown-item" onclick="filter(7)">Another action</a>
-              <a class="dropdown-item"  onclick="filter(365)">Something else here</a>
-            </div>
-          </div>
-        <div class="table-responsive mt-3 ">
-          <table class="table table-dark text-white" >
-            <thead >
-              <tr>
-                <th  class="text-white">#</th>
-                <th  class="text-white">Order ID</th>
-                <th  class="text-white">Date</th>
-                <th class="text-white">Customer Name</th>
-                <th class="text-white">Total</th>
-              </tr>
-              <%sales.forEach((val,index)=>{%>
-              <tr>
-              
-                <td><%=index+1%></td>
-                <td><%=val.uniqueId%></td>
-                
-                <td><%= new Date(val.date).toDateString() %></td>
-                <td><%=val.userName%></td>
-                <td><%=val.totalAmount%></td>
-            
-                
-           
-                  
-                 
-              </tr>  
-              <%})%>  
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuOutlineButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Filter </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
+          <h6 class="dropdown-header">Report Sorting</h6>
+          
+          <a class="dropdown-item" href="/admin/sort?id=1">Daily</a>
+          <a class="dropdown-item" href="/admin/sort?id=7">Weekly</a>
+          <a class="dropdown-item" href="/admin/sort?id=30">Monthly</a>
+          <a class="dropdown-item" href="/admin/sort?id=365">Yearly</a>
+          
+        </div>
+      </div>
 
-            </thead>
-            </tbody>
-          </table>
+
+    </div>
+    <div class="page-header">
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuOutlineButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Report Download </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
+         
+          
+          <a class="dropdown-item" href="/admin/reportDown/<%= 1 %>/excel">Excel Format</a>
+          <a class="dropdown-item" href="/admin/reportDown/<%= 7 %>/pdf">Pdf Format</a>
+         
+          
+        </div>
+      </div>
+      
+    
+      
+    </div>
+    <div class="col-lg-13 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">NUTRIX Sales Report Table</h4>
+          
+          </p>
+          <div class="table-responsive ">
+            <table class="table ">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  
+                  <th>Order Id</th>
+                  <th>Products</th>
+                  <th>Qty</th>
+                  <th>Date</th>
+                  
+                  <th>Customer</th>
+                  <th>Total Amount</th>
+              
+                </tr>
+              </thead>
+              <tbody>
+              
+                <%orderData.forEach((val,ind)=>{%>
+                  <tr>
+                    <td><%=ind+1%></td>
+                    <td><%=val.uniqueId%></td>
+                    <td><%=val.products.productDetails.name%></td>
+                    <td><%=val.products.count%></td>
+                 
+                      <% const date = new Date(val.date); %>
+                      <% const day = date.getDate(); %>
+                      <% const month = date.toLocaleString('default', { month: 'long' }); %>
+                      <% const year = date.getFullYear(); %>
+                      <td><%= day %> <%= month %> <%= year %></td>
+                
+          <td><%=val.userName%></td>
+                     
+                      <td><%=val.totalAmount%></td>
+                      
+                      
+                      
+                    
+                  </tr>
+                <%})%>
+                
+                
+                           
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
+    
+    
+    
   </div>
-  <script>
-    function filter(values){
-            const id = values
-        $.ajax({
-            url : `/admin/sort?id=${id}`,
-            type : "GET",
-
-        })
-    }
-  </script>
-
-
-<%-include("../layouts/admin/adminFooter.ejs")-%>
+  <%-include("../layouts/admin/adminFooter.ejs")-%>
+ 
