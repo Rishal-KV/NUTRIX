@@ -7,6 +7,7 @@ const puppeteer = require('puppeteer')
 const ejs = require('ejs');
 const path = require('path')
 const fs = require('fs')
+const ExcelJS = require('exceljs');
 
 
 //to render login page
@@ -258,7 +259,7 @@ exports.deliver = async(req, res) =>{
            res.redirect('/admin/ordermanagement')
       
     }else if(status.status === "shipped"){
-      console.log("Rer ");
+      // console.log("Rer ");
       const deliverUpdate = await Order.findByIdAndUpdate({_id: statusId},{$set :
         {
          status : "out for delivery"
@@ -416,10 +417,15 @@ exports.Sorting = async (req, res) => {
       },
     ]);
     // console.log(orders);
+    const totalSales = await Order.find({status : "delivered"}).count();
+    const totalOrders = await Order.find().count();
     const date = new Date()
     data = {
       orders,
       date,
+      totalSales,
+      totalOrders
+
     }
 
     if (format === 'pdf') {
@@ -469,7 +475,7 @@ exports.Sorting = async (req, res) => {
       });
 
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      res.setHeader('Content-Disposition', `attachment; filename=${duration}_sales_report.xlsx`);
+      res.setHeader('Content-Disposition', `attachment; filename=sales_report.xlsx`);
       const excelBuffer = await workbook.xlsx.writeBuffer();
       res.end(excelBuffer);
     } else {
