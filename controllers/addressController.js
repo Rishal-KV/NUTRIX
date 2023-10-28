@@ -17,8 +17,15 @@ let count = 0
       if (carts) {
         count = count + carts.products.length;
       }
- 
-      res.render('profile',{user : req.session.user,addressDetails,userDetails,ordersDetails,count})
+      res.render('profile',{
+        user : req.session.user,
+        addressDetails,
+        userDetails,
+        ordersDetails,
+        count,
+        title : "Profile ",
+     
+      })
     } catch (error) {
        console.log(error.message);
     }
@@ -29,10 +36,9 @@ let count = 0
     try {
 
       const carts = await Cart.findOne({ userId: req.session.userId }); 
-      let count = 0;
-      count = count + carts.products.length;
+      carts ? count = carts.products.length : count = 0
       
-      res.render('addAddress',{user : req.session.user,count});
+      res.render('addAddress',{user : req.session.user,count,title : "Profile"});
 
     } catch (error) {
         console.log(error.message);

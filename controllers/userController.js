@@ -59,7 +59,7 @@ exports.register = async (req, res) => {
      req.session.password = req.body.password;
      email = req.body.email
      const userFound = await User.findOne({email : email});
-console.log(otp);
+// console.log(otp);
      if (userFound) {
          res.redirect('/login')
      }else{
@@ -72,7 +72,7 @@ console.log(otp);
           };
           transporter.sendMail(mailOptions);
 
-               res.render("otp");
+               res.render("otp",{title : "Nutrix otp"});
      }
   } catch (error) {
     console.log(error.message);
@@ -113,7 +113,7 @@ exports.home = async (req, res) => {
      
    
 
- res.render("home", { user: req.session.user, items, count,wishListStrin ,title : "Home" });
+ res.render("home", { user: req.session.user, items, count,wishListStrin ,title : "NUTRIX" });
   } catch (error) {
     console.log(error.message);
   }
@@ -170,7 +170,7 @@ exports.otpConfirm = async (req, res) => {
 
        }else{
         res.json({success : false})
-          res.render('otp',{email : req.session.email})
+          res.render('otp',{email : req.session.email} )
        }
         
 
@@ -221,7 +221,7 @@ exports.productDetails = async (req, res) => {
       }
     }
    
-    res.render("product", { pdata,user: req.session.user ,count,similar});
+    res.render("product", { pdata,user: req.session.user ,count,similar,title : "product"});
   } catch (error) {
     console.log(error.message);
   }
@@ -249,16 +249,18 @@ exports.changePassword = async (req, res) =>{
     const  oldPassword = user.password;
 
     const  {currentpassword, newpassword} = req.body;
+    console.log(currentpassword);
+    console.log(newpassword);
     const passwordMatch = await bcrypt.compare(currentpassword, oldPassword);
     if(passwordMatch){
       const newpass = await bcrypt.hash(newpassword,10)
       user.password = newpass
-      console.log("changed");
+      
       const updatedPassword = await user.save(); 
-      res.redirect('/profile')
+          res.json({match : true})
     }else{
-      console.log("password doesnt match");
-      res.redirect('/profile')
+      
+        res.json({match : false})  
     }
   } catch (error) {
     console.log(error.message);

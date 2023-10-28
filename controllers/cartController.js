@@ -122,7 +122,8 @@ exports.getCart = async (req, res) => {
             total: Total,
             count,coupon,couponSelected,
             subTotal,
-            couponApplied
+            couponApplied,
+            title : "Cart"
           });
         } else {
          
@@ -266,6 +267,7 @@ exports.checkout = async (req, res) => {
       Total,
       products,
       count,
+      title : "Checkout"
     });
   } catch (error) {
     console.log(error.message);

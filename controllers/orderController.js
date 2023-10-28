@@ -113,7 +113,7 @@ exports.success = async (req, res) => {
     let count = 0
 
     count = count + cart.products.length
-    res.render('successful', { count, user: req.session.user });
+    res.render('successful', { count, user: req.session.user,title : "Success----------------1-------00" });
   } catch (error) {
     console.log(error.message);
   }

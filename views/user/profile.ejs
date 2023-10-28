@@ -137,24 +137,24 @@
                             </div><!-- .End .tab-pane -->
 
                             <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-                                <form action="/changepassword" method="post">
+                               
                                     
                                     
 
                                     <label>Current password</label>
-                                    <input type="password" class="form-control" name="currentpassword">
+                                    <input type="password" class="form-control" name="currentpassword" id="currentpassword">
 
                                     <label>New password</label>
-                                    <input type="password" class="form-control" name="newpassword">
+                                    <input type="password" class="form-control" name="newpassword" id="newpassword">
 <!-- 
                                     <label>Confirm new password</label>
                                     <input type="password" class="form-control mb-2"> -->
 
-                                    <button type="submit" class="btn btn-outline-primary-2" >
+                                    <button onclick="changepassword()" type="submit" class="btn btn-outline-primary-2" >
                                         <span>SAVE CHANGES</span>
                                         <i class="icon-long-arrow-right"></i>
                                     </button>
-                                </form>
+                               
                             </div><!-- .End .tab-pane -->
                         </div>
                     </div><!-- End .col-lg-9 -->
@@ -197,6 +197,40 @@
       // User clicked "No" or closed the dialog, do nothing
     }
   });
+}
+
+function changepassword(){
+    let currentpassword = document.getElementById('currentpassword').value;
+    let newpassword = document.getElementById('newpassword').value
+    $.ajax({
+        url : "/changepassword",
+        method : "POST",
+        data : {
+            currentpassword : currentpassword,
+            newpassword : newpassword
+        },
+        success : function(response){
+            if(response.match){
+                Swal.fire({
+                title: 'Password changed successfuly',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Redirect to the profile page
+                window.location.href = '/profile'; // Replace 'profile.html' with your actual profile page URL
+            });
+            }else{
+                Swal.fire({
+                title: 'Passwords do not match',
+                text: 'Please make sure both passwords are the same.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(()=>{
+                location.href = "/profile"
+            })
+            }
+        }
+    })
 }
 
 </script>
