@@ -1,5 +1,8 @@
-const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/NUTRIX');
+require('dotenv').config();
+
+const database = require('./config/dbAuth')
+database.dataBaseConnect()
+
 const express = require('express');
 const app = express();
 const session = require('express-session')
@@ -8,7 +11,8 @@ const adminRoute = require('./routes/adminRoute')
 const path = require('path');
 const crypto = require('crypto');
 const nocache = require('nocache');
-require('dotenv').config();
+const { dataBaseConnect } = require('./config/dbAuth');
+
 app.use(express.static(path.join(__dirname, "public")));
 const secretKey = crypto.randomBytes(32).toString('hex')
 
