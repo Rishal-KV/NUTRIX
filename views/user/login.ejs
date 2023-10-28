@@ -106,7 +106,7 @@
                 }
     
                 // Check if email is a valid Gmail address using regex
-                var gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                var gmailRegex = /^[a-zA-Z0-9._%+-]/;
                 if (!gmailRegex.test(email)) {
                     $('#email-error').text('Please enter a valid Gmail address');
                     return false; // Prevent form submission

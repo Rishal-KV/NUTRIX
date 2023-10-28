@@ -154,7 +154,7 @@ exports.otpConfirm = async (req, res) => {
     console.log(userOtp + "  "  + otp);
 
        if(userOtp === otp){
-
+        req.session.user = req.session.username
         req.session.password = await bcrypt.hash(req.session.password,10);
         const newUser = new User({
           username : req.session.username ,
@@ -163,16 +163,16 @@ exports.otpConfirm = async (req, res) => {
           is_admin : 0
         })
         newUser.save()
-
+        let user = await User.findOne({email:req.session.email})
+        req.session.userId = user._id
         res.json({success : true})
-      
-       
+        
 
        }else{
         res.json({success : false})
           res.render('otp',{email : req.session.email})
        }
-
+        
 
   } catch (error) {
     console.log(error.message);
