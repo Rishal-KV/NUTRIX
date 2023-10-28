@@ -336,49 +336,61 @@
                 </div><!-- End .row -->
             </div><!-- End .filter-area-wrapper -->
         </div><!-- End #product-filter-area.widget-filter-area -->
-        <h1 class="text-center p-5">NEW ARRIVAL</h1>
+       
         <div class="products-container" data-layout="fitRows">
           
-
-            <% items.forEach(function(item) { %>
-        <div id="product-list">
-            <div class="product-item furniture col-6 col-md-4 col-lg-3">
-                <div class="product product-4">
-                    <div class="product-media">
-                        
-                            <img src="/product/img/<%=item.image.image1%>" alt="Product image" class="product-image">
-                        
-
-                        <div class="product-action-vertical">
-                            <%if(wishListStrin.includes(item._id.toString())){ %>
-                                <a onclick="Wishlist('<%=item._id%>')"><i class="fa-solid fa-heart"></i></a>
-                          <%  }else{ %>
-                         <a onclick="Wishlist('<%=item._id%>')"> <i class="fa-regular fa-heart"></i></a>  
-                        <%  } %>
-                           
-                        </div><!-- End .product-action -->
-
-                        <div class="product-action">
-                            <a href="/productdetails?id=<%=item._id%>"  class="btn-product " ><span>View Product</span></a>
-                        </div><!-- End .product-action -->
-                    </div><!-- End .product-media -->
-
-                    <div class="product-body">
-                        <h3 class="product-title"><a href=""><%= item.name %></a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            ₹ <%= item.price %>
-                        </div><!-- End .product-price -->
-                        
-
-                        <div class="product-action">
-                            <a href="" class="btn-product btn-cart"><span>product details</span><i class="icon-long-arrow-right"></i></a>
-                        </div><!-- End .product-action -->
-                    </div><!-- End .product-body -->
-                </div><!-- End .product -->
-            </div><!-- End .product-item -->
-        </div>
-
-           <% });%>
+            <% if (items.length==0) { %>
+                 <h6 class="mt-5 d-flex ">no item  found!!!!</h6>
+              <% } else { %>
+                <div class="d-flex justify-content-center pb-5">
+                    <h1>N E W</h1>
+                    <div class="d-flex">
+                    <h1 class="ml-5">A R R I V A L S</h1>
+                </div>
+                   </div>
+                <% items.forEach(function(item) { %>
+                   
+                    <div id="product-list">
+                        <div class="product-item furniture col-6 col-md-4 col-lg-3">
+                            <div class="product product-4">
+                                <div class="product-media">
+                                    
+                                        <img src="/product/img/<%=item.image.image1%>" alt="Product image" class="product-image">
+                                    
+            
+                                    <div class="product-action-vertical">
+                                        <%if(wishListStrin.includes(item._id.toString())){ %>
+                                            <a onclick="Wishlist('<%=item._id%>')"><i class="fa-solid fa-heart"></i></a>
+                                      <%  }else{ %>
+                                     <a onclick="Wishlist('<%=item._id%>')"> <i class="fa-regular fa-heart"></i></a>  
+                                    <%  } %>
+                                       
+                                    </div><!-- End .product-action -->
+            
+                                    <div class="product-action">
+                                        <a href="/productdetails?id=<%=item._id%>"  class="btn-product " ><span>View Product</span></a>
+                                    </div><!-- End .product-action -->
+                                </div><!-- End .product-media -->
+            
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href=""><%= item.name %></a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        ₹ <%= item.price %>
+                                    </div><!-- End .product-price -->
+                                    
+            
+                                    <div class="product-action">
+                                        <a href="" class="btn-product btn-cart"><span>product details</span><i class="icon-long-arrow-right"></i></a>
+                                    </div><!-- End .product-action -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                        </div><!-- End .product-item -->
+                    </div>
+            
+                       <% });%>
+              <% } %>
+              
+           
             
 
 

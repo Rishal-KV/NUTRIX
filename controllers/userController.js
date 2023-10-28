@@ -229,7 +229,12 @@ exports.productDetails = async (req, res) => {
 
 exports.shop = async (req, res) => {
   try {
-    const product = await Product.find({});
+    const search = req.query.search || "";
+    const product = await Product.find({
+      is_blocked: false,
+      name: { $regex: search, $options: "i" }
+    });
+    
     res.render("shop", { product, user: req.session.user });
   } catch (error) {
     console.log(error.message);
