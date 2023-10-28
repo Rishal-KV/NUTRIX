@@ -2,6 +2,7 @@ const adminController = require("../controllers/adminController");
 const categoryController = require('../controllers/categoryController')
 const productController = require('../controllers/productController')
 const couponController = require('../controllers/couponController')
+const bannerController = require('../controllers/bannerController')
 const express = require("express");
 const adminRoute = express();
 const adminAuth = require("../middleware/adminAuth");
@@ -72,4 +73,9 @@ adminRoute.get('/updatecouponstatus',couponController.action);
 adminRoute.get('/salesreport',adminAuth.isLoggedIn,adminController.salesReport)
 adminRoute.get('/sort',adminController.Sorting)
 adminRoute.get('/download',adminController.downloadReport)
+
+
+//==================================banner mgt==================================
+adminRoute.get('/bannermanagement',adminAuth.isLoggedIn, bannerController.banner)
+adminRoute.get('/addbanner',bannerController.addBanner)
 module.exports = adminRoute;

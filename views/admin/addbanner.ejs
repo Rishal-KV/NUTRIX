@@ -1,0 +1,35 @@
+<%-include("../layouts/admin/sideBar.ejs")-%>
+    <%-include("../layouts/admin/adminHeader.ejs")-%>
+
+        <div class="col-8 grid-margin stretch-card mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <form class="forms-sample" action="/admin/addbanner" method="post" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Title</label>
+                            <input type="text" class="form-control" id="exampleInputEmail3" name="name" />
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 rounded-image-preview">
+                            <label for="imageInput4" class="image-label">Image
+                              <div class="rounded-image-preview">
+                                <img id="imagePreview4"
+                                  src="/admin/images/image-placeholder   s"
+                                  alt="Preview" />
+                              </div>
+                              <input name="image" type="file" accept="image/*" id="imageInput4" class="imageInput" >
+                            </label>
+                          </div>
+
+
+                        <div class="mt-2">
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <a href="/admin/bannermanagement"><button class="btn btn-dark" type="button">Cancel</button></a>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <%-include("../layouts/admin/adminFooter.ejs")-%>
