@@ -129,7 +129,7 @@ exports.dashboard = async (req, res) => {
       Total = revenue[0]?.totalAmount || 0;
     }
 
-    res.render("dashboard", { admin: req.session.admin, Total, totalSales, onlinePaymentCount, cashCount, users, monthlySalesArr });
+    res.render("dashboard", { admin: req.session.admin, Total, totalSales, onlinePaymentCount, cashCount, users, monthlySalesArr,title : "dashboard" });
   } catch (error) {
     console.log(error.message);
   }
@@ -173,7 +173,7 @@ exports.user = async (req, res) => {
   try {
     const data = await User.find({ is_admin: 0 });
     console.log(data);
-    res.render("users", { admin: req.session.admin, data });
+    res.render("users", { admin: req.session.admin, data,title : "User details" });
   } catch (error) {
     console.log(error.message);
   }
@@ -213,7 +213,7 @@ exports.editUser = async (req, res) => {
       select: "name",
     });
     const category = await Category.find();
-    res.render("editproduct", { pinfo, admin: req.session.admin,category});
+    res.render("editproduct", { pinfo, admin: req.session.admin,category,title : "User details"});
     // console.log(pinfo);
   } catch (error) {
     console.log(error.message);
@@ -223,7 +223,7 @@ exports.editUser = async (req, res) => {
 exports.orderManagement = async (req, res) =>{
   try {
     const orderData = await Order.find()
-    res.render('order',{orderData,admin : req.session.admin})
+    res.render('order',{orderData,admin : req.session.admin,title : "Order management"})
   } catch (error) {
     console.log(error.message);
   }
@@ -239,7 +239,7 @@ exports.orderDetails = async(req, res) => {
     // const deliveryDetails = JSON.parse(orderDetails.deliveryDetails);
 
 
-    res.render('orderdetails',{orderDetails});
+    res.render('orderdetails',{orderDetails,title : "Order management"});
   } catch (error) {
     console.log(error.message);
   }
@@ -331,7 +331,7 @@ exports.salesReport = async(req, res) =>{
         },
       ]);
       // console.log(orderData);
-   res.render('salesreport',{orderData});
+   res.render('salesreport',{orderData,title : "Sales report"});
   }catch(error){
 console.log(error.message);
   }
@@ -373,7 +373,7 @@ exports.Sorting = async (req, res) => {
       },
     ]);
 // console.log(orderData);
-    res.render('salesReport', { orderData });
+    res.render('salesReport', { orderData,title : "Sales report" });
   } catch (error) {
     console.log(error.message);
 

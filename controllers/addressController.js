@@ -88,14 +88,7 @@ let count = 0
   };
   
 
-// exports.changeAddress = async(req, res) =>{ 
-//   try {
- 
-//     res.render('changeaddress',{user : req.session.user,addressDetails})
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// }
+
 
 
 exports.selectedAddress = async(req, res) =>{

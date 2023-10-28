@@ -5,7 +5,7 @@ exports.coupon = async(req, res) =>{
     try {
         const coupons = await Coupon.find();
         // console.log(coupons);
-        res.render('coupon',{coupons});
+        res.render('coupon',{coupons,title : "Coupon management"});
     } catch (error) {
         console.log(error.message);
     }
@@ -13,7 +13,7 @@ exports.coupon = async(req, res) =>{
 
 exports.addCoupon = async(req, res) =>{
     try {
-        res.render('addcoupon')
+        res.render('addcoupon',{title: "Coupon management"})
     } catch (error) {
         console.log(error.message);
     }

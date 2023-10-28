@@ -3,15 +3,19 @@ const Sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
 
+
+//======================categoryy mgt=======================
 exports.categorymanagement = async (req, res) => {
   try {
     const category = await Category.find({});
-    res.render("category", { category, admin: req.session.admin });
+    res.render("category", { category, admin: req.session.admin,title : "category management" });
   } catch (error) {
     console.log(error.message);
   }
 };
 
+
+//=======================add category ========================
 exports.addcategory = async (req, res) => {
   try {
     const { cat } = req.body;
@@ -33,16 +37,20 @@ exports.addcategory = async (req, res) => {
   }
 };
 
+
+//========================Edit category============================
 exports.editCategory = async (req, res) => {
   try {
     let cId = req.query.id;
     let cinfo = await Category.findById({ _id: cId });
-    res.render("editcategory", { cinfo });
+    res.render("editcategory", { cinfo,title : "Category management"});
   } catch (error) {
     console.log(error.message);
   }
 };
 
+
+//======================update category==============================
 exports.updateCategory = async (req, res) => {
   try {
     const id = req.body.id;
@@ -61,6 +69,7 @@ exports.updateCategory = async (req, res) => {
   }
 };
 
+//======================Block category================
 exports.blockCategory = async (req, res) => {
   try {
     const Id = req.query.id;
@@ -74,6 +83,8 @@ exports.blockCategory = async (req, res) => {
   }
 };
 
+
+//======================Unblock category================
 exports.unblockCategory = async (req, res) => {
   try {
     const Id = req.query.id;

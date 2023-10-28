@@ -11,15 +11,21 @@ adminRoute.set("views", "./views/admin");
 adminRoute.use(express.json());
 adminRoute.use(express.urlencoded({ extended: true }));
 
+
+//==========================admin Auth===========================
 adminRoute.get("/", adminAuth.isLoggedOut, adminController.adminLogin);
 adminRoute.get("/dashboard", adminAuth.isLoggedIn, adminController.dashboard);
 adminRoute.post("/admin_verify", adminController.verifyAdmin);
 adminRoute.get("/logout", adminController.logout);
-adminRoute.get('/users',adminController.user);
+
+//============================user management=======================
+adminRoute.get('/users',adminAuth.isLoggedIn,adminController.user);
 adminRoute.get('/block',adminController.blockUser);
 adminRoute.get('/unblock',adminController.unblockUser);
-adminRoute.get('/productmanagement',productController.productmanagement);
-adminRoute.get('/addproduct',productController.showAddProduct)
+
+//===============================product management==================
+adminRoute.get('/productmanagement',adminAuth.isLoggedIn,productController.productmanagement);
+adminRoute.get('/addproduct',adminAuth.isLoggedIn,productController.showAddProduct)
 adminRoute.post('/addproduct',multer.upload.fields([{name : "image1", maxCount : 1},
 {name : "image2", maxCount : 1},
 {name : "image3", maxCount : 1},
@@ -33,23 +39,37 @@ adminRoute.post('/updateproduct',multer.upload.fields([{name : "image1", maxCoun
 
 ]),productController.updateProduct);
 adminRoute.get('/deleteproduct',productController.deleteProduct)
-adminRoute.get('/categorymanagement',categoryController.categorymanagement)
+
+
+
+//================================category management======================
+adminRoute.get('/categorymanagement',adminAuth.isLoggedIn,categoryController.categorymanagement)
 adminRoute.post('/addcategory',categoryController.addcategory);
 adminRoute.get('/editcategory',categoryController.editCategory);
 adminRoute.post('/updatecategory',categoryController.updateCategory)
 adminRoute.get("/blockcategory",categoryController.blockCategory);
 adminRoute.get('/unblockcategory',categoryController.unblockCategory)
+
+//================================order management==========================
 adminRoute.get('/ordermanagement',adminController.orderManagement)
 adminRoute.get('/viewdetails',adminController.orderDetails)
 adminRoute.get('/updatestatus',adminController.deliver)
 adminRoute.get('/cancel',adminController.cancelOrder)
-adminRoute.get('/couponmanagement', couponController.coupon)
-adminRoute.get('/addcoupon',couponController.addCoupon)
+
+
+
+//=================================coupon management=========================
+adminRoute.get('/couponmanagement', adminAuth.isLoggedIn, couponController.coupon)
+adminRoute.get('/addcoupon',adminAuth.isLoggedIn,couponController.addCoupon)
 adminRoute.post('/addcoupon',couponController.addcouponPost)
 adminRoute.get('/editcoupon',couponController.editcoupon)
 adminRoute.post("/updatecoupon",couponController.updateCoupon)
 adminRoute.get('/updatecouponstatus',couponController.action);
-adminRoute.get('/salesreport',adminController.salesReport)
+
+
+
+//==================================sales report================================
+adminRoute.get('/salesreport',adminAuth.isLoggedIn,adminController.salesReport)
 adminRoute.get('/sort',adminController.Sorting)
 adminRoute.get('/download',adminController.downloadReport)
 module.exports = adminRoute;

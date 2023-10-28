@@ -113,7 +113,7 @@ exports.home = async (req, res) => {
      
    
 
- res.render("home", { user: req.session.user, items, count,wishListStrin  });
+ res.render("home", { user: req.session.user, items, count,wishListStrin ,title : "Home" });
   } catch (error) {
     console.log(error.message);
   }

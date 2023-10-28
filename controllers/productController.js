@@ -5,7 +5,7 @@ exports.productmanagement = async (req, res) => {
   try {
     const product = await Product.find().populate('category')
 
-    res.render("pmanagement", { admin: req.session.admin, product });
+    res.render("pmanagement", { admin: req.session.admin, product,title :"Product management"});
   } catch (error) {
     console.log(error.message);
   }
@@ -15,7 +15,7 @@ exports.showAddProduct = async (req, res) => {
   try {
     const category = await Category.find();
 
-    res.render("addproduct", { category, admin: req.session.admin });
+    res.render("addproduct", { category, admin: req.session.admin,title : "Product management" });
   } catch (error) {}
 };
 
