@@ -119,7 +119,12 @@
                         
                         <a href="/wishlist" class="wishlist-link">
                             <i class="icon-heart-o"></i>
-                                <!-- <span class="wishlist-count">3</span> -->
+                            <% if (user) { %>
+                                <span class="wishlist-count"><%= wishCount %></span>
+                              <% }else{%>
+
+                             <% } %>
+                              
                         </a>
 
                         <div class="dropdown cart-dropdown">

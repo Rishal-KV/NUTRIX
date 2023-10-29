@@ -380,6 +380,14 @@
       title: 'Item Already in Cart',
       text: 'This item is already in your cart.',
     });
+          }else if(response.outofstock){
+            swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Out of stock",
+              showConfirmButton: false,
+              timer: 1500,
+            });
           }
         },
       });

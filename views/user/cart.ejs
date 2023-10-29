@@ -292,6 +292,12 @@
                                     title: "Coupon Expired",
                                     text: "Sorry, the coupon has expired.",
                                 });
+                            }else if(response.applied === false){
+                                Swal.fire({
+                                    icon: "error",
+                                    text: response.message
+                                   
+                                })
                             }
                         }
                     })

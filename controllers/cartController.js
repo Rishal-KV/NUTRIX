@@ -3,6 +3,7 @@ const Product = require("../model/productModel");
 const User = require("../model/userModel");
 const Address = require("../model/addressModel");
 const Coupon = require('../model/couponModel')
+const Wishlist  = require('../model/wishlistModel')
 
 exports.addToCart = async (req, res) => {
   try {
@@ -16,7 +17,7 @@ exports.addToCart = async (req, res) => {
     if (userId === undefined) {
            res.json({login : true})
     }else{
-          if(!cart){
+          if(!cart && product.stock > 0){
                 const cart = new Cart({
                    userId : userId,
                    userName : user.username,
@@ -29,15 +30,16 @@ exports.addToCart = async (req, res) => {
  
                 })
                 const cartAdded =  await cart.save()
+              
           }else{
-                
+                // res.json({})
                 const existingProduct = await cart.products.find(
                       (product) => product.productId.toString() === productId.toString()
                 );
                       
                 if (existingProduct) {
                       res.json({exist : true})
-                }else{
+                }else if(product.stock > 0){
                 const newProduct = {
                       productId : productId,
                       count : 1,
@@ -51,8 +53,13 @@ exports.addToCart = async (req, res) => {
                       { new: true }
                     );
 
-                res.json({success : true})
+             
 
+                res.json({success : true})
+              
+
+                }else{
+                  res.json({outofstock : true})
                 }
           }
     }
@@ -67,6 +74,7 @@ exports.addToCart = async (req, res) => {
 exports.getCart = async (req, res) => {
   try {
     let couponSelected;
+    let wishCount = 0
     const userId = req.session.userId;
     const coupon = await Coupon.find({
       $and: [
@@ -75,18 +83,16 @@ exports.getCart = async (req, res) => {
       ]
     });
     
-      
-        
-      
-    
       // console.log(userId);
       const cartData = await Cart.findOne({ userId: userId }).populate(
         "products.productId"
       );
+      const wishlist = await Wishlist.findOne({user : req.session.userId});
+
       // console.log(cartData);
     
       let count = 0;
-
+       wishlist?wishCount = wishlist.products.length : 0
       if (cartData) {
         const subTotal = cartData.products.reduce((acc, val)=> acc+val.totalPrice,0);
         let Total = cartData.products.reduce((acc, val)=> acc+val.totalPrice,0);
@@ -96,9 +102,9 @@ exports.getCart = async (req, res) => {
         if (couponApplied) {
           Total = Total - couponApplied.maximumDiscount;
           couponSelected = await Coupon.findOne({couponName:cartData?.couponApplied});
-          console.log(couponSelected);
+      
         }
-        count = count + cartData.products.length;
+        count =  cartData.products.length;
         let products = cartData.products;
         if (products.length > 0) {
           // const total = await Cart.aggregate([
@@ -123,7 +129,8 @@ exports.getCart = async (req, res) => {
             count,coupon,couponSelected,
             subTotal,
             couponApplied,
-            title : "Cart"
+            title : "Cart",
+            wishCount
           });
         } else {
          
@@ -132,6 +139,8 @@ exports.getCart = async (req, res) => {
             products: undefined,
             total: 0,
             count,
+            title : "Cart",
+            wishCount
           });
         }
       } else {
@@ -141,7 +150,8 @@ exports.getCart = async (req, res) => {
           user: req.session.user,
           products: undefined,
           total: 0,
-          count,
+          count,title : "Cart",
+          wishCount
         });
       }
   
@@ -229,11 +239,14 @@ exports.removeCart = async (req, res) => {
 
 exports.checkout = async (req, res) => {
   try {
+    let wishCount = 0
     const userId = req.session.userId;
     const addressDetails = await Address.findOne({ user: userId });
-    const carts = await Cart.findOne({ userId: req.session.userId }); //
+    const carts = await Cart.findOne({ userId: req.session.userId }); 
+    const wishlist = await Wishlist.findOne({user : req.session.userId})
     let count = 0;
-    count = count + carts.products.length;
+    count =  carts.products.length;
+    wishlist?wishCount = wishlist.products.length : 0
     let Total = carts.products.reduce((acc, val)=> acc+val.totalPrice,0);
         
     let couponApplied = await Coupon.findOne({couponName : carts?.couponApplied})
@@ -267,7 +280,8 @@ exports.checkout = async (req, res) => {
       Total,
       products,
       count,
-      title : "Checkout"
+      title : "Checkout",
+      wishCount
     });
   } catch (error) {
     console.log(error.message);

@@ -5,7 +5,8 @@ const Order = require("../model/orderModel");
 const Product = require('../model/productModel');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const Coupon = require('../model/couponModel')
+const Coupon = require('../model/couponModel');
+const Wishlist = require('../model/wishlistModel')
 
 var instance = new Razorpay({
   key_id: process.env.RAZ_ID,
@@ -108,12 +109,14 @@ exports.orderPlace = async (req, res) => {
 
 exports.success = async (req, res) => {
   try {
-
+    let wishCount
+    const wishlist = await Wishlist.findOne({user : req.session.userId});
+    wishlist ? wishCount = wishlist.products.length : 0
     const cart = await Cart.findOne({ userId: req.session.userId })
     let count = 0
-
-    count = count + cart.products.length
-    res.render('successful', { count, user: req.session.user,title : "Success----------------1-------00" });
+  
+    count =  cart.products.length
+    res.render('successful', { count, user: req.session.user,title : "Success" });
   } catch (error) {
     console.log(error.message);
   }

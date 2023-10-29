@@ -1,10 +1,12 @@
 
 const Wishlist = require("../model/wishlistModel");
 const Cart = require("../model/cartModel");
+const wishlist = require('../model/wishlistModel')
 
 
 exports.Wishlist = async (req, res) => {
   try {
+    let wishCount;
     const userId = req.session.userId;
     const cart = await Cart.findOne({ userId: req.session.userId });
     let count = 0;
@@ -13,8 +15,8 @@ exports.Wishlist = async (req, res) => {
     const wishlistItem = await Wishlist.findOne({ user: userId }).populate(
       "products.productId"
     );
-
-    res.render("wishlist", { user: req.session.user, count, wishlistItem });
+     wishlistItem ? wishCount = wishlistItem.products.length : 0
+    res.render("wishlist", { user: req.session.user, count, wishlistItem,title : "Wishlist",wishCount });
   } catch (error) {
     console.log(error.message);
   }

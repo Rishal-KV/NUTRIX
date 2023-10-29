@@ -13,7 +13,7 @@ exports.coupon = async(req, res) =>{
 
 exports.addCoupon = async(req, res) =>{
     try {
-        res.render('addcoupon',{title: "Coupon management"})
+        res.render('addcoupon',{title: "Coupon management",title : "Coupon management"})
     } catch (error) {
         console.log(error.message);
     }
@@ -42,7 +42,7 @@ exports.editcoupon = async(req, res) =>{
     try {
         const couponId = req.query.id
         const coupon = await Coupon.findOne({_id : couponId})
-         res.render("editcoupon",{coupon})
+         res.render("editcoupon",{coupon,title : "Coupon management"})
 
     } catch (error) {
         
@@ -98,7 +98,7 @@ exports.applyCoupon = async(req, res) =>{
       const user = req.session.userId;
     
      const couponName = req.body.coupon
-     console.log(couponName);
+    //  console.log(couponName);
      const cart = await Cart.findOne({userId : user}).populate('products.productId');
      const Total = cart.products.reduce((acc, val)=> acc+val.totalPrice,0);
     //  console.log(Total);
@@ -113,8 +113,8 @@ exports.applyCoupon = async(req, res) =>{
         res.json({expired : true})
     }else if(couponFound && usedCoupon.length == 0){
         
-        if(Total < couponFound.minimumPurchase){
-            // res.json({})
+        if(Total < couponFound.minimumPurchase){ 
+            res.json({applied : false, message : "minimum purchase doesnt match"})
            
         }else{
             // console.log("heyyy");

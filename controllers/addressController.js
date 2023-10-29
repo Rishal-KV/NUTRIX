@@ -2,20 +2,23 @@ const Address = require('../model/addressModel');
 const User = require('../model/userModel');
 const Order = require('../model/orderModel')
 const Cart = require('../model/cartModel');
-
+const Wishlist = require('../model/wishlistModel')
 
 exports.profile = async (req, res) =>{
     try {
+      let wishCount = 0
       const  userId = req.session.userId
       const userDetails = await User.findOne({_id : userId})
       const addressDetails = await Address.findOne({user : userId})
       const ordersDetails = await Order.find({user : userId}).populate("products.productId").sort({ date: -1 });
-      console.log(ordersDetails);
+      // console.log(ordersDetails);
+      const wishlist = await Wishlist.findOne({user : req.session.userId})
       const carts = await Cart.findOne({ userId: req.session.userId }); 
+      wishlist?wishCount = wishlist.products.length : 0
        
 let count = 0
       if (carts) {
-        count = count + carts.products.length;
+        count = carts.products.length;
       }
       res.render('profile',{
         user : req.session.user,
@@ -24,6 +27,7 @@ let count = 0
         ordersDetails,
         count,
         title : "Profile ",
+        wishCount
      
       })
     } catch (error) {

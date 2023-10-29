@@ -93,10 +93,12 @@ exports.home = async (req, res) => {
    
     const carts = await Cart?.findOne({ userId }); //
     let count = 0;
+    let wishCount = 0
     let wishListStrin = [];
+
     if(req.session.user){
       const wishlist = await Wishlist.findOne({user : req.session.userId});
-   
+       wishlist?wishCount = wishlist.products.length : 0
       wishlist?.products.map((ele)=>{
           wishListStrin.push(ele.productId)
       })
@@ -113,7 +115,7 @@ exports.home = async (req, res) => {
      
    
 
- res.render("home", { user: req.session.user, items, count,wishListStrin ,title : "NUTRIX" });
+ res.render("home", { user: req.session.user, items, count,wishListStrin ,title : "NUTRIX",wishCount });
   } catch (error) {
     console.log(error.message);
   }
@@ -206,11 +208,13 @@ exports.signout = async (req, res) => {
 
 exports.productDetails = async (req, res) => {
   try {
+    let wishCount = 0
     const id = req.query.id;
     const pdata = await Product.findById({ _id: id });
+    const wishlist = await Wishlist.findOne({user : req.session.userId })
     const  similar = await Product.find({category : pdata.category}).populate('category');
-    console.log(similar);
-
+    // console.log(similar);
+    wishlist?wishCount = wishlist.products.length : 0
     const cart = await Cart.findOne({userId : req.session.userId})
     let count = 0
     if(req.session.user){
@@ -221,7 +225,7 @@ exports.productDetails = async (req, res) => {
       }
     }
    
-    res.render("product", { pdata,user: req.session.user ,count,similar,title : "product"});
+    res.render("product", { pdata,user: req.session.user ,count,similar,title : "product",wishCount});
   } catch (error) {
     console.log(error.message);
   }
@@ -229,13 +233,14 @@ exports.productDetails = async (req, res) => {
 
 exports.shop = async (req, res) => {
   try {
+    
     const search = req.query.search || "";
     const product = await Product.find({
       is_blocked: false,
       name: { $regex: search, $options: "i" }
-    });
-    
-    res.render("shop", { product, user: req.session.user });
+    }); 
+
+    res.render("shop", { product, user: req.session.user ,title:"Shop"});
   } catch (error) {
     console.log(error.message);
   }
