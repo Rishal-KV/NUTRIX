@@ -135,6 +135,10 @@ exports.verifyLogin = async (req, res) => {
         req.session.user = userData.username;
         return res.redirect("/home");
       } else {
+        if(userData.blocked){
+          req.app.locals.passError = "Account is blocked";
+          return res.redirect("/login");
+        }
         req.app.locals.passError = "Incorrect password. Please try again.";
         return res.redirect("/login");
       }

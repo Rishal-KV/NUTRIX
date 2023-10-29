@@ -59,7 +59,7 @@
                                     <label for="register-password-2">Password *</label>
                                     <input type="password" class="form-control" id="register-password-2" name="password" required>
                                 </div><!-- End .form-group -->
-
+                                <p style="color: red;"><%=locals.passError?passError : " "%></p>
                                 <div class="form-footer">
                                     <button type="submit" class="btn btn-outline-primary-2">
                                         <span>Login</span>
@@ -71,7 +71,7 @@
                             </form>
                             <div class="form-choice">
                                 <p >New to here ? <a href="/register">register</a></p>
-                                <p style="color: red;"  class="text-center"><%=locals.passError?passError : " "%></p>
+                                
                                 <div class="row">
                                   
                                 
