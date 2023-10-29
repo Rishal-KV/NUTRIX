@@ -28,7 +28,7 @@ const transporter = nodemailer.createTransport(smtpConfig);
 
 exports.signup = async (req, res) =>{
   try {
-    res.render('signup')
+    res.render('signup',{title : "Register",user : req.session.user})
   } catch (error) {
       console.log(error.message);
   }
@@ -39,7 +39,7 @@ exports.signIn = async (req, res) => {
     var passError =  req.app.locals.passError
     req.app.locals.passError = " "
 
-    res.render("login", {user : req.session.user,passError});
+    res.render("login", {user : req.session.user,passError,title : "Login"});
   } catch (error) {
     console.log(error.message);
   }

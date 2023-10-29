@@ -1,157 +1,85 @@
-
-<!DOCTYPE html>
-<html lang="en">
-
-
-<!-- molla/index-11.html  22 Nov 2019 09:58:23 GMT -->
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>NUTRIX</title>
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Molla - Bootstrap eCommerce Template">
-    <meta name="author" content="p-themes">
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
-    <link rel="manifest" href="assets/images/icons/site.html">
-    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="Molla">
-    <meta name="application-name" content="Molla">
-    <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="user/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
-    <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="user/css/bootstrap.min.css">
-    <link rel="stylesheet" href="user/css/plugins/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="user/css/plugins/magnific-popup/magnific-popup.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://kit.fontawesome.com/7255b4bf58.js" crossorigin="anonymous"></script>
-
-
-    <!-- Main CSS File -->
-    <link rel="stylesheet" href="user/css/style.css">
-    <!-- <link rel="stylesheet" href="user/css/plugins/nouislider/nouislider.css"> -->
-    <link rel="stylesheet" href="user/css/demos/demo-11.css">
-</head>
-
+<%- include("../layouts/user/userHeader.ejs")-%>
 <body>
-
-    <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-image: url('user/images/NUTRIX/NUTRIX-BANNER.jpg')">
-        <div class="container">
-            <div class="form-box">
-                <div class="form-tab">
-                    <h1 class="text-center">Sign Up</h1>
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-                            <form action="/user_registration" method="post">
-                                <div class="form-group">
-                                    <label for="register-email-2">Name*</label>
-                                    <input type="name" class="form-control" id="register-name-2" name="name" required>
-                                </div><!-- End .form-group -->
-                                <div class="form-group">
-                                    <label for="register-email-2">Your email address *</label>
-                                    <input type="email" class="form-control" id="register-email-2" name="email" required>
-                                </div><!-- End .form-group -->
-
-                                <div class="form-group">
-                                    <label for="register-password-2">Password *</label>
-                                    <input type="password" class="form-control" id="register-password-2" name="password" required>
-                                </div><!-- End .form-group -->
-
-                                
-                                <div class="form-group">
-                                    <label for="register-password-2">Confirm Password*</label>
-                                    <input type="password" class="form-control" id="register-confirm-password-2" name="confirm-password" required>
-                                </div><!-- End .form-group -->
-
-                                <div class="form-footer">
-                                    <button type="submit" class="btn btn-outline-primary-2">
-                                        <span>Sign up</span>
-                                        <i class="icon-long-arrow-right"></i>
-                                    </button>
-
-                                   
-                                </div><!-- End .form-footer -->
-                            </form>
-                            <div class="form-choice">
-                               
-                                <p style="color: red;"  class="text-center"><%=locals.passError?passError : " "%></p>
-                                <div class="row">
-                                  
-                                
-                                </div><!-- End .row -->
-                            </div><!-- End .form-choice -->
-                        </div><!-- .End .tab-pane -->
-
-                        
-                    </div><!-- End .tab-content -->
-                </div><!-- End .form-tab -->
-            </div><!-- End .form-box -->
-        </div><!-- End .container -->
-    </div><!-- End .login-page section-bg -->
+    <div class="register-photo">
+        <div class="form-container">
+            <div class="image-holder"></div>
+            <form method="post" action="">
+                <h2 class="text-center"><strong>Create</strong> an account.</h2>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="name" id="name" placeholder="Name" required>
+                    <p id="name-error" class="text-danger"></p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" id="email" placeholder="Email" required>
+                    <p id="email-error" class="text-danger"></p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+                    <p id="password-error" class="text-danger"></p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password-repeat" id="password-repeat" placeholder="Confirm password" required>
+                    <p id="password-repeat-error" class="text-danger"></p>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+                </div>
+                <a href="/login" class="already">You already have an account? Login here.</a>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function () {
             $('form').submit(function (event) {
                 event.preventDefault(); // Prevent the default form submission
-    
+
                 // Get the values entered by the user
-                var name = $('#register-name-2').val();
-                var email = $('#register-email-2').val();
-                var password = $('#register-password-2').val();
-                var confirmPassword = $('#register-confirm-password-2').val();
-    
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var confirmPassword = $('#password-repeat').val();
+
                 // Reset validation messages
-                $('.error-message').text('');
-    
+                $('.text-danger').text('');
+
                 // Perform validation checks
-    
-                // Check if name is empty or shorter than 3 characters
+                var isValid = true;
+
                 if (name.trim() === '' || name.length < 3) {
                     $('#name-error').text('Name must be at least 3 characters long');
-                    return false; // Prevent form submission
+                    isValid = false;
                 }
-    
-                // Check if email is empty and in the correct format
+
                 if (email.trim() === '' || !isValidEmail(email)) {
                     $('#email-error').text('Please enter a valid email address');
-                    return false; // Prevent form submission
+                    isValid = false;
                 }
-    
-                // Check if password is empty and has a minimum length of 5 characters
+
                 if (password.trim() === '' || password.length < 5) {
-                    $('#password-error').text('Password must be at least 5 characters long');
-                    return false; // Prevent form submission
+                    $('#password-error').text(' must be at least 5 characters long');
+                    isValid = false;
                 }
-    
-                // Check if confirmPassword matches password
+
                 if (confirmPassword !== password) {
-                    $('#confirm-password-error').text('Passwords do not match');
-                    // Display a SweetAlert error message
-                    Swal.fire({
-                        icon: 'error',
-                        title: '',
-                        text: 'Passwords do not match'
-                    });
-                    return false; // Prevent form submission
+                    $('#password-repeat-error').text('Passwords do not match');
+                    isValid = false;
                 }
-    
-                // If all validation checks pass, you can submit the form
-                this.submit();
+
+                if (isValid) {
+                    // If all validation checks pass, you can submit the form
+                    this.submit();
+                }
             });
         });
-    
+
         // Function to validate email format using regex
         function isValidEmail(email) {
             var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             return emailRegex.test(email);
         }
     </script>
-    
+    <%- include("../layouts/user/userFooter.ejs")-%>
 </body>
-</html>
