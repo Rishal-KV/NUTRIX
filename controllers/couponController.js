@@ -104,10 +104,16 @@ exports.applyCoupon = async(req, res) =>{
     //  console.log(Total);
     const couponFound = await Coupon.findOne({couponName});
     // console.log(couponFound);
-    const currentDate = new Date()
 
+    const currentDate = new Date()
+ 
     const usedCoupon = await Coupon.find({couponName, usedUsers: { $in: [user] } })
-   
+   if (couponFound===null) {
+    // console.log(couponFound);
+ req.app.locals.couperr = "Enter a valid coupoun name"
+
+   return res.redirect('/getcart')
+   }else{
     if(couponFound.lastDate < currentDate){
         
         res.json({expired : true})
@@ -123,6 +129,8 @@ exports.applyCoupon = async(req, res) =>{
             res.json({applied : true,message:'Coupon applied'})
         }
     }
+   }
+ 
 
     } catch (error) {
 

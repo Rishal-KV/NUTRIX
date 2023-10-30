@@ -69,7 +69,7 @@
         <div class="row">
           <div class="col-8 col-sm-12 col-xl-8  my-auto">
             <div class="d-flex d-sm-block d-md-flex align-items-center">
-              <h2 class="mb-0">₹<%=totalSales%></h2>
+              <h2 class="mb-0"><%=totalSales%></h2>
             
             </div>
             
@@ -145,39 +145,52 @@ var total = online + cash;
 var onlinePercentage = (online / total) * 100;
 var cashPercentage = (cash / total) * 100;
   
+  
 var options = {
-          series: [onlinePercentage,cashPercentage],
-          chart: {
-          width: 380,
-          type: 'pie',
-        },
-        labels: ['Online', 'Cash'],
-        legend :{
-          show : false
-        },
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: 'bottom'
+    series: [onlinePercentage, cashPercentage],
+    chart: {
+        width: 380,
+        type: 'pie',
+    },
+    labels: ['Online', 'Cash'],
+    plotOptions: {
+        pie: {
+            dataLabels: {
+                offset: 0 // Set the offset to 0 to position the labels outside the pie chart
             }
-          }
-        }]
-        };
+        }
+    },
+    legend: {
+        show: true, // Display the legend
+        labels: {
+            colors: 'white' // Set the legend text color to white
+        }
+    },
+    responsive: [
+        {
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    ]
+};
 
-        var chart = new ApexCharts(document.querySelector("#piechart"), options);
-        chart.render();
-      
+var chart = new ApexCharts(document.querySelector("#piechart"), options);
+chart.render();
+
       
         
       
       
         var options = {
           series: [  {
-          name: 'Free Cash Flow',
+          name: 'Monthly sales',
           data: [jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec]
         }],
           chart: {
@@ -204,8 +217,14 @@ var options = {
         },
         yaxis: {
           title: {
-            text: '$ (thousands)'
-          }
+            text: 'Monthly Sales',
+            style : {
+              color : "white",
+              fontSize : "25px"
+            }
+          },
+          
+        
         },
         fill: {
           opacity: 1
@@ -213,7 +232,7 @@ var options = {
         tooltip: {
           y: {
             formatter: function (val) {
-              return "$ " + val + " thousands"
+              return   val 
             }
           }
         }

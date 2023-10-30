@@ -30,6 +30,7 @@ exports.orderPlace = async (req, res) => {
     let status = paymentMethods === "COD" ? "placed" : "pending";
 
 
+   
 
     const selectedAddress = await Address.findOne(
       { user: userId, 'address._id': addressId },
@@ -109,14 +110,14 @@ exports.orderPlace = async (req, res) => {
 
 exports.success = async (req, res) => {
   try {
-    let wishCount
+    let wishCount = 0
     const wishlist = await Wishlist.findOne({user : req.session.userId});
     wishlist ? wishCount = wishlist.products.length : 0
     const cart = await Cart.findOne({ userId: req.session.userId })
     let count = 0
   
     count =  cart.products.length
-    res.render('successful', { count, user: req.session.user,title : "Success" });
+    res.render('successful', { count, user: req.session.user,title : "Success",wishCount });
   } catch (error) {
     console.log(error.message);
   }

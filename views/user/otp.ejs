@@ -36,7 +36,7 @@
 
     .card-header {
       color: white !important;
-      background: #3366ff !important;
+      background:  #c96 !important;
       text-align: center;
     }
 
@@ -51,15 +51,16 @@
 
     .form-control:focus {
       box-shadow: none !important;
-      border: 1px solid #3366ff !important;
+      border: 1px solid  #c96 !important;
     }
 
     .verify-btn {
       border-radius: 20px !important;
       border: 0px !important;
       width: 140px;
-      background-color: #3366ff !important;
+      background-color:  #c96 !important;
     }
+
   </style>
   <body>
     <div class="container d-flex justify-content-center align-items-center">
@@ -106,7 +107,7 @@
         </div>
         <small>
           didn't get the otp
-          <a href="/resend" class="text-decoration-none">Resend</a>
+          <a  onclick="resend()" class="text-decoration-none">Resend</a>
         </small>
         <div class="mt-3 mb-5">
           <button id="verifyButton" class="btn btn-success px-4 verify-btn">
@@ -159,6 +160,14 @@
           });
         });
       });
+
+      function resend(){
+        console.log("hey");
+        $.ajax({
+          url : "/resend",
+          method : "POST"
+        })
+      }
     </script>
   </body>
 </html>

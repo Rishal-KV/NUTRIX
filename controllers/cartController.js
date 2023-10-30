@@ -74,6 +74,10 @@ exports.addToCart = async (req, res) => {
 exports.getCart = async (req, res) => {
   try {
     let couponSelected;
+
+    const couperr = req.app.locals.couperr
+    req.app.locals.couperr = ""
+    console.log(couperr);
     let wishCount = 0
     const userId = req.session.userId;
     const coupon = await Coupon.find({
@@ -130,7 +134,8 @@ exports.getCart = async (req, res) => {
             subTotal,
             couponApplied,
             title : "Cart",
-            wishCount
+            wishCount,
+            couperr
           });
         } else {
          
@@ -140,7 +145,8 @@ exports.getCart = async (req, res) => {
             total: 0,
             count,
             title : "Cart",
-            wishCount
+            wishCount,
+            couperr
           });
         }
       } else {
@@ -151,7 +157,8 @@ exports.getCart = async (req, res) => {
           products: undefined,
           total: 0,
           count,title : "Cart",
-          wishCount
+          wishCount,
+          couperr
         });
       }
   

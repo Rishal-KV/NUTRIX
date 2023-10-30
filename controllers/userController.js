@@ -59,7 +59,7 @@ exports.register = async (req, res) => {
      req.session.password = req.body.password;
      email = req.body.email
      const userFound = await User.findOne({email : email});
-// console.log(otp);
+console.log(otp);
      if (userFound) {
          res.redirect('/login')
      }else{
@@ -187,7 +187,9 @@ exports.otpConfirm = async (req, res) => {
 
 exports.resendOtp = async(req, res) =>{
   try {
+   
     otp = Math.floor(Math.random() * 90000) + 10000;
+    console.log(otp + " resend otp");
     const mailOptions = {
       from: process.env.GMAIL, // Your email address
       to: req.session.email, // User's email address
