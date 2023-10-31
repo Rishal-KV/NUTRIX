@@ -175,13 +175,12 @@
                                         <%category.forEach((cat,index)=>{%>
                                             <div class="filter-item">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="category-<%=index+1%>" name="category" value="<%=cat._id%>">
+                                                    <input type="checkbox" class="custom-control-input" id="category-<%=index+1%>" name="category" value="<%=cat._id%>" <% if (selectedCategory.includes(cat._id)) { %> checked <% } %>>
                                                     <label class="custom-control-label" for="category-<%=index+1%>"><%=cat.name%></label>
                                                 </div><!-- End .custom-checkbox -->
                                             </div><!-- End .filter-item -->
                                         <%})%>
-                                            
-                                          
+                        
                                            
     
                                            
@@ -216,39 +215,32 @@
                                         
 
                                         <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-3">
-                                                <label class="custom-control-label" for="brand-3">All</label>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="Price1" value="100-999" name="price">
+                                                <label class="custom-control-label" for="Price1">₹100-₹999</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-4">
-                                                <label class="custom-control-label" for="brand-4">New Balance</label>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="Price2" value="1000-4999" name="price">
+                                                <label class="custom-control-label" for="Price2">₹1000-₹4999</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
                                         <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-5">
-                                                <label class="custom-control-label" for="brand-5">UGG</label>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="Price3" value="5000-7999" name="price">
+                                                <label class="custom-control-label" for="Price3">₹5000-₹7999</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
 
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-6">
-                                                <label class="custom-control-label" for="brand-6">F&F</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
 
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-7">
-                                                <label class="custom-control-label" for="brand-7">Nike</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .filter-item -->
+                                        
+
+                                        
+
+                                        
 
                                     </div><!-- End .filter-items -->
                                 </div><!-- End .widget-body -->

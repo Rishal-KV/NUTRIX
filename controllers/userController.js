@@ -240,39 +240,45 @@ exports.productDetails = async (req, res) => {
   }
 };
 
+
+
 exports.shop = async (req, res) => {
   try {
     let wishCount = 0
     let count = 0
+    let catToFront
     const search = req.query.search || "";
 
     let selectedCategory = req.query.category || ''
+    const selectedPriceRanges = req.query.price || '';
+    // console.log(selectedPriceRanges);
+    const [minPrice, maxPrice] = selectedPriceRanges.split('-');
+  
+    const priceRangeQuery = minPrice && maxPrice ? {
+      price: { $gte: minPrice, $lte: maxPrice }
+    } : {};
+    
+    selectedCategory == '' ? catToFront =  '' : catToFront = selectedCategory
+
     if (selectedCategory == '') {
       let cat = await Category.find({}, { _id: 1 })
       selectedCategory = cat.map((val) => val._id.toString());
     }
-
+// console.log(catToFront);
     const category = await Category.find();
     const wishlist = await Wishlist.findOne({ user: req.session.userId });
     const cart = await Cart.findOne({ userId: req.session.userId });
     cart ? count = cart.products.length : 0
     wishlist ? wishCount = wishlist.products.length : 0
-    // console.log(selectedCategory);
-
-
-
-
-
-
-
     const product = await Product.find({
       is_blocked: false,
       name: { $regex: search, $options: "i" },
-      category: { $in: selectedCategory }
+      category: { $in: selectedCategory },
+      ...priceRangeQuery
     })
 
 
-    res.render("shop", { product, user: req.session.user, title: "Shop", wishCount, count, category });
+    res.render("shop", { product, user: req.session.user, title: "Shop", wishCount, count, category,selectedCategory });
   } catch (error) {
     console.log(error.message);
   }
