@@ -5,6 +5,7 @@ const Product = require("../model/productModel");
 const Cart = require("../model/cartModel");
 const Wishlist = require('../model/wishlistModel');
 const Banner = require('../model/bannerModel');
+const Category = require('../model/catergoryModel');
 
 
 require("dotenv").config();
@@ -27,20 +28,20 @@ const transporter = nodemailer.createTransport(smtpConfig);
 // Generate a random OTP
 
 
-exports.signup = async (req, res) =>{
+exports.signup = async (req, res) => {
   try {
-    res.render('signup',{title : "Register",user : req.session.user})
+    res.render('signup', { title: "Register", user: req.session.user })
   } catch (error) {
-      console.log(error.message);
+    console.log(error.message);
   }
 }
 // Sign-in page rendering
 exports.signIn = async (req, res) => {
   try {
-    var passError =  req.app.locals.passError
+    var passError = req.app.locals.passError
     req.app.locals.passError = " "
 
-    res.render("login", {user : req.session.user,passError,title : "Login"});
+    res.render("login", { user: req.session.user, passError, title: "Login" });
   } catch (error) {
     console.log(error.message);
   }
@@ -51,30 +52,30 @@ exports.signIn = async (req, res) => {
 // Registration page rendering
 exports.register = async (req, res) => {
   try {
-    
+
     // Generate a random 4-digit OTP
     otp = Math.floor(Math.random() * 90000) + 10000;
 
-     req.session.username = req.body.name;
-     req.session.email = req.body.email;
-     req.session.password = req.body.password;
-     email = req.body.email
-     const userFound = await User.findOne({email : email});
-console.log(otp);
-     if (userFound) {
-         res.redirect('/login')
-     }else{
-           // Send an email with the OTP
-           const mailOptions = {
-            from: process.env.GMAIL, // Your email address
-            to: req.session.email, // User's email address
-            subject: "Your OTP for Sign-Up",
-            html: ` <h1>Your OTP is: ${otp}</h1>`,
-          };
-          transporter.sendMail(mailOptions);
+    req.session.username = req.body.name;
+    req.session.email = req.body.email;
+    req.session.password = req.body.password;
+    email = req.body.email
+    const userFound = await User.findOne({ email: email });
+    console.log(otp);
+    if (userFound) {
+      res.redirect('/login')
+    } else {
+      // Send an email with the OTP
+      const mailOptions = {
+        from: process.env.GMAIL, // Your email address
+        to: req.session.email, // User's email address
+        subject: "Your OTP for Sign-Up",
+        html: ` <h1>Your OTP is: ${otp}</h1>`,
+      };
+      transporter.sendMail(mailOptions);
 
-               res.render("otp",{title : "Nutrix otp"});
-     }
+      res.render("otp", { title: "Nutrix otp" });
+    }
   } catch (error) {
     console.log(error.message);
   }
@@ -84,39 +85,40 @@ console.log(otp);
 // Render the home page
 exports.home = async (req, res) => {
   try {
-    const banner = await Banner.find();    const userId = req.session.userId
+    const banner = await Banner.find();
+    const userId = req.session.userId
     let search = req.query.search || ""
     const items = await Product.find({
       is_blocked: false,
       name: { $regex: '^' + search, $options: "i" }
     });
-  
-   
+
+
     const carts = await Cart?.findOne({ userId }); //
     let count = 0;
     let wishCount = 0
     let wishListStrin = [];
 
-    if(req.session.user){
-      const wishlist = await Wishlist.findOne({user : req.session.userId});
-       wishlist?wishCount = wishlist.products.length : 0
-      wishlist?.products.map((ele)=>{
-          wishListStrin.push(ele.productId)
+    if (req.session.user) {
+      const wishlist = await Wishlist.findOne({ user: req.session.userId });
+      wishlist ? wishCount = wishlist.products.length : 0
+      wishlist?.products.map((ele) => {
+        wishListStrin.push(ele.productId)
       })
-      if(carts){
+      if (carts) {
         count = count + carts.products.length;
-      }else{
+      } else {
         count = 0
       }
-     
-    }else{
-       count = 0
-    }
-   
-     
-   
 
- res.render("home", { user: req.session.user, items, count,wishListStrin ,title : "NUTRIX",wishCount,banner });
+    } else {
+      count = 0
+    }
+
+
+
+
+    res.render("home", { user: req.session.user, items, count, wishListStrin, title: "NUTRIX", wishCount, banner });
   } catch (error) {
     console.log(error.message);
   }
@@ -126,7 +128,7 @@ exports.home = async (req, res) => {
 exports.verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-// console.log("he");
+    // console.log("he");
     const userData = await User.findOne({ email: email });
 
     if (userData) {
@@ -136,7 +138,7 @@ exports.verifyLogin = async (req, res) => {
         req.session.user = userData.username;
         return res.redirect("/home");
       } else {
-        if(userData.blocked){
+        if (userData.blocked) {
           req.app.locals.passError = "Account is blocked";
           return res.redirect("/login");
         }
@@ -155,40 +157,40 @@ exports.verifyLogin = async (req, res) => {
 // Confirm OTP and redirect to home page if correct, or back to OTP confirmation page if incorrect
 exports.otpConfirm = async (req, res) => {
   try {
-    const {first, second, third, fourth,fifth} = req.body;
+    const { first, second, third, fourth, fifth } = req.body;
 
-    const  userOtp = parseInt(`${first}${second}${third}${fourth}${fifth}`, 10);
-    console.log(userOtp + "  "  + otp);
+    const userOtp = parseInt(`${first}${second}${third}${fourth}${fifth}`, 10);
+    console.log(userOtp + "  " + otp);
 
-       if(userOtp === otp){
-        req.session.user = req.session.username
-        req.session.password = await bcrypt.hash(req.session.password,10);
-        const newUser = new User({
-          username : req.session.username ,
-          email : req.session.email,
-          password : req.session.password,
-          is_admin : 0
-        })
-        newUser.save()
-        let user = await User.findOne({email:req.session.email})
-        req.session.userId = user._id
-        res.json({success : true})
-        
+    if (userOtp === otp) {
+      req.session.user = req.session.username
+      req.session.password = await bcrypt.hash(req.session.password, 10);
+      const newUser = new User({
+        username: req.session.username,
+        email: req.session.email,
+        password: req.session.password,
+        is_admin: 0
+      })
+      newUser.save()
+      let user = await User.findOne({ email: req.session.email })
+      req.session.userId = user._id
+      res.json({ success: true })
 
-       }else{
-        res.json({success : false})
-          res.render('otp',{email : req.session.email} )
-       }
-        
+
+    } else {
+      res.json({ success: false })
+      res.render('otp', { email: req.session.email })
+    }
+
 
   } catch (error) {
     console.log(error.message);
   }
 };
 
-exports.resendOtp = async(req, res) =>{
+exports.resendOtp = async (req, res) => {
   try {
-   
+
     otp = Math.floor(Math.random() * 90000) + 10000;
     console.log(otp + " resend otp");
     const mailOptions = {
@@ -198,7 +200,7 @@ exports.resendOtp = async(req, res) =>{
       html: ` <h1>Your OTP is: ${otp}</h1>`,
     };
     transporter.sendMail(mailOptions);
-    res.render('otp',{msg : 'otp has been sent'})
+    res.render('otp', { msg: 'otp has been sent' })
   } catch (error) {
     console.log(error.message);
   }
@@ -218,21 +220,21 @@ exports.productDetails = async (req, res) => {
     let wishCount = 0
     const id = req.query.id;
     const pdata = await Product.findById({ _id: id });
-    const wishlist = await Wishlist.findOne({user : req.session.userId })
-    const  similar = await Product.find({category : pdata.category}).populate('category');
+    const wishlist = await Wishlist.findOne({ user: req.session.userId })
+    const similar = await Product.find({ category: pdata.category }).populate('category');
     // console.log(similar);
-    wishlist?wishCount = wishlist.products.length : 0
-    const cart = await Cart.findOne({userId : req.session.userId})
+    wishlist ? wishCount = wishlist.products.length : 0
+    const cart = await Cart.findOne({ userId: req.session.userId })
     let count = 0
-    if(req.session.user){
-      if(cart?.products?.length > 0){
+    if (req.session.user) {
+      if (cart?.products?.length > 0) {
         count = count + cart.products.length
-      }else{
+      } else {
         count = 0
       }
     }
-   
-    res.render("product", { pdata,user: req.session.user ,count,similar,title : "product",wishCount});
+
+    res.render("product", { pdata, user: req.session.user, count, similar, title: "product", wishCount });
   } catch (error) {
     console.log(error.message);
   }
@@ -240,41 +242,66 @@ exports.productDetails = async (req, res) => {
 
 exports.shop = async (req, res) => {
   try {
-    
+    let wishCount = 0
+    let count = 0
     const search = req.query.search || "";
+
+    let selectedCategory = req.query.category || ''
+    if (selectedCategory == '') {
+      let cat = await Category.find({}, { _id: 1 })
+      selectedCategory = cat.map((val) => val._id.toString());
+    }
+
+    const category = await Category.find();
+    const wishlist = await Wishlist.findOne({ user: req.session.userId });
+    const cart = await Cart.findOne({ userId: req.session.userId });
+    cart ? count = cart.products.length : 0
+    wishlist ? wishCount = wishlist.products.length : 0
+    // console.log(selectedCategory);
+
+
+
+
+
+
+
     const product = await Product.find({
       is_blocked: false,
-      name: { $regex: search, $options: "i" }
-    }); 
+      name: { $regex: search, $options: "i" },
+      category: { $in: selectedCategory }
+    })
 
-    res.render("shop", { product, user: req.session.user ,title:"Shop"});
+
+    res.render("shop", { product, user: req.session.user, title: "Shop", wishCount, count, category });
   } catch (error) {
     console.log(error.message);
   }
 };
 
 
-exports.changePassword = async (req, res) =>{
+exports.changePassword = async (req, res) => {
   try {
     const userId = req.session.userId
-    const user = await User.findOne({_id : userId});
-    const  oldPassword = user.password;
+    const user = await User.findOne({ _id: userId });
+    const oldPassword = user.password;
 
-    const  {currentpassword, newpassword} = req.body;
-    console.log(currentpassword);
-    console.log(newpassword);
+    const { currentpassword, newpassword } = req.body;
+    // console.log(currentpassword);
+    // console.log(newpassword);
     const passwordMatch = await bcrypt.compare(currentpassword, oldPassword);
-    if(passwordMatch){
-      const newpass = await bcrypt.hash(newpassword,10)
+    if (passwordMatch) {
+      const newpass = await bcrypt.hash(newpassword, 10)
       user.password = newpass
-      
-      const updatedPassword = await user.save(); 
-          res.json({match : true})
-    }else{
-      
-        res.json({match : false})  
+
+      const updatedPassword = await user.save();
+      res.json({ match: true })
+    } else {
+
+      res.json({ match: false })
     }
   } catch (error) {
     console.log(error.message);
   }
 }
+
+
