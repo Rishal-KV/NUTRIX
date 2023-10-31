@@ -141,7 +141,7 @@ exports.verifyAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const adminData = await User.findOne({ email: email });
-    console.log(adminData);
+    // console.log(adminData);
     if (adminData) {
       const passMatch = await bcrypt.compare(password, adminData.password);
       if (passMatch && adminData.is_admin == 1) {

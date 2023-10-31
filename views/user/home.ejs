@@ -13,26 +13,21 @@
                         }
                     }
                 }'>
-                <div class="intro-slide" style="background-image: url(user/images/NUTRIX/MB-2.webp);">
-                    <div class="container intro-content">
-                     
-
+                <%banner.forEach((val) => { %>
+                  
+                    <div class="intro-slide" style="background-image: url('/banner/img/<%=val.image%>');">
+                      <div class="container intro-content">
                         <a href="category.html" class="btn btn-outline-primary-2">
-                            <span>DISCOVER MORE</span>
-                            <i class="icon-long-arrow-right"></i>
+                          <span>DISCOVER MORE</span>
+                          <i class="icon-long-arrow-right"></i>
                         </a>
-                    </div><!-- End .intro-content -->
-                </div><!-- End .intro-slide -->
+                      </div><!-- End .intro-content -->
+                    </div><!-- End .intro-slide -->
+                  <% }); %>
+                  
+               
 
-                <div class="intro-slide" style="background-image: url(user/images/NUTRIX/MB.webp);">
-                    <div class="container intro-content">
-                        
-                        <a href="category.html" class="btn btn-outline-primary-2 min-width-sm">
-                            <span>SHOP NOW</span>
-                            <i class="icon-long-arrow-right"></i>
-                        </a>
-                    </div><!-- End .intro-content -->
-                </div><!-- End .intro-slide -->
+
             </div><!-- End .intro-slider owl-carousel owl-simple -->
 
             <span class="slider-loader"></span><!-- End .slider-loader -->

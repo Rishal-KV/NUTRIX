@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 const Product = require("../model/productModel");
 const Cart = require("../model/cartModel");
 const Wishlist = require('../model/wishlistModel');
+const Banner = require('../model/bannerModel');
 
 
 require("dotenv").config();
@@ -83,7 +84,7 @@ console.log(otp);
 // Render the home page
 exports.home = async (req, res) => {
   try {
-    const userId = req.session.userId
+    const banner = await Banner.find();    const userId = req.session.userId
     let search = req.query.search || ""
     const items = await Product.find({
       is_blocked: false,
@@ -115,7 +116,7 @@ exports.home = async (req, res) => {
      
    
 
- res.render("home", { user: req.session.user, items, count,wishListStrin ,title : "NUTRIX",wishCount });
+ res.render("home", { user: req.session.user, items, count,wishListStrin ,title : "NUTRIX",wishCount,banner });
   } catch (error) {
     console.log(error.message);
   }

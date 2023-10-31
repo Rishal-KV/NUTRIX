@@ -6,7 +6,7 @@ const wishlist = require('../model/wishlistModel')
 
 exports.Wishlist = async (req, res) => {
   try {
-    let wishCount;
+    let wishCount = 0;
     const userId = req.session.userId;
     const cart = await Cart.findOne({ userId: req.session.userId });
     let count = 0;

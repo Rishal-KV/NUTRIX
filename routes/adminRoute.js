@@ -78,4 +78,8 @@ adminRoute.get('/download',adminController.downloadReport)
 //==================================banner mgt==================================
 adminRoute.get('/bannermanagement',adminAuth.isLoggedIn, bannerController.banner)
 adminRoute.get('/addbanner',bannerController.addBanner)
+adminRoute.post('/addbanner',multer.bannerUpload.single('image'),bannerController.uploadBanner)
+adminRoute.get('/banneraction',bannerController.action)
+adminRoute.get('/editbanner',bannerController.editBanner)
+adminRoute.post('/updatebanner',multer.bannerUpload.single('image'),bannerController.update)
 module.exports = adminRoute;
