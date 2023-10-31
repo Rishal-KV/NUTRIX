@@ -247,6 +247,7 @@ exports.shop = async (req, res) => {
     let wishCount = 0
     let count = 0
     let catToFront
+    let sort = req.query.id
     const search = req.query.search || "";
 
     let selectedCategory = req.query.category || ''
@@ -275,7 +276,7 @@ exports.shop = async (req, res) => {
       name: { $regex: search, $options: "i" },
       category: { $in: selectedCategory },
       ...priceRangeQuery
-    })
+    }).sort({price : sort})
 
 
     res.render("shop", { product, user: req.session.user, title: "Shop", wishCount, count, category,selectedCategory });
