@@ -89,8 +89,8 @@ exports.orderPlace = async (req, res) => {
           }
         })
         // console.log(result);
-        const cart = await Cart.findOne({ userId });
-        const stockReduce = cart.products
+      
+        const stockReduce = cartData.products
 
         for (let i = 0; i < stockReduce.length; i++) {
 
@@ -121,7 +121,7 @@ exports.orderPlace = async (req, res) => {
       let Total = await Order.findOne({_id : orderId})
      
       // console.log(orderId);
-      await Cart.findOneAndUpdate({ userId }, { $set: { products: [], couponApplied: '' } });
+      
       instance.orders.create({
         amount: Total.totalAmount * 100,
         currency: "INR",
@@ -214,8 +214,7 @@ exports.verifypayment = async (req, res) => {
     const details = req.body;
     
     const userId = req.session.userId
-    const cart = await Cart.findOne({ userId });
-
+    const cartData = await Cart.findOne({ userId: userId })
 
     const hmac = crypto.createHmac("sha256", process.env.RAZ_KEY);
     hmac.update(
@@ -225,13 +224,12 @@ exports.verifypayment = async (req, res) => {
     );
     const hmacValue = hmac.digest("hex");
     if (hmacValue === details.payment.razorpay_signature) {
-
-      const stockReduce = cart.products
-      console.log(stockReduce[0]);
+                
+      const stockReduce =  cartData.products
+    
       for (let i = 0; i < stockReduce.length; i++) {
-
+       
         const productId = stockReduce[i].productId;
-
         const updatedProduct = await Product.findByIdAndUpdate(
           productId,
           {
@@ -259,6 +257,6 @@ exports.verifypayment = async (req, res) => {
     }
 
   } catch (error) {
-
+console.log(error.message);
   }
 }
