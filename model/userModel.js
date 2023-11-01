@@ -25,7 +25,22 @@ const userSchema = new mongoose.Schema({
   blocked :{
     type  : Boolean,
     default :  false
-  }
+  },
+  wallet :{
+    type : Number,
+    default : 0,
+  },
+  walletHistory :[{
+    date :{
+      type : Date
+    },
+    amount :{
+      type : Number
+    },
+    status :{
+      type : String
+    }
+  }]
 });
 
 // Create the User model

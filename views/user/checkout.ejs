@@ -1,238 +1,276 @@
 <%- include("../layouts/user/userHeader.ejs")-%>
-<main class="main">
-    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-        <div class="container">
-            <h1 class="page-title">Checkout<span>Shop</span></h1>
-        </div><!-- End .container -->
-    </div><!-- End .page-header -->
-    <nav aria-label="breadcrumb" class="breadcrumb-nav">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-            </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
-
-    <div class="page-content">
-        <div class="checkout">
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
             <div class="container">
-                
-                <form action="/placeorder" method="post">
-                    <div class="row">
-                        <div class="col-lg-9">
-                           
-                                
-                               
-                            <div class="page-content">
-                                <div class="checkout">
-                                    <div class="container">
-                                        <h3 class="card-title p-3">Billing Address</h3><!-- End .card-title -->
-                                        <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
+                <h1 class="page-title">Checkout<span>Shop</span></h1>
+            </div><!-- End .container -->
+        </div><!-- End .page-header -->
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="page-content">
+            <div class="checkout">
+                <div class="container">
+
+                    <form action="/placeorder" method="post">
+                        <div class="row">
+                            <div class="col-lg-9">
+
+
+
+                                <div class="page-content">
+                                    <div class="checkout">
+                                        <div class="container">
+                                            <h3 class="card-title p-3">Billing Address</h3><!-- End .card-title -->
+                                            <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
                                             <div class="row">
                                                 <div class="col-lg-9">
-                                                   
+
                                                     <%addressDetails?.address.forEach(function(add) { %>
-                                                    <div class="col-lg-9">
-                                                        <div class="card card-dashboard">
-                                                            <div class="card-body">
-                                                                <input id="selectedAddress" type="radio" name="selectedAddress" value="<%= add._id %> " <%= (add._id ===  addressDetails.address[0]._id) ? 'checked' : ''%>>
-                                                               
-                                                               
-                                                             
-                                                                <p><%=add.fullname%><br>
-                                                                    <%=add.mobile%><br>
-                                                                   <%=add.email%><br>
-                                                                    <%=add.houseName%>,<%=add.city%>, <%=add.state%>,<%=add.country%>,<%=add.pin%><br>
-                                                                    <a href="/editaddress?id=<%=add._id%>">Edit Address<i class="icon-edit"></i></a></p>
-                                                                    
-                                                            </div><!-- End .card-body -->
-                                                            
-                                                        </div><!-- End .card-dashboard -->
-                                                    </div><!-- End .col-lg-6 -->
-                                                    <% }); %>
-                                                    <!-- <a href="/addAddress" class="p-4">Add address<i class="icon-edit"></i></a></p> -->
-                                                   
-                      
+                                                        <div class="col-lg-9">
+                                                            <div class="card card-dashboard">
+                                                                <div class="card-body">
+                                                                    <input id="selectedAddress" type="radio"
+                                                                        name="selectedAddress" value="<%= add._id %> "
+                                                                        <%=(add._id===addressDetails.address[0]._id)
+                                                                        ? 'checked' : '' %>>
 
-                                        
-                                                   
+
+
+                                                                    <p>
+                                                                        <%=add.fullname%><br>
+                                                                            <%=add.mobile%><br>
+                                                                                <%=add.email%><br>
+                                                                                    <%=add.houseName%>,<%=add.city%>,
+                                                                                            <%=add.state%>,
+                                                                                                <%=add.country%>,
+                                                                                                    <%=add.pin%><br>
+                                                                                                        <a
+                                                                                                            href="/editaddress?id=<%=add._id%>">Edit
+                                                                                                            Address<i
+                                                                                                                class="icon-edit"></i></a>
+                                                                    </p>
+
+                                                                </div><!-- End .card-body -->
+
+                                                            </div><!-- End .card-dashboard -->
+                                                        </div><!-- End .col-lg-6 -->
+                                                        <% }); %>
+                                                            <!-- <a href="/addAddress" class="p-4">Add address<i class="icon-edit"></i></a></p> -->
+
+
+
+
+
                                                 </div><!-- End .col-lg-9 -->
-                                             
+
                                             </div><!-- End .row -->
-                                        <!-- </form> -->
-                                    </div><!-- End .container -->
-                                </div><!-- End .checkout -->
-                            </div><!-- End .page-content -->
-                    
-                               
-                            
-                           
-                        </div><!-- End .col-lg-9 -->
-                        <aside class="col-lg-3">
-                            <div class="summary">
-                                <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+                                            <!-- </form> -->
+                                        </div><!-- End .container -->
+                                    </div><!-- End .checkout -->
+                                </div><!-- End .page-content -->
 
-                                <table class="table table-summary">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
 
-                                    <tbody>
-                                        <%products.forEach(function(item) { %>
-                                     
-                                        <tr>
-                                            <td><a href="#"><%=item.productId.name%></a></td>
-                                            <td><%=item.totalPrice%></td>
-                                        </tr>
-                                        <% }); %>
-                                        
-                                        <tr>
-                                            <td>Shipping:</td>
-                                            <td>Free shipping</td>
-                                        </tr>
-                                        <tr class="summary-total">
-                                            <td>Total:</td>
-                                            <td>₹<%=Total%></td>
-                                            <input id="total" type="hidden" value="<%=Total%>" name="Total">
-                                        </tr><!-- End .summary-total -->
-                                    </tbody>
-                                </table><!-- End .table table-summary -->
 
-                                <div class="accordion-summary" id="accordion-payment">
-                                    <div class="card">
-                                        <div class="card-header" id="heading-1">
-                                            
-                                        </div><!-- End .card-header -->
-                                        
-                                    </div><!-- End .card -->
 
-                                    <div class="card">
-                                        <div class="card-header" id="heading-2">
-                                            
-                                        </div><!-- End .card-header -->
-                                        
-                                    </div><!-- End .card -->
+                            </div><!-- End .col-lg-9 -->
+                            <aside class="col-lg-3">
+                                <div class="summary">
+                                    <h3 class="summary-title ">Your Order</h3><!-- End .summary-title -->
 
-                                    <div class="card">
-                                        <div class="card-header" id="heading-3">
-                                            <h2 class="card-title">
-                                               
-                                                <input  type="radio" value="COD" name="payment"  checked >  Cash on delivery<br>
-                                                <input  type="radio" value="online payment" name="payment" class="mt-1" >  Online payment
-                                            </h2>       
-                                        </div><!-- End .card-header -->
-                                        
-                                    </div><!-- End .card -->
+                                    <table class="table table-summary mt-2">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
 
-                                    <div class="card">
-                                        
-                                        
-                                    </div><!-- End .card -->
+                                        <tbody>
+                                            <%products.forEach(function(item) { %>
 
-                                    <div class="card">
-                                        
-                                        
-                                    </div><!-- End .card -->
-                                </div><!-- End .accordion -->
+                                                <tr>
+                                                    <td><a href="#">
+                                                            <%=item.productId.name%>
+                                                        </a></td>
+                                                    <td>
+                                                        <%=item.totalPrice%>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
 
-                               
-                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block   " onclick="order('<%products.productId%>')">
-                                    <span class="btn-text">Place Order</span>
-                                    <span class="btn-hover-text">Proceed to Checkout</span>
-                                </button>
-                            </div><!-- End .summary -->
-                        </aside><!-- End .col-lg-3 -->
-                    </div><!-- End .row -->
-                <!-- </form> -->
-            </div><!-- End .container -->
-        </div><!-- End .checkout -->
-    </div><!-- End .page-content -->
-</main><!-- End .main -->
+                                                    <tr>
+                                                        <td>Shipping:</td>
+                                                        <td>Free shipping</td>
+                                                    </tr>
+                                                    <tr class="summary-total">
+                                                        <td>Total:</td>
+                                                        <td>₹<%=Total%>
+                                                        </td>
+                                                        <input id="total" type="hidden" value="<%=Total%>" name="Total">
+                                                    </tr><!-- End .summary-total -->
+                                        </tbody>
+                                    </table><!-- End .table table-summary -->
 
-<script>
-    function order(pId){
-        let sA = document.getElementById('selectedAddress');
-        let selectedAddress = sA.value
-        let payment = $("input[name=payment]:checked").val();
-        let total = document.getElementById('total').value
-        console.log(total);
+                                    <div class="accordion-summary" id="accordion-payment">
+                                        <div class="card">
+                                            <div class="card-header" id="heading-1">
 
-        console.log(payment);
-        let productId = pId
-        $.ajax({
-            url : "/placeorder",
-            type : "POST",
-            data : {
-      productId : productId,
-      selectedAddress : selectedAddress,
-      payment : payment,
-     Total : total
-            },
-            success : function(response){
-                if(response.cash){
-                    console.log(response.cash);
-                    location.href ='/ordersuccess'
-                }else{
-                  
-                         razorpay(response.order)
+                                            </div><!-- End .card-header -->
+
+                                        </div><!-- End .card -->
+
+                                        <div class="card">
+                                            <div class="card-header" id="heading-2">
+
+                                            </div><!-- End .card-header -->
+
+                                        </div><!-- End .card -->
+
+                                        <div class="card">
+                                            <div class="card-header" id="heading-3">
+                                                <h2 class="card-title">
+
+                                                    <input type="radio" value="COD" name="payment" checked> Cash on
+                                                    delivery<br>
+                                                    <input type="radio" value="online payment" name="payment"
+                                                        class="mt-1"> Online payment<br>
+                                                    <input type="radio" value="wallet" name="payment" class="mt-1">
+                                                    wallet
+                                                </h2>
+                                            </div><!-- End .card-header -->
+
+                                        </div><!-- End .card -->
+
+                                        <div class="card">
+
+
+                                        </div><!-- End .card -->
+
+                                        <div class="card">
+
+
+                                        </div><!-- End .card -->
+                                    </div><!-- End .accordion -->
+
+
+                                    <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block   "
+                                        onclick="order('<%products.productId%>')">
+                                        <span class="btn-text">Place Order</span>
+                                        <span class="btn-hover-text">Proceed to Checkout</span>
+                                    </button>
+                                </div><!-- End .summary -->
+                            </aside><!-- End .col-lg-3 -->
+                        </div><!-- End .row -->
+                        <!-- </form> -->
+                </div><!-- End .container -->
+            </div><!-- End .checkout -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+
+    <script>
+        function order(pId) {
+            let sA = document.getElementById('selectedAddress');
+            let selectedAddress = sA.value
+            let payment = $("input[name=payment]:checked").val();
+            let total = document.getElementById('total').value
+            console.log(total);
+
+            console.log(payment);
+            let productId = pId
+            $.ajax({
+                url: "/placeorder",
+                type: "POST",
+                data: {
+                    productId: productId,
+                    selectedAddress: selectedAddress,
+                    payment: payment,
+                    Total: total
+                },
+                success: function (response) {
+                    if (response.cash) {
+                        console.log(response.cash);
+                        location.href = '/ordersuccess'
+
+                    } else if (response.balance) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Insufficient Balance',
+                            text: 'You do not have enough balance to make this withdrawal.',
+                            showCancelButton: true,
+                            confirmButtonText: 'OK',
+                            cancelButtonText: 'Cancel',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Redirect to the checkout or payment window
+                                window.location.href = '/checkout'; // Replace with your checkout page URL
+                            }
+                        });
+                    } else if (response.wallet) {
+                        window.location.href = '/ordersuccess';
+                    } else {
+                        razorpay(response.order)
+                        
+                    }
                 }
-            }
-        })
-    }
+            })
+        }
 
-    function razorpay(order){
-       console.log(order);
-        var options = {
-    "key": "rzp_test_WNBjJNLwpHznQ3", 
-    "amount": order.amount, 
-    "currency": "INR",
-    "name": "NUTRIX",
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id": order.id,
-     handler : function (response){
-             verifyPayment(response, order)
-     },
-    "prefill": {
-        "name": "NUTRIX", 
-        "email": "nutrix@gmail.com",
-        "contact": "9000090000" 
-    },
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
-    }
-};
-var rzp1 = new Razorpay(options);
-    rzp1.open();
+        function razorpay(order) {
+            console.log(order);
+            var options = {
+                "key": "rzp_test_WNBjJNLwpHznQ3",
+                "amount": order.amount,
+                "currency": "INR",
+                "name": "NUTRIX",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": order.id,
+                handler: function (response) {
+                    verifyPayment(response, order)
+                },
+                "prefill": {
+                    "name": "NUTRIX",
+                    "email": "nutrix@gmail.com",
+                    "contact": "9000090000"
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
 
-    }
+        }
 
-    function verifyPayment(payment, order){
-       
-        const amount = document.getElementById('total').value
-        $.ajax({
-            url : '/verifypayment',
-            type : 'POST',
-            data : {
-              payment : payment,
-              amount : amount,
-              order : order
-            },
-            success : function(response){
-                console.log(response);
-                  if (response.payment) {
-                    location.href = "/ordersuccess"
-                  }         
-            }
-        })
-          }
-</script>
-<%- include("../layouts/user/userFooter.ejs")-%>
+        function verifyPayment(payment, order) {
+         
+            const amount = document.getElementById('total').value
+            $.ajax({
+                url: '/verifypayment',
+                type: 'POST',
+                data: {
+                    payment: payment,
+                    amount: amount,
+                    order: order
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.payment) {
+                        window.location.href = "/ordersuccess"
+                    }
+                }
+            })
+        }
+    </script>
+    <%- include("../layouts/user/userFooter.ejs")-%>

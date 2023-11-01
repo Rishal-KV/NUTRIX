@@ -9,14 +9,18 @@ exports.profile = async (req, res) =>{
       let wishCount = 0
       const  userId = req.session.userId
       const userDetails = await User.findOne({_id : userId})
+      let wallHistory = userDetails.walletHistory.reverse()
+      // console.log(wallHistory);
+
       const addressDetails = await Address.findOne({user : userId})
       const ordersDetails = await Order.find({user : userId}).populate("products.productId").sort({ date: -1 });
       // console.log(ordersDetails);
       const wishlist = await Wishlist.findOne({user : req.session.userId})
       const carts = await Cart.findOne({ userId: req.session.userId }); 
       wishlist?wishCount = wishlist.products.length : 0
-       
+      
 let count = 0
+
       if (carts) {
         count = carts.products.length;
       }
@@ -25,6 +29,7 @@ let count = 0
         addressDetails,
         userDetails,
         ordersDetails,
+        wallHistory,
         count,
         title : "Profile ",
         wishCount

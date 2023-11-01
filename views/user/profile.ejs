@@ -17,6 +17,10 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet" role="tab" aria-controls="tab-wallet" aria-selected="false">Wallet</a>
+                            </li>
                             
                             <li class="nav-item">
                                 <a class="nav-link" href="/signout">Sign Out</a>
@@ -156,6 +160,50 @@
                                     </button>
                                
                             </div><!-- .End .tab-pane -->
+
+                            <div class="tab-pane fade" id="tab-wallet" role="tabpanel" aria-labelledby="tab-wallet-link">
+
+                                <div class="wallet-container">
+                                    <h1 class="balance">Balance: ₹<%=userDetails.wallet%></h1>
+                                    <table style=" width: 100%;
+                                    border-collapse: collapse;
+                                    margin-top: 20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="  border: 1px solid #ccc;
+                                                padding: 10px;
+                                                text-align: center;">Date</th>
+                                                <th style="  border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;">Transaction Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%wallHistory.forEach((val)=>{%>
+                                                <tr>
+                                                    <td style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                                                        <%= val.date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) %>
+                                                    </td>
+                                                    <% if (val.status == "credit") { %>
+                                                        <td class="text-success" style="border: 1px solid #ccc; padding: 10px; text-align: center;">+₹<%= val.amount %></td>
+                                                    <% } else { %>
+                                                        <td class="text-danger" style="border: 1px solid #ccc; padding: 10px; text-align: center;">-₹<%= val.amount %></td>
+                                                    <% } %>
+                                                    
+                                                  
+                                                </tr>
+                                                
+                                            <%})%>
+                                            
+                                           
+                                            <!-- Add more transaction rows as needed -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div><!-- .End .tab-pane -->
+
                         </div>
                     </div><!-- End .col-lg-9 -->
                 </div><!-- End .row -->
