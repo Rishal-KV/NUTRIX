@@ -6,6 +6,10 @@ name : {
     type : String,
     required : true
 },
+offer :{
+    type : String,
+    ref : 'Offer'
+},
 Blocked :{
     type : Boolean,
     default : false

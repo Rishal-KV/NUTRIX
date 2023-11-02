@@ -7,13 +7,18 @@ const Wishlist  = require('../model/wishlistModel')
 
 exports.addToCart = async (req, res) => {
   try {
+    let price;
     const userId = req.session.userId;
     const productId = req.body.id
     const user = await User.findOne({_id : userId})
-    const product = await Product.findOne({_id : productId})
-    
+    const product = await Product.findOne({_id : productId}).populate('category')
+    let offer = await product.populate('category.offer');
+    // console.log(offer);
+  //  console.log(offer.category.offer.discountAmount);
+  // offer.category.offer ? price =   offer.category.offer.discountAmount : price = product.price
+  price = offer.category.offer ? offer.category.offer.discountAmount : product.price
     const cart = await Cart.findOne({userId : userId })
-    const price = product.price
+
     if (userId === undefined) {
            res.json({login : true})
     }else{
@@ -175,7 +180,9 @@ exports.updateCart = async (req, res) => {
     count = parseInt(count);
 
     const cartData = await Cart.findOne({ userId: userId });
-    const productData = await Product.findOne({ _id: productId });
+    const productData = await Product.findOne({ _id: productId }).populate('category');
+    const offer = await productData.populate('category.offer')
+    
 
     if (!cartData || !productData) {
       res.json({ success: false, message: "Cart or product not found." });
@@ -207,7 +214,7 @@ exports.updateCart = async (req, res) => {
     cartData.products[existingProductIndex].count = updatedQuantity;
 
     // Calculate the updated total price for the product
-    const productPrice = productData.price;
+    let  productPrice =  price = offer.category.offer ? offer.category.offer.discountAmount : productData.price
     const productTotal = productPrice * updatedQuantity;
     cartData.products[existingProductIndex].totalPrice = productTotal;
 

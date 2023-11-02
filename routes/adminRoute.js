@@ -3,6 +3,7 @@ const categoryController = require('../controllers/categoryController')
 const productController = require('../controllers/productController')
 const couponController = require('../controllers/couponController')
 const bannerController = require('../controllers/bannerController')
+const offerController = require('../controllers/offerController')
 const express = require("express");
 const adminRoute = express();
 const adminAuth = require("../middleware/adminAuth");
@@ -82,4 +83,11 @@ adminRoute.post('/addbanner',multer.bannerUpload.single('image'),bannerControlle
 adminRoute.get('/banneraction',bannerController.action)
 adminRoute.get('/editbanner',bannerController.editBanner)
 adminRoute.post('/updatebanner',multer.bannerUpload.single('image'),bannerController.update)
+
+
+//==================================offer mgt==================================
+adminRoute.get('/offermanagement',adminAuth.isLoggedIn,offerController.offer)
+adminRoute.get('/addoffer',adminAuth.isLoggedIn,offerController.addOffer)
+adminRoute.post('/addoffer',offerController.offerAdd)
+
 module.exports = adminRoute;

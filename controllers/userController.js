@@ -219,11 +219,14 @@ exports.productDetails = async (req, res) => {
   try {
     let wishCount = 0
     const id = req.query.id;
-    const pdata = await Product.findById({ _id: id });
+    const pdata = await Product.findById({ _id: id }).populate('category');
+    await pdata.populate('category.offer')
+    // console.log(pdata);
     const wishlist = await Wishlist.findOne({ user: req.session.userId })
-    const similar = await Product.find({ category: pdata.category }).populate('category');
+    const similar = await Product.find({ category : pdata.category._id })
     // console.log(similar);
-    wishlist ? wishCount = wishlist.products.length : 0
+    // console.log(similar);
+     wishlist ? wishCount = wishlist.products.length : 0
     const cart = await Cart.findOne({ userId: req.session.userId })
     let count = 0
     if (req.session.user) {
