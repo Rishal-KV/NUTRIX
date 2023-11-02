@@ -103,7 +103,7 @@ exports.dashboard = async (req, res) => {
       }
     ]);
 
-
+console.log(monthly[0]);
     let monthlySalesArr = [];
 
     if (monthly.length > 0) {
@@ -222,7 +222,7 @@ exports.editUser = async (req, res) => {
 
 exports.orderManagement = async (req, res) =>{
   try {
-    const orderData = await Order.find()
+    const orderData = await Order.find().sort({date : -1})
     res.render('order',{orderData,admin : req.session.admin,title : "Order management"})
   } catch (error) {
     console.log(error.message);

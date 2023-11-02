@@ -198,12 +198,14 @@ exports.cancelOrder = async (req, res) => {
 
 exports.orderDetails = async (req, res) => {
   try {
+    
     const orderId = req.query.id;
+    const userId = req.session.userId
     const orderDetails = await Order.findOne({ _id: orderId }).populate('products.productId');
+   
+ 
 
-
-
-    res.render('orderdetails', { user: req.session.user, orderDetails })
+    res.render('orderdetails', { user: req.session.user, orderDetails})
   } catch (error) {
     console.log(error.message);
   }

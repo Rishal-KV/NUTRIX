@@ -1,13 +1,20 @@
 
 <%-include("../layouts/admin/sideBar.ejs")-%>
 <%-include("../layouts/admin/adminHeader.ejs")-%>
-<div class="col-lg-10 grid-margin stretch-card">
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+<div class="col-lg-12">
     <div class="card">
       <div class="card-body">
       
-        <a href="/admin/addproduct"><button class=" btn btn-primary btn-md mt-5 ">Add Product+</button></a>  
+       <h1 class="text-center"><span class="mdi mdi-gift-open-outline text-primary"></span>
+        Products
+       </h1>
+        <a href="/admin/addproduct"><button type="button" class="btn btn-outline-success btn-icon-text pr-4">
+          <i class="mdi mdi-upload btn-icon-prepend"></i>Add</button></a>
         <div class="table-responsive mt-3 ">
-          <table class="table table-dark text-white" >
+          <table class="table  text-white" >
             <thead >
               <tr>
                 <th  class="text-white">S_NO</th>
@@ -27,10 +34,10 @@
                 <td><%= products.category?.name %></td>
                 <td><%= products.price%></td>
                 <td><%= products.stock%></td>
-                <td><a href="/admin/editproduct?id=<%=products._id%>"><button  class=" btn btn-warning btn-sm" data-toggle="modal" data-target="#edit" type="button">edit</button></a>
+                <td><a href="/admin/editproduct?id=<%=products._id%>"><button  class=" btn btn-outline-warning " data-toggle="modal" data-target="#edit" type="button">edit</button></a>
                   
                   <% if (products.is_blocked == false) { %>
-                    <a href="/admin/deleteproduct?id=<%=products._id%>"><button class="btn btn-danger btn-sm ml-2">List</button></a>
+                    <a href="/admin/deleteproduct?id=<%=products._id%>"><button class="btn btn-outline-danger  ml-2">List</button></a>
                 <% } else { %>
                   <a href="/admin/deleteproduct?id=<%=products._id%>"><button class="btn btn-success btn-sm ml-2">Unlist</button></a>
                 <% } %>
@@ -44,6 +51,7 @@
       </div>
     </div>
   </div>
-  
-  
+</div>
+  </div>
+  </div>
   <%-include("../layouts/admin/adminFooter.ejs")-%>

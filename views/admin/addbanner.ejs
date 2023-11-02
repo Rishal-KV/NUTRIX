@@ -1,7 +1,8 @@
 <%-include("../layouts/admin/sideBar.ejs")-%>
     <%-include("../layouts/admin/adminHeader.ejs")-%>
-
-        <div class="col-8 grid-margin stretch-card mt-5 p-3">
+    <div class="main-panel">
+        <div class="content-wrapper">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <form class="forms-sample" action="/admin/addbanner" method="post" enctype="multipart/form-data">
@@ -31,5 +32,8 @@
                 </div>
             </div>
         </div>
+        </div>
+        </div>
+        
 
         <%-include("../layouts/admin/adminFooter.ejs")-%>

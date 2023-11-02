@@ -1,71 +1,88 @@
-
 <%-include("../layouts/admin/sideBar.ejs")-%>
-<%-include("../layouts/admin/adminHeader.ejs")-%>
-<div class="col-lg-10 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-      
-        <a href="/admin/addcoupon"><button class=" btn btn-primary btn-md mt-5 ">Add Coupon+</button></a>  
-        <div class="table-responsive mt-3 ">
-          <table class="table table-dark text-white" >
-            <thead >
-              <tr>
-                <th  class="text-white">Coupon Name</th>
-                <th  class="text-white">Min purchase</th>
-                <th class="text-white"> Max discount</th>
-                <th class="text-white">Exp date</th>
-                <th  class="text-white">ACTION</th>
-              </tr>
-              <%coupons.forEach((cp)=>{%>
-               
-                <tr id="couponRow_<%= cp._id %>">
-                  <td><%=cp.couponName%></td>
-                  <td><%=cp.minimumPurchase%></td>
-                  
-                  <td><%=cp.maximumDiscount%></td>
-                  <td><%= new Date(cp.lastDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) %></td>
-                  <td><a href="/admin/editcoupon?id=<%=cp._id%>" class="btn btn-primary">edit</a></td>
-                     <% if(cp.showStatus){ %>
-                      <td><button onclick="Action('<%=cp._id%>')" class="btn btn-primary">Hide</button></td>
+  <%-include("../layouts/admin/adminHeader.ejs")-%>
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+<h1 class="text-center">
+  <span class="mdi mdi-ticket-percent text-primary"></span>
+  coupoun 
+</h1>
 
-                   <%}else{ %>
-                    <td><button onclick="Action('<%=cp._id%>')" class="btn btn-danger">Unhide</button></td>
-                  <% } %>
-                 
-                  
-             
-                </tr>    
-          
-           <%})%>
-             
-           
-            </thead>
-            </tbody>
-          </table>
+              <a href="/admin/addcoupon"><button type="button" class="btn btn-outline-success btn-icon-text pr-4">
+                <i class="mdi mdi-upload btn-icon-prepend"></i>Add</button></a>
+              <div class="table-responsive mt-3 ">
+                <table class="table  text-white">
+                  <thead>
+                    <tr>
+                      <th class="text-white">Coupon Name</th>
+                      <th class="text-white">Min purchase</th>
+                      <th class="text-white"> Max discount</th>
+                      <th class="text-white">Exp date</th>
+                      <th class="text-white">ACTION</th>
+                    </tr>
+                    <%coupons.forEach((cp)=>{%>
+
+                      <tr id="couponRow_<%= cp._id %>">
+                        <td>
+                          <%=cp.couponName%>
+                        </td>
+                        <td>
+                          <%=cp.minimumPurchase%>
+                        </td>
+
+                        <td>
+                          <%=cp.maximumDiscount%>
+                        </td>
+                        <td>
+                          <%= new Date(cp.lastDate).toLocaleDateString("en-US", { year: "numeric" , month: "long" ,
+                            day: "numeric" }) %>
+                        </td>
+                        <td><a href="/admin/editcoupon?id=<%=cp._id%>" class="btn btn-outline-primary">edit</a></td>
+                        <% if(cp.showStatus){ %>
+                          <td><button onclick="Action('<%=cp._id%>')" class="btn btn-outline-danger">Hide</button></td>
+
+                          <%}else{ %>
+                            <td><button onclick="Action('<%=cp._id%>')" class="btn btn-outline-warning">Unhide</button></td>
+                            <% } %>
+
+
+
+                      </tr>
+
+                      <%})%>
+
+
+                  </thead>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <script>
-    function Action(cpid) {
+    <script>
+      function Action(cpid) {
         $.ajax({
-            url: `/admin/updatecouponstatus?cpid=${cpid}`,
-            type: 'GET',
-            success: function(response) {
-                // Assuming response contains the updated showStatus
-                // Update the button text based on the updated showStatus
-                var button = $('#couponRow_' + cpid).find('button');
-                if (response.showStatus) {
-                    button.text('Hide');
-                } else {
-                    button.text('Unhide');
-                }
+          url: `/admin/updatecouponstatus?cpid=${cpid}`,
+          type: 'GET',
+          success: function (response) {
+            // Assuming response contains the updated showStatus
+            // Update the button text based on the updated showStatus
+            var button = $('#couponRow_' + cpid).find('button');
+            if (response.showStatus) {
+              button.text('Hide');
+            } else {
+              button.text('Unhide');
             }
+          }
         });
-    }
+      }
 
 
-</script>
+    </script>
 
-  
-  <%-include("../layouts/admin/adminFooter.ejs")-%>
+
+    <%-include("../layouts/admin/adminFooter.ejs")-%>

@@ -1,16 +1,19 @@
 
 <%-include("../layouts/admin/sideBar.ejs")-%>
 <%-include("../layouts/admin/adminHeader.ejs")-%>
-
-<div class="col-lg-10 grid-margin stretch-card">
+<div class="main-panel">
+  <div class="content-wrapper">
+<div class="col-lg-10 ">
   
     <div class="card">
       
       <div class="card-body">
-        
+        <h1 class="text-center"><span class="mdi mdi-account-group text-primary"></span>
+          Users
+         </h1>
         
         <div class="table-responsive text-white mt-5" >
-          <table class="table table-dark text-white">
+          <table class="table  text-white">
             <thead>
               <tr>
                
@@ -25,9 +28,9 @@
                     <td> <%= user.username %></td>
                     <td><%= user.email %></td>
                     <% if (user.blocked == true) { %>
-                        <td><a href="/admin/unblock?id=<%=user._id%>"><button class="btn btn-danger">Unblock</button></a></td>9
+                        <td><a href="/admin/unblock?id=<%=user._id%>"><button class="btn btn-outline-warning  ">Unblock</button></a></td>
                       <% } else { %>
-                        <td><a href="/admin/block?id=<%=user._id%>"><button class="btn btn-danger">Block</button></a></td>
+                        <td><a href="/admin/block?id=<%=user._id%>"><button class="btn btn-outline-danger">Block</button></a></td>
                       <% } %>
                     
                   </tr>
@@ -38,5 +41,6 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
   <%-include("../layouts/admin/adminFooter.ejs")-%>

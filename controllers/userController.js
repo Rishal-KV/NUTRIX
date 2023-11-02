@@ -85,6 +85,8 @@ exports.register = async (req, res) => {
 // Render the home page
 exports.home = async (req, res) => {
   try {
+
+
     const banner = await Banner.find();
     const userId = req.session.userId
     let search = req.query.search || ""
@@ -114,6 +116,8 @@ exports.home = async (req, res) => {
     } else {
       count = 0
     }
+
+//removing offer if expired
 
 
 

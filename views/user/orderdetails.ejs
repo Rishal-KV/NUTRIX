@@ -1,149 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Details</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        /* Add your CSS styling here */
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .order-card {
-            border: 1px solid #ccc;
-            padding: 20px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .product {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px;
-        }
-        .address {
-            margin-top: 20px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        .cancel-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #FF0000;
-            color: #fff;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body{
+    background:#eee;
+}
+.card {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: 1rem;
+}
+.text-reset {
+    --bs-text-opacity: 1;
+    color: inherit!important;
+}
+a {
+    color: #5465ff;
+    text-decoration: none;
+}
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/7255b4bf58.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="order-card">
-            <h1>Order Details</h1>
-            <% orderDetails.products.forEach(function(product,index) { %>
-                <div class="product">
-                    <h2><%=product.productId.name%></h2>
-                    <p><%=product.productId.description%></p>
-                    <p>Price: <%=orderDetails.totalAmount%></p>
-                </div>
-            <% }); %>
-            
-            <div class="address">
-              <h2>Shipping Address</h2>
-              <p><%= orderDetails.deliveryDetails.houseName %></p>
-              <p><%= orderDetails.deliveryDetails.country %>, <%= orderDetails.deliveryDetails.state %> <%= orderDetails.deliveryDetails.pin %></p>
-          </div>
-          <% if (orderDetails.status === "cancelled") { %>
-              <!-- Code for the "cancelled" status -->
-          <% } else if (orderDetails.status === "delivered") { %>
-              <!-- Code for the "delivered" status -->
-          <% } else { %>
-              <button id="tab-orders-link" class="cancel-btn" onclick="cancelOrder('<%= orderDetails._id %>')">Cancel Order</button>
-          <% } %>
-          
-        
-       
-    </div>
-<script>
-    
-function cancelOrder(id) {
-  const orderId = id; // Assuming you're using `id` for the order
+  <div class="container-fluid ml">
 
-  Swal.fire({
-    title: 'Are you sure you want to cancel this order?',
-    text: 'This action cannot be undone.',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, cancel it',
-    cancelButtonText: 'No, keep it'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // User confirmed, proceed with the order cancellation
-      $.ajax({
-        url: '/cancelorder',
-        method: 'POST',
-        data: {
-          orderId: orderId,
-         
-        },
-        success: function (response) {
-          if (response.success) {
-            // Order cancellation was successful
+    <div class="container">
+      <!-- Title -->
+      <div class="d-flex justify-content-center align-items-center py-3">
+       
+      </div>
+    
+      <!-- Main content -->
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+          <!-- Details -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="mb-3 d-flex justify-content-between">
+                <div>
+  
+                  <span class="me-3">#<%=orderDetails.uniqueId%></span>
+                  <%if(orderDetails.status == "delivered" ){%>
+                    <span class="badge rounded-pill bg-success " ><%=orderDetails.status%></span>
+                   <%}else if(orderDetails.status == "cancelled"){%>
+                    <span class="badge rounded-pill bg-danger " ><%=orderDetails.status%></span>
+                   <%}else{%>
+                
+                   
+                    <span class="badge rounded-pill bg-primary " ><%=orderDetails.status%></span>
+                   <%}%>
+                  
+                </div>
+                <div class="d-flex">
+                  <%if(orderDetails.status == "delivered" ){%>
+                    <button onclick="download()" class="btn  p-0 me-3 d-none d-lg-block "><i class="fa-solid fa-file-arrow-down"></i> <span class="text">Invoice</span></button>
+                   <%}else if(orderDetails.status == "cancelled"){%>
+                    
+                   <%}else{%>
+                
+                    <button onclick="cancelOrder('<%=orderDetails._id%>')" class="btn btn-danger"><span class="text">Cancel</span></button>
+                  
+                   <%}%>
+                  
+                  
+                </div>
+              </div>
+              <table class="table table-borderless">
+                <tbody>
+                  <%orderDetails.products.forEach((details)=>{%>
+                    <tr>
+                      <td>
+                        <div class="d-flex mb-2">
+                          <div class="flex-shrink-0">
+                            <img src="/product/img/<%=details.productId.image.image1%>" alt="" width="35" class="img-fluid">
+                          </div>
+                          <div class="flex-lg-grow-1 ms-3">
+                            <h6 class="small mb-0"> <a style="text-decoration: none;" class="text-reset" ><%=details.productId.name%></a></h6>
+                            <!-- <h6 class="small mb-0"><a style="text-decoration: none;" class="text-reset">Qty : <%=details.count%></a></h6> -->
+                          </div>
+                        </div>
+                      </td>
+                      <td><%=details.count%></td>
+  
+                      <td class="text-end">₹<%=details.productId.price%></td>
+                    </tr>
+                  <%})%>
+                  
+                  
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="2">Subtotal</td>
+                    <td class="text-end">₹<%=orderDetails.totalAmount%></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">Shipping</td>
+                    <td class="text-end">₹0</td>
+                  </tr>
+                 
+                  <tr class="fw-bold">
+                    <td colspan="2">TOTAL</td>
+                    <td class="text-end">₹<%=orderDetails.totalAmount%></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <!-- Payment -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <h3 class="h6">Payment Method</h3>
+                  <p><%=orderDetails.paymentMethod%><br>
+                  Total: ₹<%=orderDetails.totalAmount%> 
+                  
+                  <%if(orderDetails.status == "pending"){%>
+                    <span class="badge bg-warning rounded-pill">Pending</span></p>
+                   <%}else{%>
+                   
+                    <span class="badge bg-success rounded-pill">PAID</span></p>
+                   <%}%>
+                </div>
+                <div class="col-lg-6">
+                  <h3 class="h6">Billing address</h3>
+                  <address>
+                    <strong><%=orderDetails.deliveryDetails.fullname%></strong><br>
+                    <%=orderDetails.deliveryDetails.houseName%><br>
+                    <%=orderDetails.deliveryDetails.city%>, <%=orderDetails.deliveryDetails.pin%><br>
+                     <%=orderDetails.deliveryDetails.mobile%>
+                  </address>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         
-            Swal.fire({
-              icon: 'success',
-              title: 'Order Canceled Successfully',
-              text: 'Your order has been canceled.'
-            }).then(() => {
-              // Reload or redirect to a different page if needed
-              
-              // $("#re-load").load("/cancelorder #re-load");
-         window.location.href = '/home'
-              order.click();
-            });
-          } else {
-            // Handle the case where cancellation was not successful
+      </div>
+    </div>
+      </div>
+  <script>
+      
+  function cancelOrder(id) {
+    const orderId = id; // Assuming you're using `id` for the order
+  
+    Swal.fire({
+      title: 'Are you sure you want to cancel this order?',
+      text: 'This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, cancel it',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User confirmed, proceed with the order cancellation
+        $.ajax({
+          url: '/cancelorder',
+          method: 'POST',
+          data: {
+            orderId: orderId,
+           
+          },
+          success: function (response) {
+            if (response.success) {
+              // Order cancellation was successful
+          
+              Swal.fire({
+                icon: 'success',
+                title: 'Order Canceled Successfully',
+                text: 'Your order has been canceled.'
+              }).then(() => {
+                // Reload or redirect to a different page if needed
+                
+                // $("#re-load").load("/cancelorder #re-load");
+           window.location.href = '/home'
+                order.click();
+              });
+            } else {
+              // Handle the case where cancellation was not successful
+              Swal.fire({
+                icon: 'error',
+                title: 'Order Cancellation Failed',
+                text: 'Unable to cancel the order at this time.'
+              });
+            }
+          },
+          error: function (error) {
+            // Handle AJAX errors here
+            console.error('Error canceling the order', error);
             Swal.fire({
               icon: 'error',
-              title: 'Order Cancellation Failed',
-              text: 'Unable to cancel the order at this time.'
+              title: 'Error',
+              text: 'An error occurred while canceling the order.'
             });
           }
-        },
-        error: function (error) {
-          // Handle AJAX errors here
-          console.error('Error canceling the order', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'An error occurred while canceling the order.'
-          });
-        }
-      });
-    } else {
-      // User clicked "No" or closed the dialog, do nothing
-    }
-  });
-}
-
-</script>
+        });
+      } else {
+        // User clicked "No" or closed the dialog, do nothing
+      }
+    });
+  }
+  
+  function download(){
+    window.print();
+  }
+  </script>
+  
+  
+  
 </body>
 </html>
