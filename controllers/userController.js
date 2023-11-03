@@ -30,7 +30,8 @@ const transporter = nodemailer.createTransport(smtpConfig);
 
 exports.signup = async (req, res) => {
   try {
-    res.render('signup', { title: "Register", user: req.session.user })
+    var userErr = req.app.locals.userErr
+    res.render('signup', { title: "Register", user: req.session.user,userErr })
   } catch (error) {
     console.log(error.message);
   }
@@ -38,10 +39,12 @@ exports.signup = async (req, res) => {
 // Sign-in page rendering
 exports.signIn = async (req, res) => {
   try {
-    var passError = req.app.locals.passError
+
+    var logError = req.app.locals.logError
     req.app.locals.passError = " "
 
-    res.render("login", { user: req.session.user, passError, title: "Login" });
+
+    res.render("login", { user: req.session.user, logError, title: "Login" });
   } catch (error) {
     console.log(error.message);
   }
@@ -64,7 +67,8 @@ exports.register = async (req, res) => {
     const userFound = await User.findOne({ email: email });
     // console.log(otp);
     if (userFound) {
-      res.redirect('/login')
+      req.app.locals.userErr = "Account already exists"
+      res.redirect('/register')
     } else {
       // Send an email with the OTP
       const mailOptions = {
@@ -147,14 +151,14 @@ exports.verifyLogin = async (req, res) => {
         return res.redirect("/home");
       } else {
         if (userData.blocked) {
-          req.app.locals.passError = "Account is blocked";
+          req.app.locals.logError = "Account is blocked";
           return res.redirect("/login");
         }
-        req.app.locals.passError = "Incorrect password. Please try again.";
+        req.app.locals.logError = "Incorrect password. Please try again.";
         return res.redirect("/login");
       }
     } else {
-      req.app.locals.ErrorContext = "Invalid email address. Please try again.";
+      req.app.locals.logError = "Invalid email address. Please try again.";
       return res.redirect("/login");
     }
   } catch (error) {

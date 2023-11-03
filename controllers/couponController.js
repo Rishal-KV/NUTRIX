@@ -13,7 +13,14 @@ exports.coupon = async(req, res) =>{
 
 exports.addCoupon = async(req, res) =>{
     try {
-        res.render('addcoupon',{title: "Coupon management",title : "Coupon management"})
+        var coupErr = req.app.locals.coupErr
+        var coupErrPur  = req.app.locals.coupErrPur
+        var coupErrDis = req.app.locals.coupErrDis
+      
+        req.app.locals.coupErr = ""
+        req.app.locals.coupErrPur = " "
+        req.app.locals.coupErrDis = " "
+        res.render('addcoupon',{title: "Coupon management",title : "Coupon management",coupErr,coupErrPur,coupErrDis})
     } catch (error) {
         console.log(error.message);
     }
@@ -23,7 +30,17 @@ exports.addCoupon = async(req, res) =>{
 exports.addcouponPost = async(req,res) =>{
     try {
       const {name,purchase,discount, date} = req.body
-    //    console.log(date);
+    let existingCoupon = await Coupon.findOne({couponName : name})
+    if(existingCoupon){
+        req.app.locals.coupErr = "Coupon Already Added"
+        return res.redirect('/admin/addcoupon')
+    }else if(purchase < 0){
+        req.app.locals.coupErrPur = "cannot set negative values"
+        return res.redirect('/admin/addcoupon')
+    }else if(discount < 0){
+        req.app.locals.coupErrDis = "cannot set negative values"
+        return res.redirect('/admin/addcoupon')
+    }
       const coupon = new  Coupon({
         couponName : name,
         minimumPurchase : purchase,
