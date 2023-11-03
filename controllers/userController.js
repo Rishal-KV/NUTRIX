@@ -54,6 +54,7 @@ exports.register = async (req, res) => {
   try {
 
     // Generate a random 4-digit OTP
+    
     otp = Math.floor(Math.random() * 90000) + 10000;
 
     req.session.username = req.body.name;
@@ -61,7 +62,7 @@ exports.register = async (req, res) => {
     req.session.password = req.body.password;
     email = req.body.email
     const userFound = await User.findOne({ email: email });
-    console.log(otp);
+    // console.log(otp);
     if (userFound) {
       res.redirect('/login')
     } else {
@@ -73,6 +74,9 @@ exports.register = async (req, res) => {
         html: ` <h1>Your OTP is: ${otp}</h1>`,
       };
       transporter.sendMail(mailOptions);
+      setTimeout(()=>{
+        otp = Math.floor(Math.random() * 90000) + 10000;
+      },6000000)
 
       res.render("otp", { title: "Nutrix otp" });
     }
@@ -204,6 +208,10 @@ exports.resendOtp = async (req, res) => {
       html: ` <h1>Your OTP is: ${otp}</h1>`,
     };
     transporter.sendMail(mailOptions);
+    setTimeout(()=>{
+      otp = Math.floor(Math.random() * 90000) + 10000;
+    },6000000)
+
     res.render('otp', { msg: 'otp has been sent' })
   } catch (error) {
     console.log(error.message);

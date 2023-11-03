@@ -33,6 +33,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/7255b4bf58.js" crossorigin="anonymous"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
 
 
     <!-- Main CSS File -->
@@ -88,21 +89,6 @@
 
 
                                 
-                                <li>
-
-                                    <a href="/home" class="sf-with-ul"><%=user?user : "User"%></a>
-
-                                    <ul>
-                                       <% if (user) { %>
-                                            <li><a href="/profile">Profile</a></li>
-                                        <li>
-                                            <a href="/signout">Logout</a>
-                                        </li>
-                                        <% } else { %>
-                                            <li><a href="/login">Login / Sign Up</a></li>
-                                        <% } %>
-                                        
-                                        </li>
                                         
                                         
                                     </ul>
@@ -143,6 +129,18 @@
 
                            
                         </div><!-- End .cart-dropdown -->
+                       
+                    
+                            <%if(user){%>
+                                <a href="/profile" class="wishlist-link" ><i class="fa-regular fa-user "></i></a>
+                                <%}else{%>
+                                  <a class="wishlist-link" href="/login"> <i class="fa-regular fa-user "></i></a>
+                                  
+                                 <% }%>
+
+                           
+                        
+                        
                     </div><!-- End .header-right -->
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
