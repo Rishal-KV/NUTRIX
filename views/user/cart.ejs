@@ -143,14 +143,14 @@
                                             </div><!-- End .cart-discount -->
                                             <div class="border border-1 p-2 mt-4"
                                                 style="width: 32.450rem; height: 35rem ; overflow: auto;">
-                                                <%coupon.forEach((val)=>{ %>
+                                                <%coupon?.forEach((val)=>{ %>
                                                     <div class="border border-1 w-100 p-2 mb-1">
                                                         <h5>
                                                             <%=val.couponName%>
                                                         </h5>
                                                         <h6>save ₹<%=val.maximumDiscount%>
                                                         </h6>
-                                                        <p>₹<%=val.maximumDiscount%> of on minimum purchase of ₹
+                                                        <p>₹<%=val?.maximumDiscount%> of on minimum purchase of ₹
                                                                 <%=val.minimumPurchase%>
                                                         </p>
                                                         <p>expires on <%= val.lastDate.toISOString().split('T')[0] %></p>

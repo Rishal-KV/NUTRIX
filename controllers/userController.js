@@ -265,11 +265,22 @@ exports.shop = async (req, res) => {
   try {
     let wishCount = 0
     let count = 0
-    let catToFront
+    let wishListStrin = [];
+    //taking page num thorugh query
+    let pageNum = req.query.page
+   //setting how much product should be display in shop
+    let perPage = 2;
+
+    //taking doc Count
+    let docCount = await Product.countDocuments();
+
+    let pages = Math.ceil(docCount/perPage);
+    // let catToFront
     let sort = req.query.id
     const search = req.query.search || "";
 
     let selectedCategory = req.query.category || ''
+    console.log(selectedCategory);
     const selectedPriceRanges = req.query.price || '';
     // console.log(selectedPriceRanges);
     const [minPrice, maxPrice] = selectedPriceRanges.split('-');
@@ -278,7 +289,7 @@ exports.shop = async (req, res) => {
       price: { $gte: minPrice, $lte: maxPrice }
     } : {};
     
-    selectedCategory == '' ? catToFront =  '' : catToFront = selectedCategory
+    // selectedCategory == '' ? catToFront =  '' : catToFront = selectedCategory
 
     if (selectedCategory == '') {
       let cat = await Category.find({}, { _id: 1 })
@@ -288,6 +299,9 @@ exports.shop = async (req, res) => {
     const category = await Category.find();
     const wishlist = await Wishlist.findOne({ user: req.session.userId });
     const cart = await Cart.findOne({ userId: req.session.userId });
+    wishlist?.products.map((ele) => {
+      wishListStrin.push(ele.productId)
+    })
     cart ? count = cart.products.length : 0
     wishlist ? wishCount = wishlist.products.length : 0
     const product = await Product.find({
@@ -295,10 +309,10 @@ exports.shop = async (req, res) => {
       name: { $regex: search, $options: "i" },
       category: { $in: selectedCategory },
       ...priceRangeQuery
-    }).sort({price : sort})
+    }).sort({price : sort}).skip((pageNum-1)*perPage).limit(perPage)
+// console.log(product);
 
-
-    res.render("shop", { product, user: req.session.user, title: "Shop", wishCount, count, category,selectedCategory });
+    res.render("shop", { product, user: req.session.user, title: "Shop", wishCount, count, category,pageNum,docCount,pages,pageNum,wishListStrin });
   } catch (error) {
     console.log(error.message);
   }

@@ -248,7 +248,10 @@ exports.verifypayment = async (req, res) => {
             couponApplied : ""
           }
         })
-
+        const couponFound = await Coupon.findOne({ couponName: cartData?.couponApplied });
+        if (couponFound) {
+          await Coupon.findOneAndUpdate({ couponName: cartData.couponApplied }, { $addToSet: { usedUsers: userId } });
+        }
       await Order.findByIdAndUpdate(
         { _id: details.order.receipt },
         { $set: { status: "placed" } }
