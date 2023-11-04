@@ -66,6 +66,7 @@
 </style>
 
 <body>
+  
   <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
     <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
       <div class="toast-header">
@@ -79,7 +80,7 @@
 
       </div>
       <div class="toast-body text-success">
-        your OTP has been sent to your email
+        your OTP has been sent to <%=email%>
       </div>
     </div>
   </div>
@@ -108,7 +109,7 @@
       <div class="card-header p-5">
         <h5 class="mb-2">OTP VERIFICATION</h5>
         <div>
-          <small>code has been sent to </small>
+          <small id="otp">code has been sent to <%= email ? email : "email" %></small>
         </div>
 
       </div>
@@ -163,7 +164,7 @@
 
         $.ajax({
           type: "POST",
-          url: "/confirm", // Replace with your server endpoint
+          url: "/confirm_otp", // Replace with your server endpoint
           data: {
             first: first,
             second: second,
@@ -172,15 +173,9 @@
             fifth: fifth,
           },
           success: function (response) {
-            if (response.success) {
-              toast.show()
-              setTimeout(function () {
-                toast.hide();
-                window.location.href = '/home';
-
-              }, 2000);
-
-            } else {
+            if (response.confirmotp) {
+                window.location.href = '/change_password';
+            }else{
               otpErr.style.display = ''
             }
           },
@@ -236,6 +231,15 @@
         }
       })
     }
+
+
+function changeColor(){
+ let otp = document.getElementById('otp');
+ setTimeout(()=>{
+  otp.style.color = "#c96"
+ },5000)
+}
+changeColor()
 
   </script>
 </body>

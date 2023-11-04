@@ -7,7 +7,7 @@ const addressController = require('../controllers/addressController')
 const orderController = require('../controllers/orderController')
 const wishListController = require('../controllers/wishListController')
 const couponController = require('../controllers/couponController')
-const productController = require('../controllers/productController')
+const reviewController = require('../controllers/reviewController')
 
 
 userRoute.set("view engine", "ejs"); // Set the view engine
@@ -25,8 +25,13 @@ userRoute.post("/login", userController.verifyLogin);
 userRoute.post("/confirm", userController.otpConfirm);
 userRoute.post('/resend',userController.resendOtp)
 userRoute.get("/signout", userController.signout);
+
+
 userRoute.get('/forgotpassword',userController.forgotPassword)
 userRoute.post('/resetpassword',userController.resetPassword)
+userRoute.post('/confirm_otp',userController.checkOtp)
+userRoute.get('/change_password',userController.changePasswordPage)
+userRoute.post('/confirm_password',userController.confirmPassword)
 
 
 //===========================product==========================
@@ -73,5 +78,8 @@ userRoute.get('/orderdetails',userAuth.isLoggedIn,orderController.orderDetails);
 //==============================coupon==================================
 userRoute.post('/applycoupon',couponController.applyCoupon);
 userRoute.get('/remove_coupon',couponController.removecoupon);
+
+//===============================Review=================================
+userRoute.post('/addreview',reviewController.addReview)
 
 module.exports = userRoute;

@@ -6,6 +6,7 @@ const Cart = require("../model/cartModel");
 const Wishlist = require('../model/wishlistModel');
 const Banner = require('../model/bannerModel');
 const Category = require('../model/catergoryModel');
+const Review = require('../model/review')
 
 
 
@@ -243,6 +244,10 @@ exports.productDetails = async (req, res) => {
     // console.log(pdata);
     const wishlist = await Wishlist.findOne({ user: req.session.userId })
     const similar = await Product.find({ category: pdata.category._id })
+    const review = await Review.findOne({ product: id }) 
+
+     
+   
     // console.log(similar);
     // console.log(similar);
     wishlist ? wishCount = wishlist.products.length : 0
@@ -256,7 +261,7 @@ exports.productDetails = async (req, res) => {
       }
     }
 
-    res.render("product", { pdata, user: req.session.user, count, similar, title: "product", wishCount });
+    res.render("product", { pdata, user: req.session.user, count, similar, title: "product", wishCount,review });
   } catch (error) {
     console.log(error.message);
   }
@@ -371,13 +376,69 @@ exports.forgotPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   try {
+    req.session.email = req.body.email
+     let userFound = await User.findOne({email: req.session.email})
+     if (userFound) {
+      otp = Math.floor(Math.random() * 90000) + 10000;
+      console.log(otp);
+      const mailOptions = {
+        from: process.env.GMAIL, // Your email address
+        to: req.session.email, // User's email address
+        subject: "Your OTP for Sign-Up",
+        html: ` <h1>Your OTP is: ${otp}</h1>`,
+      };
+      transporter.sendMail(mailOptions);
+      setTimeout(() => {
+        otp = Math.floor(Math.random() * 90000) + 10000;
+      }, 60000)
+      res.render('changeotp',{email : req.session.email})
+     }
+  
+  } catch (error) {
+    console.log(error.message );
+  }
+}
 
-    res.render('changeotp')
+exports.checkOtp = async(req,res) =>{
+  try {
+    const { first, second, third, fourth, fifth } = req.body;
 
+    const userOtp = parseInt(`${first}${second}${third}${fourth}${fifth}`, 10);
+    console.log(userOtp + "  " + otp);
+   if(userOtp == otp){
+     res.json({confirmotp : true})
+   }
+   
+  } catch (error) {
+   console.log(error.message);
+  }
+}
 
+exports.changePasswordPage = async(req,res) =>{
+  try {
+    res.render('changepassword',{user : undefined ,title : "change password",count : undefined, wishCount: undefined})
   } catch (error) {
     console.log(error.message);
   }
 }
 
+exports.confirmPassword = async(req, res) =>{
+  try {
+
+    const {password} = req.body
+    console.log(req.session.email);
+     const hashedPassword = await bcrypt.hash(password,10)
+     const changePassword = await User.findOneAndUpdate({email : req.session.email},
+      {$set :{
+        password : hashedPassword
+      }}
+      )
+      // console.log(changePassword);
+      if(changePassword){
+        res.json({resetpassword : true})
+      }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
