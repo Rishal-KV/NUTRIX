@@ -25,6 +25,8 @@ userRoute.post("/login", userController.verifyLogin);
 userRoute.post("/confirm", userController.otpConfirm);
 userRoute.post('/resend',userController.resendOtp)
 userRoute.get("/signout", userController.signout);
+userRoute.get('/forgotpassword',userController.forgotPassword)
+userRoute.post('/resetpassword',userController.resetPassword)
 
 
 //===========================product==========================
@@ -65,7 +67,7 @@ userRoute.post('/verifypayment',orderController.verifypayment)
 userRoute.get('/ordersuccess',userAuth.isLoggedIn,orderController.success);
 userRoute.get('/remove',addressController.remove);
 userRoute.post('/cancelorder',orderController.cancelOrder)
-userRoute.get('/orderdetails',orderController.orderDetails);
+userRoute.get('/orderdetails',userAuth.isLoggedIn,orderController.orderDetails);
 
 
 //==============================coupon==================================

@@ -18,7 +18,10 @@ exports.orderPlace = async (req, res) => {
     const userId = req.session.userId;
     const addressId = req.body.selectedAddress.trim()
     const cartData = await Cart.findOne({ userId: userId })
+    const cart = await Cart.findOne({ userId: userId }).populate('products.productId')
+  
     const products = cartData.products
+    const productStock = cart.products
     const total = parseInt(req.body.Total);
 
     const paymentMethods = req.body.payment;
@@ -30,7 +33,13 @@ exports.orderPlace = async (req, res) => {
     const uniNum = Math.floor(Math.random() * 900000) + 100000;
     let status = paymentMethods === "COD" ? "placed" : "pending";
 
+ for(let i = 0; i < productStock.length; i++){
+    let stock = productStock[i].productId.stock
+    if(stock == 0){
+      return res.json({stock : false})
+    }
 
+ }
 
 
     const selectedAddress = await Address.findOne(

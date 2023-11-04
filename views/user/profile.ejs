@@ -150,7 +150,8 @@
 
                                     <label>New password</label>
                                     <input type="password" class="form-control" name="newpassword" id="newpassword">
-<!-- 
+                                  <p  id="passErr" style="display: none;" class="text-danger">Password Doesn't Match</p>
+<!--      
                                     <label>Confirm new password</label>
                                     <input type="password" class="form-control mb-2"> -->
 
@@ -215,6 +216,7 @@
  function remove(id) {
   let addressId = id;
 
+
   Swal.fire({
     title: 'Are you sure?',
     text: 'You will not be able to recover this address!',
@@ -248,6 +250,7 @@
 }
 
 function changepassword(){
+    let pass = document.getElementById('passErr')
     let currentpassword = document.getElementById('currentpassword').value;
     let newpassword = document.getElementById('newpassword').value
     $.ajax({
@@ -268,16 +271,9 @@ function changepassword(){
                 window.location.href = '/profile'; // Replace 'profile.html' with your actual profile page URL
             });
             }else{
-                Swal.fire({
-                title: 'Passwords do not match',
-                text: 'Please make sure both passwords are the same.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            }).then(()=>{
-                location.href = "/profile"
-            })
-            }
+               pass.style.display = ""  
         }
+    }
     })
 }
 

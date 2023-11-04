@@ -1,6 +1,8 @@
 <!-- Start Cart  -->
 <%- include("../layouts/user/userHeader.ejs")-%>
     <% if (products===undefined) { %>
+        
+        
         <div id="re-load">
             <main class="main">
                 <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
@@ -74,7 +76,9 @@
                                                                 </figure>
 
                                                                 <h3 class="product-title">
-                                                                    <a href="#"><%=item.productId.name%></a>
+                                                                    <a href="#">
+                                                                        <%=item.productId.name%>
+                                                                    </a>
                                                                 </h3><!-- End .product-title -->
                                                             </div><!-- End .product -->
                                                         </td>
@@ -114,32 +118,38 @@
 
                                         <div class="cart-bottom">
                                             <div class="cart-discount">
-                                                  
+
                                                 <div class="input-group">
 
 
-                                                    <%if(couponSelected == undefined){%>
-                                                        <input id="coupon" type="text" class="form-control" name="couponame"
-                                                        required placeholder="coupon code">
-                                                   
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-primary-2"
-                                                            onclick="applyCoupon()" type="submit"><i
-                                                                class="icon-long-arrow-right"></i></button>
-                                                    </div><!-- .End .input-group-append -->
+                                                    <%if(couponSelected==undefined){%>
+                                                        <input id="coupon" type="text" class="form-control"
+                                                            name="couponame" required placeholder="coupon code">
+                                                            
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-outline-primary-2"
+                                                                onclick="applyCoupon()" type="submit"><i
+                                                                    class="icon-long-arrow-right"></i></button>
+                                                        </div><!-- .End .input-group-append -->
                                                         <%}else{ %>
 
-                                                            <div class="d-flex border p-3 w-100 justify-content-between my-2" style="background-color:#c96;">
-                                                                <h6  class="p-2 text-white">Coupon Applied : <b><%=couponSelected.couponName%></b></h6>
-                                                                <a  href="/remove_coupon"><i class="fa-solid fa-trash text-white" style="color: #666b70;"></i></a>
+
+                                                            <div class="d-flex border p-3 w-100 justify-content-between my-2"
+                                                                style="background-color:#c96;">
+                                                                <h6 class="p-2 text-white">Coupon Applied : <b>
+                                                                        <%=couponSelected.couponName%>
+                                                                    </b></h6>
+                                                                <a href="/remove_coupon"><i
+                                                                        class="fa-solid fa-trash text-white"
+                                                                        style="color: #666b70;"></i></a>
                                                             </div>
-                                                               
+
                                                             <%}%>
 
-            
-                                                   
+
+
                                                 </div><!-- End .input-group -->
-                                                
+                                                   <p   class="text-danger" id="couponerr" style="display: none;">Enter a Valid Coupon code</p>
                                             </div><!-- End .cart-discount -->
                                             <div class="border border-1 p-2 mt-4"
                                                 style="width: 32.450rem; height: 35rem ; overflow: auto;">
@@ -153,7 +163,8 @@
                                                         <p>₹<%=val?.maximumDiscount%> of on minimum purchase of ₹
                                                                 <%=val.minimumPurchase%>
                                                         </p>
-                                                        <p>expires on <%= val.lastDate.toISOString().split('T')[0] %></p>
+                                                        <p>expires on <%= val.lastDate.toISOString().split('T')[0] %>
+                                                        </p>
 
 
                                                         </p>
@@ -262,7 +273,7 @@
                 function applyCoupon() {
                     const couponame = document.getElementById('coupon')
                     const value = couponame.value
-
+                    let coupon = document.getElementById('couponerr')
                     console.log(couponame);
                     $.ajax({
                         url: "/applycoupon",
@@ -293,12 +304,14 @@
                                     title: "Coupon Expired",
                                     text: "Sorry, the coupon has expired.",
                                 });
-                            }else if(response.applied === false){
+                            } else if (response.applied === false) {
                                 Swal.fire({
                                     icon: "error",
                                     text: response.message
-                                   
+
                                 })
+                            }else if(response.empty){
+                                  coupon.style.display = ''
                             }
                         }
                     })

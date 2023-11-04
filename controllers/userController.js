@@ -8,6 +8,7 @@ const Banner = require('../model/bannerModel');
 const Category = require('../model/catergoryModel');
 
 
+
 require("dotenv").config();
 
 
@@ -31,7 +32,7 @@ const transporter = nodemailer.createTransport(smtpConfig);
 exports.signup = async (req, res) => {
   try {
     var userErr = req.app.locals.userErr
-    res.render('signup', { title: "Register", user: req.session.user,userErr })
+    res.render('signup', { title: "Register", user: req.session.user, userErr })
   } catch (error) {
     console.log(error.message);
   }
@@ -55,9 +56,9 @@ exports.signIn = async (req, res) => {
 // Registration page rendering
 exports.register = async (req, res) => {
   try {
-
+    let otpErr = req.app.locals.otpErr
     // Generate a random 4-digit OTP
-    
+
     otp = Math.floor(Math.random() * 90000) + 10000;
 
     req.session.username = req.body.name;
@@ -78,11 +79,11 @@ exports.register = async (req, res) => {
         html: ` <h1>Your OTP is: ${otp}</h1>`,
       };
       transporter.sendMail(mailOptions);
-      setTimeout(()=>{
+      setTimeout(() => {
         otp = Math.floor(Math.random() * 90000) + 10000;
-      },6000000)
+      }, 60000)
 
-      res.render("otp", { title: "Nutrix otp" });
+      res.render("otp", { title: "Nutrix otp", otpErr });
     }
   } catch (error) {
     console.log(error.message);
@@ -125,7 +126,7 @@ exports.home = async (req, res) => {
       count = 0
     }
 
-//removing offer if expired
+    //removing offer if expired
 
 
 
@@ -169,6 +170,7 @@ exports.verifyLogin = async (req, res) => {
 // Confirm OTP and redirect to home page if correct, or back to OTP confirmation page if incorrect
 exports.otpConfirm = async (req, res) => {
   try {
+
     const { first, second, third, fourth, fifth } = req.body;
 
     const userOtp = parseInt(`${first}${second}${third}${fourth}${fifth}`, 10);
@@ -183,15 +185,16 @@ exports.otpConfirm = async (req, res) => {
         password: req.session.password,
         is_admin: 0
       })
-      newUser.save()
+      await newUser.save()
       let user = await User.findOne({ email: req.session.email })
       req.session.userId = user._id
       res.json({ success: true })
 
 
     } else {
+
       res.json({ success: false })
-      res.render('otp', { email: req.session.email })
+
     }
 
 
@@ -212,11 +215,11 @@ exports.resendOtp = async (req, res) => {
       html: ` <h1>Your OTP is: ${otp}</h1>`,
     };
     transporter.sendMail(mailOptions);
-    setTimeout(()=>{
+    setTimeout(() => {
       otp = Math.floor(Math.random() * 90000) + 10000;
-    },6000000)
+    }, 60000)
+    res.json({ success: true })
 
-    res.render('otp', { msg: 'otp has been sent' })
   } catch (error) {
     console.log(error.message);
   }
@@ -239,10 +242,10 @@ exports.productDetails = async (req, res) => {
     await pdata.populate('category.offer')
     // console.log(pdata);
     const wishlist = await Wishlist.findOne({ user: req.session.userId })
-    const similar = await Product.find({ category : pdata.category._id })
+    const similar = await Product.find({ category: pdata.category._id })
     // console.log(similar);
     // console.log(similar);
-     wishlist ? wishCount = wishlist.products.length : 0
+    wishlist ? wishCount = wishlist.products.length : 0
     const cart = await Cart.findOne({ userId: req.session.userId })
     let count = 0
     if (req.session.user) {
@@ -268,13 +271,13 @@ exports.shop = async (req, res) => {
     let wishListStrin = [];
     //taking page num thorugh query
     let pageNum = req.query.page
-   //setting how much product should be display in shop
+    //setting how much product should be display in shop
     let perPage = 2;
 
     //taking doc Count
     let docCount = await Product.countDocuments();
 
-    let pages = Math.ceil(docCount/perPage);
+    let pages = Math.ceil(docCount / perPage);
     // let catToFront
     let sort = req.query.id
     const search = req.query.search || "";
@@ -284,18 +287,18 @@ exports.shop = async (req, res) => {
     const selectedPriceRanges = req.query.price || '';
     // console.log(selectedPriceRanges);
     const [minPrice, maxPrice] = selectedPriceRanges.split('-');
-  
+
     const priceRangeQuery = minPrice && maxPrice ? {
       price: { $gte: minPrice, $lte: maxPrice }
     } : {};
-    
+
     // selectedCategory == '' ? catToFront =  '' : catToFront = selectedCategory
 
     if (selectedCategory == '') {
       let cat = await Category.find({}, { _id: 1 })
       selectedCategory = cat.map((val) => val._id.toString());
     }
-// console.log(catToFront);
+    // console.log(catToFront);
     const category = await Category.find();
     const wishlist = await Wishlist.findOne({ user: req.session.userId });
     const cart = await Cart.findOne({ userId: req.session.userId });
@@ -309,10 +312,22 @@ exports.shop = async (req, res) => {
       name: { $regex: search, $options: "i" },
       category: { $in: selectedCategory },
       ...priceRangeQuery
-    }).sort({price : sort}).skip((pageNum-1)*perPage).limit(perPage)
-// console.log(product);
+    }).sort({ price: sort }).skip((pageNum - 1) * perPage).limit(perPage)
+    // console.log(product);
 
-    res.render("shop", { product, user: req.session.user, title: "Shop", wishCount, count, category,pageNum,docCount,pages,pageNum,wishListStrin });
+    res.render("shop", {
+      product,
+      user: req.session.user,
+      title: "Shop",
+      wishCount,
+      count,
+      category,
+       pageNum,
+      docCount,
+      pages,
+      pageNum,
+      wishListStrin
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -339,6 +354,27 @@ exports.changePassword = async (req, res) => {
 
       res.json({ match: false })
     }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+
+exports.forgotPassword = async (req, res) => {
+  try {
+    res.render('forgotpassword', { title: "change password", user: "User", wishCount: 0, count: 0 })
+  } catch (error) {
+
+  }
+}
+
+exports.resetPassword = async (req, res) => {
+  try {
+
+    res.render('changeotp')
+
+
   } catch (error) {
     console.log(error.message);
   }

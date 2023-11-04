@@ -126,10 +126,8 @@ exports.applyCoupon = async(req, res) =>{
  
     const usedCoupon = await Coupon.find({couponName, usedUsers: { $in: [user] } })
    if (couponFound===null) {
-    // console.log(couponFound);
- req.app.locals.couperr = "Enter a valid coupoun name"
-
-   return res.redirect('/getcart')
+    console.log(couponFound);
+        return res.json({empty : true })
    }else{
     if(couponFound.lastDate < currentDate){
         
