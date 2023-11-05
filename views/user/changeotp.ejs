@@ -134,11 +134,11 @@
           OTP expires with in :
           <span  id="timer"> 60</span>
         </div>
-        <p style="display: none;" id="otp" class="text-danger">Enter a valid OTP!!!</p>
+
       </div>
     </div>
   </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
@@ -150,7 +150,28 @@
         if (this.value.length === 1) {
           $(this).next("input[type='text']").focus();
         }
+        checkFields()
       });
+
+      $("input[type='text']").on("keydown", function (e) {
+    if (e.which === 8 && this.value.length === 0) {
+      $(this).prev("input[type='text']").val('').focus();
+    }
+    checkFields()
+  });
+
+
+
+
+
+  function checkFields() {
+    const allFieldsFilled = $("input[type='text']").toArray().every(function (field) {
+      return field.value.length === 1;
+    });
+    
+    // Enable or disable the "Verify" button based on the condition
+    $("#verifyButton").prop("disabled", !allFieldsFilled);
+  }
 
       $("#verifyButton").click(function () {
         let otpErr = document.getElementById('otp')
@@ -161,7 +182,7 @@
         const third = $('input[name="third"]').val();
         const fourth = $('input[name="fourth"]').val();
         const fifth = $('input[name="fifth"]').val();
-
+       
         $.ajax({
           type: "POST",
           url: "/confirm_otp", // Replace with your server endpoint
@@ -176,7 +197,20 @@
             if (response.confirmotp) {
                 window.location.href = '/change_password';
             }else{
-              otpErr.style.display = ''
+              Swal.fire({
+    toast: true,
+    icon: 'error',
+    title: 'oops enter a valid otp!!!',
+    animation: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
             }
           },
           error: function (error) {
@@ -187,7 +221,7 @@
     });
 
     let timerInterval;
-    let countdown = 5;
+    let countdown = 60;
 
     function startTimer() {
       $("#resendButton").prop("disabled", true);
@@ -211,7 +245,7 @@
     function resend() {
       const myToast = document.getElementById('myToast');
       var toast = new bootstrap.Toast(myToast)
-      countdown = 5
+      countdown = 60
       startTimer();
 
       $.ajax({

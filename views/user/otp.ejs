@@ -108,7 +108,7 @@
       <div class="card-header p-5">
         <h5 class="mb-2">OTP VERIFICATION</h5>
         <div>
-          <small>code has been sent to <%= email ? email : "email" %></small>
+          <small id="otp">code has been sent to <%= email ? email : "email" %></small>
         </div>
 
       </div>
@@ -133,7 +133,7 @@
           OTP expires with in :
           <span  id="timer"> 60</span>
         </div>
-        <p style="display: none;" id="otp" class="text-danger">Enter a valid OTP!!!</p>
+        
       </div>
     </div>
   </div>
@@ -149,8 +149,24 @@
         if (this.value.length === 1) {
           $(this).next("input[type='text']").focus();
         }
+        checkFields()
       });
+      $("input[type='text']").on("keydown", function (e) {
+    if (e.which === 8 && this.value.length === 0) {
+      $(this).prev("input[type='text']").val('').focus();
+      checkFields()
+    }
+  });
 
+
+  function checkFields() {
+    const allFieldsFilled = $("input[type='text']").toArray().every(function (field) {
+      return field.value.length === 1;
+    });
+    
+    // Enable or disable the "Verify" button based on the condition
+    $("#verifyButton").prop("disabled", !allFieldsFilled);
+  }
       $("#verifyButton").click(function () {
         let otpErr = document.getElementById('otp')
         let register = document.getElementById('registerToast')
@@ -181,7 +197,21 @@
               }, 5000);
 
             } else {
-              otpErr.style.display = ''
+             
+              Swal.fire({
+    toast: true,
+    icon: 'error',
+    title: 'oops enter a valid otp!!!',
+    animation: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
             }
           },
           error: function (error) {
@@ -192,7 +222,7 @@
     });
 
     let timerInterval;
-    let countdown = 5;
+    let countdown = 60;
 
     function startTimer() {
       $("#resendButton").prop("disabled", true);
@@ -216,7 +246,7 @@
     function resend() {
       const myToast = document.getElementById('myToast');
       var toast = new bootstrap.Toast(myToast)
-      countdown = 5
+      countdown = 60
       startTimer();
 
       $.ajax({
@@ -236,6 +266,15 @@
         }
       })
     }
+
+
+    function changeColor(){
+ let otp = document.getElementById('otp');
+ setTimeout(()=>{
+  otp.style.color = "#c96"
+ },5000)
+}
+changeColor()
 
   </script>
 </body>

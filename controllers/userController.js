@@ -368,7 +368,9 @@ exports.changePassword = async (req, res) => {
 
 exports.forgotPassword = async (req, res) => {
   try {
-    res.render('forgotpassword', { title: "change password", user: "User", wishCount: 0, count: 0 })
+    let err = req.app.locals.err;
+    req.app.locals.err = ""
+    res.render('forgotpassword', { title: "change password", user: "User", wishCount: 0, count: 0,err })
   } catch (error) {
 
   }
@@ -392,6 +394,9 @@ exports.resetPassword = async (req, res) => {
         otp = Math.floor(Math.random() * 90000) + 10000;
       }, 60000)
       res.render('changeotp',{email : req.session.email})
+     }else{
+      req.app.locals.err = "no user found!!!"
+         res.redirect('/forgotpassword')
      }
   
   } catch (error) {
@@ -407,6 +412,8 @@ exports.checkOtp = async(req,res) =>{
     console.log(userOtp + "  " + otp);
    if(userOtp == otp){
      res.json({confirmotp : true})
+   }else{
+    res.json({confirmotp : false})
    }
    
   } catch (error) {
@@ -436,6 +443,7 @@ exports.confirmPassword = async(req, res) =>{
       // console.log(changePassword);
       if(changePassword){
         res.json({resetpassword : true})
+       
       }
   } catch (error) {
     console.log(error.message);

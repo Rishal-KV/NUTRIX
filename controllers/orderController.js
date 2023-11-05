@@ -173,6 +173,7 @@ exports.cancelOrder = async (req, res) => {
     const orderId = req.body.orderId;
     const user = req.session.userId
     let totalAmount = await Order.findOne({ _id: orderId })
+    const cartData = await Cart.findOne({userId : req.session.userId})
     // console.log(totalAmount);
     const cancelOrder = await Order.updateOne({ _id: orderId }, {
       $set: {

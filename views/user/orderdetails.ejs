@@ -98,7 +98,7 @@ a {
     </div>
   </div>
   <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
-    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+    <div id="cancelToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
       <div class="toast-header">
 
         <% var currentTime=new Date(); %>
@@ -287,8 +287,8 @@ a {
       
   function cancelOrder(id) {
     const orderId = id; // Assuming you're using `id` for the order
-  let myToast = document.getElementById('myToast')
-  let toast = new bootstrap.Toast(myToast)
+  let cancelToast = document.getElementById('cancelToast')
+  let toast = new bootstrap.Toast(cancelToast)
     Swal.fire({
       title: 'Are you sure you want to cancel this order?',
       text: 'This action cannot be undone.',

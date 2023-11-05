@@ -30,7 +30,7 @@
                                     <div class="checkout">
                                         <div class="container">
                                             <h3 class="card-title p-3">Billing Address</h3><!-- End .card-title -->
-                                           <% if(addressDetails?.address.length==0){%>
+                                           <% if(addressDetails?.address.length==0 || addressDetails == undefined){%>
                                             <div class="ml-3 mb-3">
                                                 <a class="btn btn-outline-primary" href="/addaddress" >Add<i class="icon-edit "></i></a>
                                              
@@ -231,12 +231,7 @@
                             showCancelButton: true,
                             confirmButtonText: 'OK',
                             cancelButtonText: 'Cancel',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Redirect to the checkout or payment window
-                                window.location.href = '/checkout'; // Replace with your checkout page URL
-                            }
-                        });
+                        })
                     } else if (response.wallet) {
                         window.location.href = '/ordersuccess';
                     } else if(response.outofstock) {
