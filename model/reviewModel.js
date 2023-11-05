@@ -5,6 +5,10 @@ const reviewSchema = new mongoose.Schema({
         type: String,
         ref: 'Product'
     },
+    userId : {
+      type : String,
+      ref : 'User'
+    },
     user: {
         type: String
     },
@@ -19,28 +23,7 @@ const reviewSchema = new mongoose.Schema({
             }
         }
     ],
-    like: {
-        type : Boolean,
-        default: true
-    },
-    useFull: [
-        {
-            user: {
-                ref: 'User',
-                type: String
-            }
-        }
-    ],
-
-    notUseFull: [
-        {
-            user: {
-                ref: 'User',
-                type: String
-            }
-        }
-    ]
-
+  
 
 })
 

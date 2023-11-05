@@ -30,10 +30,15 @@
                                     <div class="checkout">
                                         <div class="container">
                                             <h3 class="card-title p-3">Billing Address</h3><!-- End .card-title -->
-                                            <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
+                                           <% if(addressDetails?.address.length==0){%>
+                                            <div class="ml-3 mb-3">
+                                                <a class="btn btn-outline-primary" href="/addaddress" >Add<i class="icon-edit "></i></a>
+                                             
+                                             </div>
+                                           <% }else{%>
                                             <div class="row">
                                                 <div class="col-lg-9">
-
+                  
                                                     <%addressDetails?.address.forEach(function(add) { %>
                                                         <div class="col-lg-9">
                                                             <div class="card card-dashboard">
@@ -73,6 +78,9 @@
                                                 </div><!-- End .col-lg-9 -->
 
                                             </div><!-- End .row -->
+                                           <% }%>
+                                            <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
+                                            
                                             <!-- </form> -->
                                         </div><!-- End .container -->
                                     </div><!-- End .checkout -->
@@ -231,7 +239,7 @@
                         });
                     } else if (response.wallet) {
                         window.location.href = '/ordersuccess';
-                    } else if(!response.stock) {
+                    } else if(response.outofstock) {
                    
                          Toast.fire({
   icon: 'error',

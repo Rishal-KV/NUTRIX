@@ -7,6 +7,7 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Coupon = require('../model/couponModel');
 const Wishlist = require('../model/wishlistModel')
+const Review = require('../model/reviewModel')
 
 var instance = new Razorpay({
   key_id: process.env.RAZ_ID,
@@ -36,7 +37,8 @@ exports.orderPlace = async (req, res) => {
  for(let i = 0; i < productStock.length; i++){
     let stock = productStock[i].productId.stock
     if(stock == 0){
-      return res.json({stock : false})
+     
+      return res.json({outofstock : true})
     }
 
  }
@@ -171,13 +173,17 @@ exports.cancelOrder = async (req, res) => {
     const orderId = req.body.orderId;
     const user = req.session.userId
     let totalAmount = await Order.findOne({ _id: orderId })
-    console.log(totalAmount);
+    // console.log(totalAmount);
     const cancelOrder = await Order.updateOne({ _id: orderId }, {
       $set: {
         status: "cancelled"
       }
 
     })
+    const couponFound = await Coupon.findOne({ couponName: cartData?.couponApplied });
+    if (couponFound) {
+      await Coupon.findOneAndUpdate({ couponName: cartData.couponApplied }, { $addToSet: { usedUsers: userId } });
+    }
 
     let walletBal = await User.findOne({ _id: user },
       { wallet: 1 })
@@ -207,14 +213,25 @@ exports.cancelOrder = async (req, res) => {
 
 exports.orderDetails = async (req, res) => {
   try {
-    
+    let reviewed = false
     const orderId = req.query.id;
     const userId = req.session.userId
     const orderDetails = await Order.findOne({ _id: orderId }).populate('products.productId');
-   
+    let products = orderDetails.products
+  
  
 
-    res.render('orderdetails', { user: req.session.user, orderDetails})
+     for (let product of products){
+      let review = await Review.findOne({product : product.productId._id,userId : req.session.userId})
+      console.log(review);
+      if(review){
+        reviewed = true
+      }else{
+       
+        reviewed = false
+      }      
+     }
+    res.render('orderdetails', { user: req.session.user, orderDetails,reviewed})
   } catch (error) {
     console.log(error.message);
   }

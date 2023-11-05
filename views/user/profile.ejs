@@ -7,23 +7,25 @@
                 <div class="row">
                     <aside class="col-md-4 col-lg-3">
                         <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                            
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Change Password</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+                               <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false"><i class="bi bi-truck text-primary h6"></i> Orders</a>
                             </li>
                             
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
+                                <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false"><i class="bi bi-journal-text text-primary h6"></i> Adresses</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet" role="tab" aria-controls="tab-wallet" aria-selected="false">Wallet</a>
+                                <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet" role="tab" aria-controls="tab-wallet" aria-selected="false"><i class="bi bi-wallet2 text text-primary h6"></i> Wallet</a>
                             </li>
                             
+                           
                             <li class="nav-item">
-                                <a class="nav-link" href="/signout">Sign Out</a>
+                                <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false"><i class="bi bi-shield-lock text-primary h6"></i> Change Password</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/signout"><i class="bi bi-box-arrow-left text-primary h6"></i> Sign Out</a>
                             </li>
                         </ul>
                     </aside><!-- End .col-lg-3 -->
@@ -93,11 +95,17 @@
                             </div><!-- .End .tab-pane -->
                  
                             <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-                                <h3 class="card-title p-3">Shipping Address</h3><!-- End .card-title -->
+                                
+                                <h3 class="card-title p-3">Shipping Address </h3><!-- End .card-title -->
+                                
                              <br>
-                           
+                             <div class="ml-3 mb-3">
+                                <a class="btn btn-outline-primary" href="/addaddress" >Add<i class="icon-edit "></i></a>
+                             
+                             </div>
+                            
                                 <div class="row">
-                      
+                                   
                                     <%addressDetails?.address.forEach(function(add) { %>
                                        
                                     <div class="col-lg-9">
@@ -113,8 +121,8 @@
                                                         <%=add.mobile%><br>
                                                        <%=add.email%><br>
                                                         <%=add.houseName%>,<%=add.city%>, <%=add.state%>,<%=add.country%>,<%=add.pin%><br>
-                                                        <a href="/editaddress?id=<%=add._id%>">Edit Address<i class="icon-edit"></i></a></p>
-                                                        <button class="btn btn-primary" onclick="remove('<%=add._id%>')">Remove Address<i class="fas fa-trash-alt"></i></button>
+                                                        <a href="/editaddress?id=<%=add._id%>">Edit Address<i class="icon-edit"></i></a></p><a onclick="remove('<%=add._id%>')" ><i class="bi bi-trash3-fill text-primary h5"></i></a>
+                                                      
                                                         
                                                 </div><!-- End .card-body -->
                                                 
@@ -126,16 +134,13 @@
                
                                     <% }); %>
                             
-                                    <div class="col-lg-6">
-                                        <div class="card card-dashboard">
-                                            <div class="card-body">
+                                       
                                            
 
-                                                <p>Add Address<br>
-                                                <a href="/addaddress">Add<i class="icon-edit"></i></a></p>
-                                            </div><!-- End .card-body -->
-                                        </div><!-- End .card-dashboard -->
-                                    </div><!-- End .col-lg-6 -->
+                                               
+                                               
+                                          
+                                  
                                 </div><!-- End .row -->
                             
                             </div><!-- .End .tab-pane -->

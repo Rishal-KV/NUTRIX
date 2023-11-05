@@ -7,6 +7,11 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <title>Order Details</title>
   <style>
+    @media print {
+  #myModal {
+    display: none;
+  }
+}
     body{
     background:#eee;
 }
@@ -32,7 +37,7 @@ a {
     color: #5465ff;
     text-decoration: none;
 }
-/* .rate {
+.rate {
     float: left;
     height: 46px;
     padding: 0 10px;
@@ -49,8 +54,8 @@ a {
     cursor:pointer;
     font-size:30px;
     color:#ccc;
-} */
-/* .rate:not(:checked) > label:before {
+}
+.rate:not(:checked) > label:before {
     content: '★ ';
 }
 .rate > input:checked ~ label {
@@ -66,14 +71,32 @@ a {
 .rate > input:checked ~ label:hover ~ label,
 .rate > label:hover ~ input:checked ~ label {
     color: #c59b08;
-} */
+}
   </style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/7255b4bf58.js" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
+  <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
+    <div id="myToast" class="toast " role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+      <div class="toast-header">
+
+        <% var currentTime=new Date(); %>
+
+
+          <small>
+            <%= new Date().toLocaleTimeString() %>
+          </small>
+
+      </div>
+      <div class="toast-body text-success">
+        <i class="bi bi-emoji-smile-fill"></i>  Thank You for rating our products!!!
+      </div>
+    </div>
+  </div>
   <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
     <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
       <div class="toast-header">
@@ -120,9 +143,9 @@ a {
                    <%}%>
                   
                 </div>
-                <div class="d-flex">
+                <div class="d-flex ">
                   <%if(orderDetails.status == "delivered" ){%>
-                    <button onclick="download()" class="btn  p-0 me-3 d-none d-lg-block "><i class="fa-solid fa-file-arrow-down"></i> <span class="text">Invoice</span></button>
+                    <button onclick="download()" class="btn  p-0 me-3  "><i class="fa-solid fa-file-arrow-down"></i> <span class="text">Invoice</span></button>
                    <%}else if(orderDetails.status == "cancelled"){%>
                     
                    <%}else{%>
@@ -166,7 +189,7 @@ a {
                     <td colspan="2">Shipping</td>
                     <td class="text-end">₹0</td>
                   </tr>
-                 
+                 <input id="orderId" type="hidden" value="<%=orderDetails._id%>">
                   <tr class="fw-bold">
                     <td colspan="2">TOTAL</td>
                     <td class="text-end">₹<%=orderDetails.totalAmount%></td>
@@ -202,18 +225,25 @@ a {
                 </div>
               </div>
             <!-- Button trigger modal -->
+          <input type="hidden" value="<%=reviewed%>"  id="reviewed">
             <%if(orderDetails.status == "delivered"){%>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Add Review
-              </button>
+
+             <% if(!reviewed){%>
+                <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="button">
+                  Add Review
+                </button>
+             <% }else{%>
+
+            <%  }%>
+             
               
             <%}else{%>
               
               
               <%}%>
-
+            
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -227,20 +257,21 @@ a {
        
           <textarea class="form-control" id="review" rows="3"></textarea>
           <div class="rate">
-            <input type="radio" id="star5" name="rate" value="1" />
-            <label for="star5" title="text">1 stars</label>
-            <input type="radio" id="star4" name="rate" value="2" />
-            <label for="star4" title="text">2 stars</label>
+            <input type="radio" id="star5" name="rate" value="5" />
+            <label for="star5" title="text"></label>
+            <input type="radio" id="star4" name="rate" value="4" />
+            <label for="star4" title="text"></label>
             <input type="radio" id="star3" name="rate" value="3" />
-            <label for="star3" title="text">3 stars</label>
-            <input type="radio" id="star2" name="rate" value="4" />
-            <label for="star2" title="text">4 stars</label>
-            <input type="radio" id="star1" name="rate" value="5" />
-            <label for="star1" title="text">5 star</label>
+            <label for="star3" title="text"></label>
+            <input type="radio" id="star2" name="rate" value="2" />
+            <label for="star2" title="text"></label>
+            <input type="radio" id="star1" name="rate" value="1" />
+            <label for="star1" title="text"></label>
           </div>
           <input id="orderId" type="hidden"  value="<%=orderDetails._id%>">
        
       </div>
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button onclick="addReview()" type="button" class="btn btn-primary">Save changes</button>
@@ -248,15 +279,7 @@ a {
     </div>
   </div>
 </div>
-            </div>
             
-          </div>
-        </div>
-        
-      </div>
-    </div>
-    
-      </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
@@ -320,34 +343,47 @@ a {
   }
 
 
-
-  function addReview(){
-    const review = document.getElementById('review').value
-    
-    const orderId = document.getElementById('orderId').value
-    
+  function addReview() {
+    const review = document.getElementById('review').value;
+    const orderId = document.getElementById('orderId').value;
     const radioInputs = document.querySelectorAll('input[name="rate"]');
-let selectedValue = null;
+    let selectedValue = null;
 
-radioInputs.forEach(input => {
-    if (input.checked) {
-        selectedValue = input.value;
-    }
-});
-console.log(selectedValue);
+    radioInputs.forEach(input => {
+        if (input.checked) {
+            selectedValue = input.value;
+        }
+    });
 
-
-    
     $.ajax({
-      url : "/addreview",
-      method : "POST",
-      data :{
-        review : review,
-        orderId : orderId,
-        rating : selectedValue
-      }
-    })
-  }
+        url: "/addreview",
+        method: "POST",
+        data: {
+            review: review,
+            orderId: orderId,
+            rating: selectedValue
+        },
+        success: function (response) {
+            if (response.review) {
+                $('#myModal').on('hidden.bs.modal', function () {
+                    let myToast = document.getElementById('myToast');
+                    let toast = new bootstrap.Toast(myToast);
+                    toast.show();
+
+                    setTimeout(() => {
+                        toast.hide()
+                            window.location.reload();
+                      
+                    }, 3000);
+                });
+
+                $('#myModal').modal('hide');
+            }
+        }
+    });
+}
+
+ 
   </script>
   
   

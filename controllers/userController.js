@@ -6,7 +6,7 @@ const Cart = require("../model/cartModel");
 const Wishlist = require('../model/wishlistModel');
 const Banner = require('../model/bannerModel');
 const Category = require('../model/catergoryModel');
-const Review = require('../model/review')
+const Review = require('../model/reviewModel')
 
 
 

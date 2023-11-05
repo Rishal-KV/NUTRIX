@@ -44,8 +44,11 @@ let count = 0
   exports.address = async (req, res) =>{
     try {
 
-      const carts = await Cart.findOne({ userId: req.session.userId }); 
+      const carts = await Cart.findOne({ userId: req.session.userId });
+      const wishlist = await Wishlist.findOne({user : req.session.userId}) 
       carts ? count = carts.products.length : count = 0
+
+      wishlist ? wishCount = wishlist.products.length : wishCount = 0
       
       res.render('addAddress',{user : req.session.user,count,title : "Profile"});
 
@@ -128,13 +131,16 @@ exports.geteditaddress = async(req, res) =>{
       { user: userId, "address._id": addressId },
       { "address.$": 1 }
     );
-    const carts = await Cart.findOne({ userId: req.session.userId }); 
+    const carts = await Cart.findOne({ userId: req.session.userId });
+    let wishlist = await Wishlist.findOne({user : req.session.userId}) ;
+    wishlist ? wishCount = wishlist.products.length : wishCount = 0
     let count = 0;
-     count = count + carts.products.length;
+     count = carts.products.length;
     const address = addressData.address[0]
+     
     console.log(address);
 // console.log(addressDetails);
-      res.render('editaddress',{user : req.session.user,address,count})
+      res.render('editaddress',{user : req.session.user,address,count,title : "edit Address",wishCount})
 
       
     

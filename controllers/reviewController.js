@@ -1,4 +1,4 @@
-const Review = require('../model/review')
+const Review = require('../model/reviewModel')
 const Order = require('../model/orderModel')
 
 
@@ -28,15 +28,18 @@ exports.addReview = async (req, res) => {
                     { new: true } 
                 );
                 
-              
+              res.json({review: true})
             } else {
                 const newReview = new Review({
-                    user : req.session.name,
+                    
+                    user : req.session.user,
+                    userId : req.session.userId,    
                     product: product.productId,
                     reviews: [{ review: userReview }],
                     rating : rating
                 });
                 await newReview.save();
+                res.json({review: true})
             }
         }
 
@@ -45,3 +48,4 @@ exports.addReview = async (req, res) => {
       
     }
 };
+
