@@ -53,7 +53,7 @@ adminRoute.get("/blockcategory",categoryController.blockCategory);
 adminRoute.get('/unblockcategory',categoryController.unblockCategory)
 
 //================================order management==========================
-adminRoute.get('/ordermanagement',adminController.orderManagement)
+adminRoute.get('/ordermanagement',adminAuth.isLoggedIn,adminController.orderManagement)
 adminRoute.get('/viewdetails',adminController.orderDetails)
 adminRoute.get('/updatestatus',adminController.deliver)
 adminRoute.get('/cancel',adminController.cancelOrder)
@@ -78,7 +78,7 @@ adminRoute.get('/download',adminController.downloadReport)
 
 //==================================banner mgt==================================
 adminRoute.get('/bannermanagement',adminAuth.isLoggedIn, bannerController.banner)
-adminRoute.get('/addbanner',bannerController.addBanner)
+adminRoute.get('/addbanner',adminAuth.isLoggedIn,bannerController.addBanner)
 adminRoute.post('/addbanner',multer.bannerUpload.single('image'),bannerController.uploadBanner)
 adminRoute.get('/banneraction',bannerController.action)
 adminRoute.get('/editbanner',bannerController.editBanner)

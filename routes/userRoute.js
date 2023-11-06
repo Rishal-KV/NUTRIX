@@ -48,6 +48,7 @@ userRoute.post('/removecart',cartController.removeCart)
 
 
 //==============================user profile=====================
+userRoute.post('/editprofile',userAuth.isLoggedIn,userController.editprofile);
 userRoute.post('/changepassword',userController.changePassword);
 userRoute.get('/profile',userAuth.isLoggedIn,addressController.profile);
 userRoute.get('/checkout',userAuth.isLoggedIn,cartController.checkout )
@@ -60,7 +61,7 @@ userRoute.post('/editaddress',addressController.editaddress)
 
 
 //================================wishlist===========================
-userRoute.get('/wishlist',wishListController.Wishlist)
+userRoute.get('/wishlist',userAuth.isLoggedIn,wishListController.Wishlist)
 userRoute.post('/addToWishlist',wishListController.addToWishList)
 userRoute.post('/removewishlist',wishListController.removeWishlist)
 
@@ -70,7 +71,7 @@ userRoute.post('/removewishlist',wishListController.removeWishlist)
 userRoute.post('/placeorder',orderController.orderPlace)
 userRoute.post('/verifypayment',orderController.verifypayment)
 userRoute.get('/ordersuccess',userAuth.isLoggedIn,orderController.success);
-userRoute.get('/remove',addressController.remove);
+userRoute.get('/remove',userAuth.isLoggedIn,addressController.remove);
 userRoute.post('/cancelorder',orderController.cancelOrder)
 userRoute.get('/orderdetails',userAuth.isLoggedIn,orderController.orderDetails);
 

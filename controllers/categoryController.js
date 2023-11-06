@@ -1,7 +1,5 @@
 const Category = require("../model/catergoryModel");
-const Sharp = require("sharp");
-const fs = require("fs");
-const path = require("path");
+
 
 
 //======================categoryy mgt=======================
@@ -20,7 +18,7 @@ exports.addcategory = async (req, res) => {
   try {
     const { cat } = req.body;
   
-    let isFound = await Category.findOne({ name: cat });
+    let isFound = await Category.findOne({name:{$regex: new RegExp(cat,'i')}});
     if (isFound) {
       res.redirect("/admin/categorymanagement");
     } else {

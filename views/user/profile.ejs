@@ -36,9 +36,39 @@
                             <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
                                 <p>Hello <span class="font-weight-normal text-dark"><%=userDetails.username%></span> 
                                 <br>
-                                From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
+                                From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <button  type="button" class="btn btn-primary text-dark border border-0" data-toggle="modal" data-target="#myModal" style="background: transparent;">
+                                    Edit your account and password details
+                                  </button></p>
                             </div><!-- .End .tab-pane -->
-                                
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Edit profile</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body" >
+                                     
+                                        <div class="form-group p-5">
+                                          <label for="recipient-name" class="col-form-label  ">Name</label>
+                                          <input type="text"  value="<%=userDetails.username%>" class="form-control border border-5" id="recipient-name" name="name" >
+                                        </div>
+                                        <div class="form-group p-5">
+                                            <label for="recipient-name" class="col-form-label ">Email</label>
+                                            <input type="email" value="<%=userDetails.email%>" class="form-control border border-5" id="recipient-email" name="email">
+                                          </div>
+                                       
+                                  
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" id="modalClose" data-dismiss="modal">Close</button>
+                                      <button onclick="edit()" type="button" class="btn btn-primary">Update</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
                                 <% if (ordersDetails?.length > 0) { %>
                                     <table class="table">
@@ -103,19 +133,24 @@
                                 <a class="btn btn-outline-primary" href="/addaddress" >Add<i class="icon-edit "></i></a>
                              
                              </div>
+                           
+
+
+
+                    
                             
                                 <div class="row">
                                    
                                     <%addressDetails?.address.forEach(function(add) { %>
                                        
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-6">
                                                    
                                     
                                         <div class="col-lg-9">
                                             <div id="re-load">
                                             <div class="card card-dashboard">
                                               
-                                                <div class="card-body">
+                                                <div class="card-body border border-3">
                                                     
                                                     <p><%=add.fullname%><br>
                                                         <%=add.mobile%><br>
@@ -280,6 +315,43 @@ function changepassword(){
         }
     }
     })
+}
+
+
+
+function edit(){
+    const name = document.getElementById('recipient-name').value;
+    const email = document.getElementById('recipient-email').value
+    const closeBtn = document.getElementById("modalClose")
+    console.log(email);
+$.ajax({
+    url : '/editprofile',
+    method : 'POST',
+    data :{
+        name : name,
+        email : email
+    },
+    success : function(response){
+        if (response.updated) {
+            Swal.fire({
+              toast: true,
+              icon: 'success',
+              title: 'updated',
+              animation: false,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+
+            })
+            setTimeout(()=>{
+                closeBtn.click()
+            },1000)
+     
+          
+        }
+    }
+})
 }
 
 </script>

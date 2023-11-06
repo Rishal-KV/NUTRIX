@@ -131,7 +131,7 @@
                                         <%category.forEach((cat,index)=>{%>
                                             <div class="filter-item">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="category-<%=index+1%>" name="category" >
+                                                    <input type="checkbox" class="custom-control-input" value="<%=cat._id%>" id="category-<%=index+1%>" name="category" >
                                                     <label class="custom-control-label" for="category-<%=index+1%>"><%=cat.name%></label>
                                                 </div><!-- End .custom-checkbox -->
                                             </div><!-- End .filter-item -->

@@ -103,7 +103,7 @@ exports.home = async (req, res) => {
     const items = await Product.find({
       is_blocked: false,
       name: { $regex: '^' + search, $options: "i" }
-    });
+    }).limit(4);
 
 
     const carts = await Cart?.findOne({ userId }); //
@@ -277,7 +277,7 @@ exports.shop = async (req, res) => {
     //taking page num thorugh query
     let pageNum = req.query.page
     //setting how much product should be display in shop
-    let perPage = 2;
+    let perPage = 3;
 
     //taking doc Count
     let docCount = await Product.countDocuments();
@@ -288,7 +288,7 @@ exports.shop = async (req, res) => {
     const search = req.query.search || "";
 
     let selectedCategory = req.query.category || ''
-    console.log(selectedCategory);
+    // console.log(selectedCategory);
     const selectedPriceRanges = req.query.price || '';
     // console.log(selectedPriceRanges);
     const [minPrice, maxPrice] = selectedPriceRanges.split('-');
@@ -450,3 +450,22 @@ exports.confirmPassword = async(req, res) =>{
   }
 }
 
+
+exports.editprofile = async(req, res) =>{
+  try {
+  let {name, email} = req.body
+  let update = await User.updateOne({_id : req.session.userId},
+    {$set:{
+      username : name,
+      email : email
+    }}
+    )
+    console.log(name);
+    console.log(update);
+    if(update){
+      res.json({updated : true})
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
