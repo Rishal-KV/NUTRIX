@@ -189,9 +189,9 @@ exports.geteditaddress = async(req, res) =>{
         { $pull: { address: { _id: addressId } } }
    
       );
-      
+      console.log(addressId);
       res.json({success : true})
-      res.redirect('/profile')
+    
 
     } catch (error) {
       console.log(error.message);

@@ -150,6 +150,7 @@ exports.verifyLogin = async (req, res) => {
       if (passMatch && userData.blocked == false) {
         req.session.userId = userData._id;
         req.session.user = userData.username;
+        req.app.locals.logError = ""
         return res.redirect("/home");
       } else {
         if (userData.blocked) {
@@ -229,7 +230,7 @@ exports.resendOtp = async (req, res) => {
 exports.signout = async (req, res) => {
   try {
     req.session.destroy();
-    res.redirect("/");
+   return res.json({logout : true})
   } catch (error) {
     console.log(error.message);
   }
@@ -238,16 +239,18 @@ exports.signout = async (req, res) => {
 exports.productDetails = async (req, res) => {
   try {
     let wishCount = 0
+    let  avgRating;
+    let rating
     const id = req.query.id;
     const pdata = await Product.findById({ _id: id }).populate('category');
     await pdata.populate('category.offer')
     // console.log(pdata);
     const wishlist = await Wishlist.findOne({ user: req.session.userId })
     const similar = await Product.find({ category: pdata.category._id })
-    const review = await Review.findOne({ product: id }) 
-
-     
-   
+    const review = await Review.findOne({ product: id }).populate('reviews.userId')
+    review ? rating = review?.reviews?.reduce((acc, curr)=> acc + curr.rating,0) : undefined
+    
+avgRating = rating / review?.reviews?.length
     // console.log(similar);
     // console.log(similar);
     wishlist ? wishCount = wishlist.products.length : 0
@@ -261,7 +264,7 @@ exports.productDetails = async (req, res) => {
       }
     }
 
-    res.render("product", { pdata, user: req.session.user, count, similar, title: "product", wishCount,review });
+    res.render("product", { pdata, user: req.session.user, count, similar, title: "product", wishCount,review,avgRating });
   } catch (error) {
     console.log(error.message);
   }

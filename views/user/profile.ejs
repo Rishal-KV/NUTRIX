@@ -1,5 +1,5 @@
 <%- include("../layouts/user/userHeader.ejs")-%>
-    
+
 
     <div class="page-content">
         <div class="dashboard">
@@ -7,205 +7,260 @@
                 <div class="row">
                     <aside class="col-md-4 col-lg-3">
                         <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
-                            
-                            <li class="nav-item">
-                               <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false"><i class="bi bi-truck text-primary h6"></i> Orders</a>
-                            </li>
-                            
-                            <li class="nav-item">
-                                <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false"><i class="bi bi-journal-text text-primary h6"></i> Adresses</a>
-                            </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet" role="tab" aria-controls="tab-wallet" aria-selected="false"><i class="bi bi-wallet2 text text-primary h6"></i> Wallet</a>
+                                <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab"
+                                    aria-controls="tab-dashboard" aria-selected="false"><i
+                                        class="bi bi-truck text-primary h6"></i> Profile</a>
                             </li>
                             
                            
+                            
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false"><i class="bi bi-shield-lock text-primary h6"></i> Change Password</a>
+                                <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab"
+                                    aria-controls="tab-orders" aria-selected="false"><i
+                                        class="bi bi-truck text-primary h6"></i> Orders</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address"
+                                    role="tab" aria-controls="tab-address" aria-selected="false"><i
+                                        class="bi bi-journal-text text-primary h6"></i> Adresses</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet" role="tab"
+                                    aria-controls="tab-wallet" aria-selected="false"><i
+                                        class="bi bi-wallet2 text text-primary h6"></i> Wallet</a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account"
+                                    role="tab" aria-controls="tab-account" aria-selected="false"><i
+                                        class="bi bi-shield-lock text-primary h6"></i> Change Password</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/signout"><i class="bi bi-box-arrow-left text-primary h6"></i> Sign Out</a>
+                                <a onclick="logout()" class="nav-link" ><i class="bi bi-box-arrow-left text-primary h6"></i>
+                                    Sign Out</a>
                             </li>
                         </ul>
                     </aside><!-- End .col-lg-3 -->
 
                     <div class="col-md-8 col-lg-9">
-                      
+
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-                                <p>Hello <span class="font-weight-normal text-dark"><%=userDetails.username%></span> 
-                                <br>
-                                From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <button  type="button" class="btn btn-primary text-dark border border-0" data-toggle="modal" data-target="#myModal" style="background: transparent;">
-                                    Edit your account and password details
-                                  </button></p>
+                            <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel"
+                                aria-labelledby="tab-dashboard-link">
+                                <p>Hello <span class="font-weight-normal text-dark">
+                                        <%=userDetails.username%>
+                                    </span>
+                                    <br>
+                                    From your account dashboard you can view your <a href="#tab-orders"
+                                        class="tab-trigger-link link-underline">recent orders</a>, manage your <a
+                                        href="#tab-address" class="tab-trigger-link link-underline">shipping and billing addresses</a>,
+                                    and <a href="" class=" tab-trigger-link  link-underline "
+                                        data-toggle="modal" data-target="#myModal" style="background: transparent;">
+                                        Edit your account 
+                                </a>
+                                </p>
                             </div><!-- .End .tab-pane -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">Edit profile</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body" >
-                                     
-                                        <div class="form-group p-5">
-                                          <label for="recipient-name" class="col-form-label  ">Name</label>
-                                          <input type="text"  value="<%=userDetails.username%>" class="form-control border border-5" id="recipient-name" name="name" >
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit profile</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div class="form-group p-5">
-                                            <label for="recipient-name" class="col-form-label ">Email</label>
-                                            <input type="email" value="<%=userDetails.email%>" class="form-control border border-5" id="recipient-email" name="email">
-                                          </div>
-                                       
-                                  
+                                        <div class="modal-body">
+
+                                            <div class="form-group p-5">
+                                                <label for="recipient-name" class="col-form-label  ">Name</label>
+                                                <input type="text" value="<%=userDetails.username%>"
+                                                    class="form-control border border-5" id="recipient-name"
+                                                    name="name">
+                                            </div>
+                                            <div class="form-group p-5">
+                                                <label for="recipient-name" class="col-form-label ">Email</label>
+                                                <input type="email" value="<%=userDetails.email%>"
+                                                    class="form-control border border-5" id="recipient-email"
+                                                    name="email">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" id="modalClose"
+                                                data-dismiss="modal">Close</button>
+                                            <button onclick="edit()" type="button"
+                                                class="btn btn-primary">Update</button>
+                                        </div>
                                     </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" id="modalClose" data-dismiss="modal">Close</button>
-                                      <button onclick="edit()" type="button" class="btn btn-primary">Update</button>
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
-                            <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-                                <% if (ordersDetails?.length > 0) { %>
+                            </div>
+                            <div class="tab-pane fade" id="tab-orders" role="tabpanel"
+                                aria-labelledby="tab-orders-link">
+                                <% if (ordersDetails?.length> 0) { %>
                                     <table class="table">
                                         <thead>
-                                          <tr>
-                                            <th scope="col">Sno</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Payment</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Details</th>
-                                    
-                                         
-                                           
-                                          </tr>
+                                            <tr>
+                                                <th scope="col">Sno</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Amount</th>
+                                                <th scope="col">Payment</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Details</th>
+
+
+
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             <% ordersDetails.forEach(function(item,index) { %>
-                                          <tr>
-                                         
-                                                <td><%=index + 1%></td>
-                                                <td><%= new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></td>
-                                                <td><%=item.totalAmount%></td>
-    
-                                                
-                                                    <td><%=item.paymentMethod%></td>
-                                                    <td><%=item.status%></td>
-                                                    
-                                                    
+                                                <tr>
+
+                                                    <td>
+                                                        <%=index + 1%>
+                                                    </td>
+                                                    <td>
+                                                        <%= new Date(item.date).toLocaleDateString('en-US', {
+                                                            year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                                    </td>
+                                                    <td>
+                                                        <%=item.totalAmount%>
+                                                    </td>
+
+
+                                                    <td>
+                                                        <%=item.paymentMethod%>
+                                                    </td>
+                                                    <td>
+                                                        <%=item.status%>
+                                                    </td>
+
+
                                                     <td><a href="orderdetails?id=<%=item._id%>">Show details</a></td>
-                                                 
-                                         
-                                              
-                                
-                                            
-                                          </tr>
-                                          <% }); %>
-                                         
+
+
+
+
+
+                                                </tr>
+                                                <% }); %>
+
                                         </tbody>
-                                      </table>
-                                  <% } else { %>
-                                    <p>No order has been made yet.</p>
-                                    <a href="/home" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
-                                  <% } %>
-                     
-                                
-                                
+                                    </table>
+                                    <% } else { %>
+                                        <p>No order has been made yet.</p>
+                                        <a href="/home" class="btn btn-outline-primary-2"><span>GO SHOP</span><i
+                                                class="icon-long-arrow-right"></i></a>
+                                        <% } %>
+
+
+
 
                             </div><!-- .End .tab-pane -->
 
-                            <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
-                                <p>No downloads available yet.</p>
-                                <a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
-                            </div><!-- .End .tab-pane -->
-                 
-                            <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-                                
-                                <h3 class="card-title p-3">Shipping Address </h3><!-- End .card-title -->
-                                
-                             <br>
-                             <div class="ml-3 mb-3">
-                                <a class="btn btn-outline-primary" href="/addaddress" >Add<i class="icon-edit "></i></a>
-                             
-                             </div>
                            
 
+                            <div class="tab-pane fade" id="tab-address" role="tabpanel"
+                                aria-labelledby="tab-address-link">
+
+                                <h3 class="card-title p-3">Shipping Address </h3><!-- End .card-title -->
+
+                                <br>
+                                <div class="ml-3 mb-3 ">
+                                    <a class="btn btn-outline-primary" data-toggle="modal"
+                                        data-target="#exampleModal">Add<i class="icon-edit  "></i></a>
+
+                                </div>
 
 
-                    
-                            
+
+
+
+
                                 <div class="row">
-                                   
-                                    <%addressDetails?.address.forEach(function(add) { %>
-                                       
-                                    <div class="col-lg-6">
-                                                   
-                                    
-                                        <div class="col-lg-9">
-                                            <div id="re-load">
-                                            <div class="card card-dashboard">
-                                              
-                                                <div class="card-body border border-3">
-                                                    
-                                                    <p><%=add.fullname%><br>
-                                                        <%=add.mobile%><br>
-                                                       <%=add.email%><br>
-                                                        <%=add.houseName%>,<%=add.city%>, <%=add.state%>,<%=add.country%>,<%=add.pin%><br>
-                                                        <a href="/editaddress?id=<%=add._id%>">Edit Address<i class="icon-edit"></i></a></p><a onclick="remove('<%=add._id%>')" ><i class="bi bi-trash3-fill text-primary h5"></i></a>
-                                                      
-                                                        
-                                                </div><!-- End .card-body -->
-                                                
-                                            </div><!-- End .card-dashboard -->
-                                        </div>
-                                        </div><!-- End .col-lg-6 -->
-                              
-                                    </div><!-- End .col-lg-9 -->
-               
-                                    <% }); %>
-                            
-                                       
-                                           
 
-                                               
-                                               
-                                          
-                                  
+                                    <%addressDetails?.address.forEach(function(add) { %>
+
+                                        <div class="col-lg-6">
+
+
+                                            <div class="col-lg-9">
+
+                                                <div class="card card-dashboard  border border-3">
+
+                                                    <div class="card-body">
+
+                                                        <p>
+                                                            <%=add.fullname%><br>
+                                                                <%=add.mobile%><br>
+                                                                    <%=add.email%><br>
+                                                                        <%=add.houseName%>,<%=add.city%>, <%=add.state%>
+                                                                                    ,<%=add.country%>,<%=add.pin%><br>
+                                                                                            <a
+                                                                                                href="/editaddress?id=<%=add._id%>">Edit
+                                                                                                Address<i
+                                                                                                    class="icon-edit"></i></a>
+                                                        </p><a onclick="remove('<%=add._id%>')"><i
+                                                                class="bi bi-trash3-fill text-primary h5"></i></a>
+
+
+                                                    </div><!-- End .card-body -->
+
+                                                </div><!-- End .card-dashboard -->
+
+                                            </div><!-- End .col-lg-6 -->
+
+                                        </div><!-- End .col-lg-9 -->
+
+                                        <% }); %>
+
+
+
+
+
+
+
+
                                 </div><!-- End .row -->
-                            
+
+
                             </div><!-- .End .tab-pane -->
 
-                            <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-                               
-                                    
-                                    
+                            <div class="tab-pane fade" id="tab-account" role="tabpanel"
+                                aria-labelledby="tab-account-link">
 
-                                    <label>Current password</label>
-                                    <input type="password" class="form-control" name="currentpassword" id="currentpassword">
 
-                                    <label>New password</label>
-                                    <input type="password" class="form-control" name="newpassword" id="newpassword">
-                                  <p  id="passErr" style="display: none;" class="text-danger">Password Doesn't Match</p>
-<!--      
+
+
+                                <label>Current password</label>
+                                <input type="password" class="form-control" name="currentpassword" id="currentpassword">
+
+                                <label>New password</label>
+                                <input type="password" class="form-control" name="newpassword" id="newpassword">
+                                <p id="passErr" style="display: none;" class="text-danger">Password Doesn't Match</p>
+                                <!--      
                                     <label>Confirm new password</label>
                                     <input type="password" class="form-control mb-2"> -->
 
-                                    <button onclick="changepassword()" type="submit" class="btn btn-outline-primary-2" >
-                                        <span>SAVE CHANGES</span>
-                                        <i class="icon-long-arrow-right"></i>
-                                    </button>
-                               
+                                <button onclick="changepassword()" type="submit" class="btn btn-outline-primary-2">
+                                    <span>SAVE CHANGES</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </button>
+
                             </div><!-- .End .tab-pane -->
 
-                            <div class="tab-pane fade" id="tab-wallet" role="tabpanel" aria-labelledby="tab-wallet-link">
+                            <div class="tab-pane fade" id="tab-wallet" role="tabpanel"
+                                aria-labelledby="tab-wallet-link">
 
                                 <div class="wallet-container">
-                                    <h1 class="balance">Balance: ₹<%=userDetails.wallet%></h1>
+                                    <h1 class="balance">Balance: ₹<%=userDetails.wallet%>
+                                    </h1>
                                     <table style=" width: 100%;
                                     border-collapse: collapse;
                                     margin-top: 20px;">
@@ -222,22 +277,31 @@
                                         <tbody>
                                             <%wallHistory.forEach((val)=>{%>
                                                 <tr>
-                                                    <td style="border: 1px solid #ccc; padding: 10px; text-align: center;">
-                                                        <%= val.date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) %>
+                                                    <td
+                                                        style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                                                        <%= val.date.toLocaleString('en-US', { year: 'numeric' ,
+                                                            month: 'long' , day: 'numeric' , hour: '2-digit' ,
+                                                            minute: '2-digit' , second: '2-digit' }) %>
                                                     </td>
-                                                    <% if (val.status == "credit") { %>
-                                                        <td class="text-success" style="border: 1px solid #ccc; padding: 10px; text-align: center;">+₹<%= val.amount %></td>
-                                                    <% } else { %>
-                                                        <td class="text-danger" style="border: 1px solid #ccc; padding: 10px; text-align: center;">-₹<%= val.amount %></td>
-                                                    <% } %>
-                                                    
-                                                  
+                                                    <% if (val.status=="credit" ) { %>
+                                                        <td class="text-success"
+                                                            style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                                                            +₹<%= val.amount %>
+                                                        </td>
+                                                        <% } else { %>
+                                                            <td class="text-danger"
+                                                                style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                                                                -₹<%= val.amount %>
+                                                            </td>
+                                                            <% } %>
+
+
                                                 </tr>
-                                                
-                                            <%})%>
-                                            
-                                           
-                                            <!-- Add more transaction rows as needed -->
+
+                                                <%})%>
+
+
+                                                    <!-- Add more transaction rows as needed -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -251,108 +315,295 @@
             </div><!-- End .container -->
         </div><!-- End .dashboard -->
     </div><!-- End .page-content -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Billing address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/addaddress" method="post" onsubmit="return validateForm()">
+                        <div class="row p-5">
+                            <div class="col-lg-9">
 
-<script>
- function remove(id) {
-  let addressId = id;
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Full Name *</label>
+                                        <input type="text" class="form-control" name="fullname" id="fullname">
+                                        <span class="error-message text-danger" id="fullname-error"></span>
+                                    </div><!-- End .col-sm-6 -->
+                                </div><!-- End .row -->
+
+                                <label>Country *</label>
+                                <input type="text" class="form-control" name="country" id="country">
+                                <span class="error-message text-danger" id="country-error"></span>
+
+                                <label>Street address *</label>
+                                <input type="text" class="form-control" placeholder="House number and Street name"
+                                    name="housename" id="housename">
+                                <span class="error-message text-danger" id="housename-error"></span>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Town / City *</label>
+                                        <input type="text" class="form-control" name="city" id="city">
+                                        <span class="error-message text-danger" id="city-error"></span>
+                                    </div><!-- End .col-sm-6 -->
+
+                                    <div class="col-sm-6">
+                                        <label>State / Country *</label>
+                                        <input type="text" class="form-control" name="state" id="state">
+                                        <span class="error-message text-danger" id="state-error"></span>
+                                    </div><!-- End .col-sm-6 -->
+                                </div><!-- End .row -->
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Postcode / ZIP *</label>
+                                        <input type="text" class="form-control" name="pin" id="pin">
+                                        <span class="error-message text-danger" id="pin-error"></span>
+                                    </div><!-- End .col-sm-6 -->
+
+                                    <div class="col-sm-6">
+                                        <label>Phone *</label>
+                                        <input type="tel" class="form-control" name="mobile" id="mobile">
+                                        <span class="error-message text-danger" id="mobile-error"></span>
+                                    </div><!-- End .col-sm-6 -->
+                                </div><!-- End .row -->
+
+                                <label>Email address *</label>
+                                <input type="email" class="form-control" name="email" id="email">
+                                <span class="error-message text-danger" id="email-error"></span>
+
+                                <!-- <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                                                <span class="btn-text">Add</span>
+                                                                <span class="btn-hover-text">Add</span>
+                                                            </button> -->
 
 
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this address!',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, keep it'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // User confirmed, proceed with the deletion
-      $.ajax({
-        url: `/remove?id=${addressId}`,
-        method: 'GET',
-        success: function (response) {
-            if (response.success) {
-                $("#re-load").load("/remove #re-load");
+
+                            </div><!-- End .row -->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function remove(id) {
+            let addressId = id;
+ let address = document.getElementById('tab-address-link')
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this address!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User confirmed, proceed with the deletion
+                    $.ajax({
+                        url: `/remove?id=${addressId}`,
+                        method: 'GET',
+                        success: function (response) {
+                            if (response.success) {
+                              
+                            //    window.location.href = "/profile"
+                               address.click();
+                               window.location.reload()
+                            }
+                            // Handle success here
+                            console.log('Address removed successfully');
+                            // You can also update the UI or take other actions as needed
+                        },
+                        error: function (error) {
+                            // Handle errors here
+                            console.error('Error removing address', error);
+                        }
+                    });
+                } else {
+                    // User clicked "No" or closed the dialog, do nothing
+                }
+            });
+        }
+
+        function changepassword() {
+            let pass = document.getElementById('passErr')
+            let currentpassword = document.getElementById('currentpassword').value;
+            let newpassword = document.getElementById('newpassword').value
+            $.ajax({
+                url: "/changepassword",
+                method: "POST",
+                data: {
+                    currentpassword: currentpassword,
+                    newpassword: newpassword
+                },
+                success: function (response) {
+                    if (response.match) {
+                        Swal.fire({
+                            title: 'Password changed successfuly',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            // Redirect to the profile page
+                            window.location.href = '/profile'; // Replace 'profile.html' with your actual profile page URL
+                        });
+                    } else {
+                        pass.style.display = ""
+                    }
+                }
+            })
+        }
+
+
+
+        function edit() {
+            const name = document.getElementById('recipient-name').value;
+            const email = document.getElementById('recipient-email').value
+            const closeBtn = document.getElementById("modalClose")
+            console.log(email);
+            $.ajax({
+                url: '/editprofile',
+                method: 'POST',
+                data: {
+                    name: name,
+                    email: email
+                },
+                success: function (response) {
+                    if (response.updated) {
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            title: 'updated',
+                            animation: false,
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+
+                        })
+                        setTimeout(() => {
+                            closeBtn.click()
+                        }, 1000)
+
+
+                    }
+                }
+            })
+        }
+
+
+
+        function validateForm() {
+            var fullname = document.getElementById("fullname").value;
+            var country = document.getElementById("country").value;
+            var housename = document.getElementById("housename").value;
+            var city = document.getElementById("city").value;
+            var state = document.getElementById("state").value;
+            var pin = document.getElementById("pin").value;
+            var mobile = document.getElementById("mobile").value;
+            var email = document.getElementById("email").value;
+
+            var isValid = true;
+
+            if (fullname === "") {
+                document.getElementById("fullname-error").textContent = "Full Name is required.";
+                isValid = false;
+            } else {
+                document.getElementById("fullname-error").textContent = "";
             }
-          // Handle success here
-          console.log('Address removed successfully');
-          // You can also update the UI or take other actions as needed
-        },
-        error: function (error) {
-          // Handle errors here
-          console.error('Error removing address', error);
+
+            if (country === "") {
+                document.getElementById("country-error").textContent = "Country is required.";
+                isValid = false;
+            } else {
+                document.getElementById("country-error").textContent = "";
+            }
+
+            if (housename === "") {
+                document.getElementById("housename-error").textContent = "Street address is required.";
+                isValid = false;
+            } else {
+                document.getElementById("housename-error").textContent = "";
+            }
+
+            if (city === "") {
+                document.getElementById("city-error").textContent = "Town / City is required.";
+                isValid = false;
+            } else {
+                document.getElementById("city-error").textContent = "";
+            }
+
+            if (state === "") {
+                document.getElementById("state-error").textContent = "State / Country is required.";
+                isValid = false;
+            } else {
+                document.getElementById("state-error").textContent = "";
+            }
+
+            if (pin === "" || pin.length < 6) {
+                document.getElementById("pin-error").textContent = "Enter a valid pin";
+                isValid = false;
+            } else {
+                document.getElementById("pin-error").textContent = "";
+            }
+
+            if (mobile === "" || mobile.length < 10 || mobile.length > 10) {
+                document.getElementById("mobile-error").textContent = "Enter a valid number.";
+                isValid = false;
+            } else {
+                document.getElementById("mobile-error").textContent = "";
+            }
+
+            if (email === "") {
+                document.getElementById("email-error").textContent = "Email address is required.";
+                isValid = false;
+            } else {
+                document.getElementById("email-error").textContent = "";
+            }
+
+            return isValid;
+        }
+
+
+
+        function logout() {
+      Swal.fire({
+        title: "Are you sure you want to log out?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, logout",
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+        
+          $.ajax({
+            url: '/signout',
+            method: 'get', // or 'GET' based on your server setup
+            success: function(response) {
+              // Handle the success response, e.g., redirect to the login page
+              window.location.href = '/login'; // Replace with your login page URL
+            },
+            error: function(error) {
+              console.error(error);
+              // Handle errors, e.g., display an error message
+              Swal.fire("Error", "Failed to sign out.", "error");
+            },
+          });
         }
       });
-    } else {
-      // User clicked "No" or closed the dialog, do nothing
     }
-  });
-}
 
-function changepassword(){
-    let pass = document.getElementById('passErr')
-    let currentpassword = document.getElementById('currentpassword').value;
-    let newpassword = document.getElementById('newpassword').value
-    $.ajax({
-        url : "/changepassword",
-        method : "POST",
-        data : {
-            currentpassword : currentpassword,
-            newpassword : newpassword
-        },
-        success : function(response){
-            if(response.match){
-                Swal.fire({
-                title: 'Password changed successfuly',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                // Redirect to the profile page
-                window.location.href = '/profile'; // Replace 'profile.html' with your actual profile page URL
-            });
-            }else{
-               pass.style.display = ""  
-        }
-    }
-    })
-}
-
-
-
-function edit(){
-    const name = document.getElementById('recipient-name').value;
-    const email = document.getElementById('recipient-email').value
-    const closeBtn = document.getElementById("modalClose")
-    console.log(email);
-$.ajax({
-    url : '/editprofile',
-    method : 'POST',
-    data :{
-        name : name,
-        email : email
-    },
-    success : function(response){
-        if (response.updated) {
-            Swal.fire({
-              toast: true,
-              icon: 'success',
-              title: 'updated',
-              animation: false,
-              position: 'top',
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-
-            })
-            setTimeout(()=>{
-                closeBtn.click()
-            },1000)
-     
-          
-        }
-    }
-})
-}
-
-</script>
-<%- include("../layouts/user/userFooter.ejs")-%>
+    </script>
+    <%- include("../layouts/user/userFooter.ejs")-%>

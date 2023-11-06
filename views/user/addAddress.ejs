@@ -1,53 +1,59 @@
 <%- include("../layouts/user/userHeader.ejs")-%>
-<div class="page-content">
+<div class="page-content ">
     <div class="checkout">
-        <div class="container">
+        <div class="container p-5 d-flex justify-content-center">
             
-            <form action="/addaddress" method="post">
+            <form action="/addaddress" method="post" onsubmit="return validateForm()">
                 <div class="row">
                     <div class="col-lg-9">
                         <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Full Name *</label>
-                                    <input type="text" class="form-control" name="fullname">
+                                    <input type="text" class="form-control" name="fullname" id="fullname">
+                                    <span class="error-message text-danger" id="fullname-error"></span>
                                 </div><!-- End .col-sm-6 -->
                             </div><!-- End .row -->
 
                             <label>Country *</label>
-                            <input type="text" class="form-control" name="country" >
+                            <input type="text" class="form-control" name="country" id="country">
+                            <span class ="error-message text-danger" id="country-error"></span>
 
                             <label>Street address *</label>
-                            <input type="text" class="form-control" placeholder="House number and Street name" name="housename" >
+                            <input type="text" class="form-control" placeholder="House number and Street name" name="housename" id="housename">
+                            <span class="error-message text-danger" id="housename-error"></span>
                      
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Town / City *</label>
-                                    <input type="text" class="form-control" name="city" >
+                                    <input type="text" class="form-control" name="city" id="city">
+                                    <span class="error-message text-danger" id="city-error"></span>
                                 </div><!-- End .col-sm-6 -->
 
                                 <div class="col-sm-6">
                                     <label>State / Country *</label>
-                                    <input type="text" class="form-control" name="state" >
+                                    <input type="text" class="form-control" name="state" id="state">
+                                    <span class="error-message text-danger" id="state-error"></span>
                                 </div><!-- End .col-sm-6 -->
                             </div><!-- End .row -->
 
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Postcode / ZIP *</label>
-                                    <input type="text" class="form-control"  name="pin">
+                                    <input type="text" class="form-control" name="pin" id="pin">
+                                    <span class="error-message text-danger" id="pin-error"></span>
                                 </div><!-- End .col-sm-6 -->
 
                                 <div class="col-sm-6">
                                     <label>Phone *</label>
-                                    <input type="tel" class="form-control"  name="mobile">
+                                    <input type="tel" class="form-control" name="mobile" id="mobile">
+                                    <span class="error-message text-danger" id="mobile-error"></span>
                                 </div><!-- End .col-sm-6 -->
                             </div><!-- End .row -->
 
                             <label>Email address *</label>
-                            <input type="email" class="form-control" name="email">
-
-                            
+                            <input type="email" class="form-control" name="email" id="email">
+                            <span class="error-message text-danger" id="email-error"></span>
 
                             <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
                                 <span class="btn-text">Add</span>
@@ -61,4 +67,78 @@
         </div><!-- End .container -->
     </div><!-- End .checkout -->
 </div><!-- End .page-content -->
+
+<script>
+  function validateForm() {
+    var fullname = document.getElementById("fullname").value;
+    var country = document.getElementById("country").value;
+    var housename = document.getElementById("housename").value;
+    var city = document.getElementById("city").value;
+    var state = document.getElementById("state").value;
+    var pin = document.getElementById("pin").value;
+    var mobile = document.getElementById("mobile").value;
+    var email = document.getElementById("email").value;
+    
+    var isValid = true;
+
+    if (fullname === "") {
+      document.getElementById("fullname-error").textContent = "Full Name is required.";
+      isValid = false;
+    } else {
+      document.getElementById("fullname-error").textContent = "";
+    }
+
+    if (country === "") {
+      document.getElementById("country-error").textContent = "Country is required.";
+      isValid = false;
+    } else {
+      document.getElementById("country-error").textContent = "";
+    }
+
+    if (housename === "") {
+      document.getElementById("housename-error").textContent = "Street address is required.";
+      isValid = false;
+    } else {
+      document.getElementById("housename-error").textContent = "";
+    }
+
+    if (city === "") {
+      document.getElementById("city-error").textContent = "Town / City is required.";
+      isValid = false;
+    } else {
+      document.getElementById("city-error").textContent = "";
+    }
+
+    if (state === "") {
+      document.getElementById("state-error").textContent = "State / Country is required.";
+      isValid = false;
+    } else {
+      document.getElementById("state-error").textContent = "";
+    }
+
+    if (pin === "" || pin.length < 6) {
+      document.getElementById("pin-error").textContent = "Enter a valid pin";
+      isValid = false;
+    } else {
+      document.getElementById("pin-error").textContent = "";
+    }
+
+    if (mobile === "" || mobile.length < 10 || mobile.length > 10) {
+      document.getElementById("mobile-error").textContent = "Enter a valid number.";
+      isValid = false;
+    } else {
+      document.getElementById("mobile-error").textContent = "";
+    }
+
+    if (email === "") {
+      document.getElementById("email-error").textContent = "Email address is required.";
+      isValid = false;
+    } else {
+      document.getElementById("email-error").textContent = "";
+    }
+
+    return isValid;
+  }
+</script>
+
 <%- include("../layouts/user/userFooter.ejs")-%>

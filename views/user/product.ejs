@@ -75,7 +75,7 @@
 
                                 <div class="ratings-container">
                                     <div class="ratings">
-                                        <div class="ratings-val" style="width: <%=review?.rating%>%;"></div>
+                                        <div class="ratings-val" style="width: <%=avgRating%>%;"></div>
 
 
                                     </div><!-- End .ratings -->
@@ -215,11 +215,11 @@
                                         <div class="row no-gutters">
                                             <div class="col-auto">
                                                 <h4>
-                                                    <%=review.user%>
+                                                    <%=rev.userId.username%>
                                                 </h4>
                                                 <div class="ratings-container">
                                                     <div class="ratings">
-                                                        <div class="ratings-val" style="width: 100%;"></div>
+                                                        <div class="ratings-val" style="width: <%=avgRating%>%;"></div>
                                                         <!-- End .ratings-val -->
                                                     </div><!-- End .ratings -->
                                                 </div><!-- End .rating-container -->

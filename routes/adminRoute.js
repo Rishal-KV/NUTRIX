@@ -47,16 +47,16 @@ adminRoute.get('/deleteproduct',productController.deleteProduct)
 //================================category management======================
 adminRoute.get('/categorymanagement',adminAuth.isLoggedIn,categoryController.categorymanagement)
 adminRoute.post('/addcategory',categoryController.addcategory);
-adminRoute.get('/editcategory',categoryController.editCategory);
+adminRoute.get('/editcategory',adminAuth.isLoggedIn,categoryController.editCategory);
 adminRoute.post('/updatecategory',categoryController.updateCategory)
-adminRoute.get("/blockcategory",categoryController.blockCategory);
-adminRoute.get('/unblockcategory',categoryController.unblockCategory)
+adminRoute.get("/blockcategory",adminAuth.isLoggedIn,categoryController.blockCategory);
+adminRoute.get('/unblockcategory',adminAuth.isLoggedOut,categoryController.unblockCategory)
 
 //================================order management==========================
 adminRoute.get('/ordermanagement',adminAuth.isLoggedIn,adminController.orderManagement)
-adminRoute.get('/viewdetails',adminController.orderDetails)
-adminRoute.get('/updatestatus',adminController.deliver)
-adminRoute.get('/cancel',adminController.cancelOrder)
+adminRoute.get('/viewdetails',adminAuth.isLoggedIn,adminController.orderDetails)
+adminRoute.get('/updatestatus',adminAuth.isLoggedIn,adminController.deliver)
+adminRoute.get('/cancel',adminAuth.isLoggedIn,adminController.cancelOrder)
 
 
 
@@ -64,24 +64,24 @@ adminRoute.get('/cancel',adminController.cancelOrder)
 adminRoute.get('/couponmanagement', adminAuth.isLoggedIn, couponController.coupon)
 adminRoute.get('/addcoupon',adminAuth.isLoggedIn,couponController.addCoupon)
 adminRoute.post('/addcoupon',couponController.addcouponPost)
-adminRoute.get('/editcoupon',couponController.editcoupon)
-adminRoute.post("/updatecoupon",couponController.updateCoupon)
-adminRoute.get('/updatecouponstatus',couponController.action);
+adminRoute.get('/editcoupon',adminAuth.isLoggedIn,couponController.editcoupon)
+adminRoute.post("/updatecoupon",adminAuth.isLoggedIn,couponController.updateCoupon)
+adminRoute.get('/updatecouponstatus',adminAuth.isLoggedIn,couponController.action);
 
 
 
 //==================================sales report================================
 adminRoute.get('/salesreport',adminAuth.isLoggedIn,adminController.salesReport)
-adminRoute.get('/sort',adminController.Sorting)
-adminRoute.get('/download',adminController.downloadReport)
+adminRoute.get('/sort',adminAuth.isLoggedIn,adminController.Sorting)
+adminRoute.get('/download',adminAuth.isLoggedIn,adminController.downloadReport)
 
 
 //==================================banner mgt==================================
 adminRoute.get('/bannermanagement',adminAuth.isLoggedIn, bannerController.banner)
 adminRoute.get('/addbanner',adminAuth.isLoggedIn,bannerController.addBanner)
 adminRoute.post('/addbanner',multer.bannerUpload.single('image'),bannerController.uploadBanner)
-adminRoute.get('/banneraction',bannerController.action)
-adminRoute.get('/editbanner',bannerController.editBanner)
+adminRoute.get('/banneraction',adminAuth.isLoggedIn,bannerController.action)
+adminRoute.get('/editbanner',adminAuth.isLoggedIn,bannerController.editBanner)
 adminRoute.post('/updatebanner',multer.bannerUpload.single('image'),bannerController.update)
 
 

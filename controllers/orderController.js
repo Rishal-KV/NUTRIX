@@ -1,4 +1,5 @@
 const Cart = require("../model/cartModel");
+
 const Address = require("../model/addressModel");
 const User = require("../model/userModel");
 const Order = require("../model/orderModel");
@@ -172,8 +173,15 @@ exports.cancelOrder = async (req, res) => {
 
     const orderId = req.body.orderId;
     const user = req.session.userId
-    let totalAmount = await Order.findOne({ _id: orderId })
-    const cartData = await Cart.findOne({userId : req.session.userId})
+    let orderData = await Order.findOne({ _id: orderId })
+     let products = orderData.products
+     for(let i = 0 ; i < products.length; i++){
+      const purchasedProduct = await Product.findOneAndUpdate(
+        { _id: products.productId },
+        { $inc: { stock:  products[i].count } } 
+      );
+     }
+   
     // console.log(totalAmount);
     const cancelOrder = await Order.updateOne({ _id: orderId }, {
       $set: {
@@ -181,27 +189,27 @@ exports.cancelOrder = async (req, res) => {
       }
 
     })
-    const couponFound = await Coupon.findOne({ couponName: cartData?.couponApplied });
-    if (couponFound) {
-      await Coupon.findOneAndUpdate({ couponName: cartData.couponApplied }, { $addToSet: { usedUsers: userId } });
-    }
-
+   
     let walletBal = await User.findOne({ _id: user },
       { wallet: 1 })
     // console.log(walletBal);
-    const wallet = await User.updateOne(
-      { _id: user },
-      {
-        $set: { wallet: walletBal.wallet + totalAmount.totalAmount },
-        $push: {
-          walletHistory: {
-            date: new Date(),
-            amount: totalAmount.totalAmount,
-            status : "credit"
+    if (orderData.paymentMethod == "online payment") {
+      const wallet = await User.updateOne(
+        { _id: user },
+        {
+          $set: { wallet: walletBal.wallet + orderData.totalAmount },
+          $push: {
+            walletHistory: {
+              date: new Date(),
+              amount: orderData.totalAmount,
+              status : "credit"
+            }
           }
         }
-      }
-    );
+      );
+    }
+
+   
 
     if (cancelOrder) {
       res.json({ success: true })

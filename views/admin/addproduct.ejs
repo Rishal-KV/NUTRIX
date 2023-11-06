@@ -6,10 +6,11 @@
     <div class="card-body">
       <form
         class="forms-sample"
-        action=""
+        action="/admin/addproduct"
         method="post"
         enctype="multipart/form-data"
       >
+     
        
         <div class="form-group">
           <label for="exampleInputEmail3">Name</label>
@@ -18,11 +19,14 @@
             class="form-control"
             id="exampleInputEmail3"
             name="name"
+            required
+            oninput="checkFormValidity()"
           />
         </div>
+        <p class="text-danger"><%=locals.productErr ? locals.productErr : ""%></p>
         <div class="form-group">
           <label for="exampleSelectGender">Categories</label>
-          <select class="form-control" id="category" name="category">
+          <select class="form-control" id="category" name="category" required oninput="checkFormValidity()">
             <% category.filter(cat => !cat.Blocked).forEach(cat => { %>
             <option   value="<%= cat._id %>"><%= cat.name %></option>
             <% }); %>
@@ -35,8 +39,11 @@
             class="form-control"
             id="exampleInputCity1"
             name="price"
+            required
+            oninput="checkFormValidity()"
           />
         </div>
+        <p class="text-danger"><%=locals.productErr ? locals.productErr : ""%></p>
         <div class="form-group">
           <label for="exampleInputCity1">Stock</label>
           <input
@@ -44,8 +51,11 @@
             class="form-control"
             id="exampleInputCity1"
             name="stock"
+            required
+            oninput="checkFormValidity()"
           />
         </div>
+        <p class="text-danger"><%=locals.productErr ? locals.productErr : ""%></p>
         <div class="form-group">
           <label for="exampleTextarea1">Description</label>
           <input
@@ -53,30 +63,94 @@
             class="form-control"
             id="exampleTextarea1"
             name="description"
+            required
+            oninput="checkFormValidity()"
           />
         </div>
-        <div class="form-group">
-          <label>File upload </label>
-          <input type="file" name="image1" style="display: block" multiple />
-        </div>
-        <div class="form-group">
-          <label>File upload </label>
-          <input type="file" name="image2" style="display: block" multiple />
-        </div>
-        <div class="form-group">
-          <label>File upload </label>
-          <input type="file" name="image3" style="display: block" multiple />
-        </div>
-        <div class="form-group">
-          <label>File upload </label>
-          <input type="file" name="image4" style="display: block" multiple />
-        </div>
+       
+  
+        <div class="row d-flex justify-content-center ">
 
-        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-        <a href="/admin/bannermanagement"><button class="btn btn-dark" type="button" >Cancel</button></a>
+          <div class="row d-flex justify-content-between ">
+
+            <div class="col-lg-3 col-md-6 rounded-image-preview">
+              <label for="imageInput1" class="image-label">Image 1
+                <div class="rounded-image-preview">
+                  <img id="imagePreview1"
+                    src="/admin/images/image-placeholder.webp"
+                    alt="Preview" />
+                </div>
+                <input name="image1" type="file" accept="image/*" id="imageInput1" class="imageInput" oninput="checkFormValidity()" >
+              </label>
+            </div>
+
+            <div class="col-lg-3 col-md-6 rounded-image-preview ">
+              <label for="imageInput2" class="image-label ">Image 2
+                <div class="rounded-image-preview">
+                  <img id="imagePreview2"
+                    src="/admin/images/image-placeholder.webp"
+                    alt="Preview" />
+                </div>
+                <input name="image2" type="file" accept="image/*" id="imageInput2" class="imageInput" oninput="checkFormValidity()" >
+              </label>
+            </div>
+
+            <div class="col-lg-3 col-md-6 rounded-image-preview">
+              <label for="imageInput3" class="image-label">Image 3
+                <div class="rounded-image-preview">
+                  <img id="imagePreview3"
+                    src="/admin/images/image-placeholder.webp"
+                    alt="Preview" />
+                </div>
+                <input name="image3" type="file" accept="image/*" id="imageInput3" class="imageInput"oninput="checkFormValidity()" >
+              </label>
+            </div>
+
+            <div class="col-lg-3 col-md-6 rounded-image-preview">
+              <label for="imageInput4" class="image-label">Image 4
+                <div class="rounded-image-preview">
+                  <img id="imagePreview4"
+                    src="/admin/images/image-placeholder.webp"
+                    alt="Preview" />
+                </div>
+                <input name="image4" type="file" accept="image/*" id="imageInput4" class="imageInput" oninput="checkFormValidity()">
+              </label>
+            </div>
+ 
+          </div>
+          </div>
+          <div class="p-3">
+        <button type="submit" class="btn btn-primary " id="submitBtn" disabled>Submit</button>
+        <a href="/admin/productmanagement"><button class="btn btn-dark" type="button">Cancel</button></a>
+        </div>
       </form>
     </div>
   </div>
 </div>
+
+<script>
+  function checkFormValidity() {
+    var form = document.querySelector("form");
+    var inputs = form.querySelectorAll("input[required], select[required]");
+    var isValid = true;
+    
+    inputs.forEach(function(input) {
+      if (!input.value) {
+        isValid = false;
+      }
+    });
+    
+    var submitBtn = document.getElementById("submitBtn");
+    if (isValid) {
+      submitBtn.disabled = false;
+    } else {
+      submitBtn.disabled = true;
+    }
+  }
+
+
+
+
+</script>
 
 <%-include("../layouts/admin/adminFooter.ejs")-%>

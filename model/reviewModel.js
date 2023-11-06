@@ -5,24 +5,23 @@ const reviewSchema = new mongoose.Schema({
         type: String,
         ref: 'Product'
     },
-    userId : {
-      type : String,
-      ref : 'User'
-    },
-    user: {
-        type: String
-    },
-    rating: {
-        type: Number,
-        default: 0
-    },
+   
     reviews: [
         {
             review: {
                 type: String
-            }
+            },
+            userId : {
+                type : String,
+                ref : 'User',
+              
+              },
+              rating: {
+                type: Number,
+
+            },
         }
-    ],
+    ]
   
 
 })

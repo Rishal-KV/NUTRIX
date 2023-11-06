@@ -13,10 +13,14 @@ exports.productmanagement = async (req, res) => {
 
 exports.showAddProduct = async (req, res) => {
   try {
+    let productErr = req.app.locals.productErr;
+    req.app.locals.productErr = ''
     const category = await Category.find();
 
-    res.render("addproduct", { category, admin: req.session.admin, title: "Product management" });
-  } catch (error) { }
+    res.render("addproduct", { category, admin: req.session.admin, title: "Product management",productErr });
+  } catch (error) {
+    console.log(error.message);
+   }
 };
 
 exports.addProduct = async (req, res) => {
@@ -27,10 +31,17 @@ exports.addProduct = async (req, res) => {
 
     const productFound = await Product.findOne({ name: { $regex: name, $options: 'i' } });
     if (productFound) {
-      res.redirect("/admin/productmanagement");
+       req.app.locals.productErr = "Product already added!!!"
+       return res.redirect('/addproduct')
     } else if (stock < 0) {
-      res.redirect('/admin/productmanagement')
-    } else {
+      req.app.locals.productErr = "cannot set negative values!!!"
+      return res.redirect('/addproduct')
+    }else if(price < 0){
+      req.app.locals.productErr = "cannot set negative values!!!"
+      return res.redirect('/addproduct')
+    }
+    
+    else {
       const products = new Product({
         name: name,
         category: req.body.category,
@@ -46,7 +57,7 @@ exports.addProduct = async (req, res) => {
     }
 
 
-
+res.redirect('/admin/productmanagement')
 
   } catch (error) {
     console.log(error.message);
