@@ -22,8 +22,8 @@ adminRoute.get("/logout", adminController.logout);
 
 //============================user management=======================
 adminRoute.get('/users',adminAuth.isLoggedIn,adminController.user);
-adminRoute.get('/block',adminController.blockUser);
-adminRoute.get('/unblock',adminController.unblockUser);
+adminRoute.get('/block',adminAuth.isLoggedIn,adminController.blockUser);
+adminRoute.get('/unblock',adminAuth.isLoggedIn,adminController.unblockUser);
 
 //===============================product management==================
 adminRoute.get('/productmanagement',adminAuth.isLoggedIn,productController.productmanagement);
@@ -50,7 +50,7 @@ adminRoute.post('/addcategory',categoryController.addcategory);
 adminRoute.get('/editcategory',adminAuth.isLoggedIn,categoryController.editCategory);
 adminRoute.post('/updatecategory',categoryController.updateCategory)
 adminRoute.get("/blockcategory",adminAuth.isLoggedIn,categoryController.blockCategory);
-adminRoute.get('/unblockcategory',adminAuth.isLoggedOut,categoryController.unblockCategory)
+adminRoute.get('/unblockcategory',adminAuth.isLoggedIn,categoryController.unblockCategory)
 
 //================================order management==========================
 adminRoute.get('/ordermanagement',adminAuth.isLoggedIn,adminController.orderManagement)
@@ -65,7 +65,7 @@ adminRoute.get('/couponmanagement', adminAuth.isLoggedIn, couponController.coupo
 adminRoute.get('/addcoupon',adminAuth.isLoggedIn,couponController.addCoupon)
 adminRoute.post('/addcoupon',couponController.addcouponPost)
 adminRoute.get('/editcoupon',adminAuth.isLoggedIn,couponController.editcoupon)
-adminRoute.post("/updatecoupon",adminAuth.isLoggedIn,couponController.updateCoupon)
+adminRoute.post("/updatecoupon",couponController.updateCoupon)
 adminRoute.get('/updatecouponstatus',adminAuth.isLoggedIn,couponController.action);
 
 

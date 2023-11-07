@@ -13,7 +13,9 @@ const ExcelJS = require('exceljs');
 //to render login page
 exports.adminLogin = async (req, res) => {
   try {
-    res.render("login");
+    let passErr = req.app.locals.passErr
+    req.app.locals.passErr = "" 
+    res.render("login",{passErr});
   } catch (error) {
     console.log(error.message);
   }
@@ -103,7 +105,7 @@ exports.dashboard = async (req, res) => {
       }
     ]);
 
-console.log(monthly[0]);
+
     let monthlySalesArr = [];
  
 
@@ -113,7 +115,7 @@ console.log(monthly[0]);
         monthlySalesArray.months.map(monthInfo => monthlySalesArr.push(monthInfo.count));
       }
     }
-    console.log(monthlySalesArr);
+   
 
     let onlinePaymentCount = 0;
     let cashCount = 0;
@@ -150,6 +152,7 @@ exports.verifyAdmin = async (req, res) => {
         req.session.admin = adminData.username;
         res.redirect("/admin/dashboard");
       } else {
+        req.app.locals.passErr = "incorrect password"
         res.redirect("/admin");
       }
     } else {

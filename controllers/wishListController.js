@@ -22,12 +22,12 @@ exports.Wishlist = async (req, res) => {
   }
 };
 
-exports.addToWishList = async (req, res) => {
+exports. addToWishList = async (req, res) => {
   try {
     const userId = req.session.userId;
     // console.log(userId);
     if(!userId){
-      return json({nouser : true})
+     return  res.redirect('/login')
     }
     const productId = req.body.productId;
     const wishlist = await Wishlist.findOne({ user: userId });
@@ -91,7 +91,7 @@ exports.removeWishlist = async (req, res) =>{
                 }
             }
             )
-            console.log(remove);
+            // console.log(remove);
             if (remove) {
                  res.json({remove : true})
             }

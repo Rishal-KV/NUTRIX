@@ -67,7 +67,7 @@ exports.register = async (req, res) => {
     req.session.password = req.body.password;
     email = req.body.email
     const userFound = await User.findOne({ email: email });
-    // console.log(otp);
+    console.log(otp);
     if (userFound) {
       req.app.locals.userErr = "Account already exists"
       res.redirect('/register')
@@ -97,7 +97,7 @@ exports.home = async (req, res) => {
   try {
 
 
-    const banner = await Banner.find();
+    const banner = await Banner.find({status : true});
     const userId = req.session.userId
     let search = req.query.search || ""
     const items = await Product.find({
@@ -239,7 +239,7 @@ exports.signout = async (req, res) => {
 exports.productDetails = async (req, res) => {
   try {
     let wishCount = 0
-    let  avgRating;
+    let  avgRating = 0;
     let rating
     const id = req.query.id;
     const pdata = await Product.findById({ _id: id }).populate('category');
@@ -247,6 +247,7 @@ exports.productDetails = async (req, res) => {
     // console.log(pdata);
     const wishlist = await Wishlist.findOne({ user: req.session.userId })
     const similar = await Product.find({ category: pdata.category._id })
+    console.log(similar);
     const review = await Review.findOne({ product: id }).populate('reviews.userId')
     review ? rating = review?.reviews?.reduce((acc, curr)=> acc + curr.rating,0) : undefined
     
@@ -278,7 +279,8 @@ exports.shop = async (req, res) => {
     let count = 0
     let wishListStrin = [];
     //taking page num thorugh query
-    let pageNum = req.query.page
+    let pageNum = req.query.page  || 1
+  
     //setting how much product should be display in shop
     let perPage = 3;
 
