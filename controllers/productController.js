@@ -8,6 +8,7 @@ exports.productmanagement = async (req, res) => {
     res.render("pmanagement", { admin: req.session.admin, product, title: "Product management" });
   } catch (error) {
     console.log(error.message);
+
   }
 };
 
@@ -20,6 +21,7 @@ exports.showAddProduct = async (req, res) => {
     res.render("addproduct", { category, admin: req.session.admin, title: "Product management",productErr });
   } catch (error) {
     console.log(error.message);
+
    }
 };
 

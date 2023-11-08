@@ -73,6 +73,7 @@ exports.addToCart = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 };
 
@@ -169,6 +170,7 @@ exports.getCart = async (req, res) => {
   
   } catch (error) {
     console.error(error.message);
+    res.render('500')
   }
 };
 
@@ -224,7 +226,7 @@ exports.updateCart = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    res.render('500')
   }
 };
 
@@ -248,6 +250,7 @@ exports.removeCart = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 };
 
@@ -299,5 +302,6 @@ exports.checkout = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 };

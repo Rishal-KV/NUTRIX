@@ -26,62 +26,66 @@
 
 
 
-                                <div class="page-content">
+                                <div class="page-content mb-4" id="address-reload">
                                     <div class="checkout">
                                         <div class="container">
                                             <h3 class="card-title p-3">Billing Address</h3><!-- End .card-title -->
-                                           <% if(addressDetails?.address.length==0 || addressDetails == undefined){%>
-                                            <div class="ml-3 mb-3">
-                                                <a class="btn btn-outline-primary" href="/addaddress" >Add<i class="icon-edit "></i></a>
-                                             
-                                             </div>
-                                           <% }else{%>
-                                            <div class="row">
-                                                <div class="col-lg-9">
-                  
-                                                    <%addressDetails?.address.forEach(function(add) { %>
+                                            <% if(addressDetails?.address.length==0 || addressDetails==undefined){%>
+                                                <div class="ml-3 mb-3">
+                                                    <a class="btn btn-outline-primary" data-toggle="modal"
+                                                        data-target="#exampleModal">Add<i class="icon-edit  "></i></a>
+                                                </div>
+                                                <% }else{%>
+                                                    <div class="row">
                                                         <div class="col-lg-9">
-                                                            <div class="card card-dashboard">
-                                                                <div class="card-body">
-                                                                    <input id="selectedAddress" type="radio"
-                                                                        name="selectedAddress" value="<%= add._id %> "
-                                                                        <%=(add._id===addressDetails.address[0]._id)
-                                                                        ? 'checked' : '' %>>
+
+                                                            <%addressDetails?.address.forEach(function(add) { %>
+                                                                <div class="col-lg-9">
+                                                                    <div class="card card-dashboard">
+                                                                        <div class="card-body">
+                                                                            <input id="selectedAddress" type="radio"
+                                                                                name="selectedAddress"
+                                                                                value="<%= add._id %> "
+                                                                                <%=(add._id===addressDetails.address[0]._id)
+                                                                                ? 'checked' : '' %>>
 
 
 
-                                                                    <p>
-                                                                        <%=add.fullname%><br>
-                                                                            <%=add.mobile%><br>
-                                                                                <%=add.email%><br>
-                                                                                    <%=add.houseName%>,<%=add.city%>,
-                                                                                            <%=add.state%>,
-                                                                                                <%=add.country%>,
-                                                                                                    <%=add.pin%><br>
-                                                                                                        <a
-                                                                                                            href="/editaddress?id=<%=add._id%>">Edit
-                                                                                                            Address<i
-                                                                                                                class="icon-edit"></i></a>
-                                                                    </p>
+                                                                            <p>
+                                                                                <%=add.fullname%><br>
+                                                                                    <%=add.mobile%><br>
+                                                                                        <%=add.email%><br>
+                                                                                            <%=add.houseName%>,
+                                                                                                <%=add.city%>,
+                                                                                                    <%=add.state%>,
+                                                                                                        <%=add.country%>
+                                                                                                            ,
+                                                                                                            <%=add.pin%>
+                                                                                                                <br>
+                                                                                                                <a
+                                                                                                                    href="/editaddress?id=<%=add._id%>">Edit
+                                                                                                                    Address<i
+                                                                                                                        class="icon-edit"></i></a>
+                                                                            </p>
 
-                                                                </div><!-- End .card-body -->
+                                                                        </div><!-- End .card-body -->
 
-                                                            </div><!-- End .card-dashboard -->
-                                                        </div><!-- End .col-lg-6 -->
-                                                        <% }); %>
-                                                            <!-- <a href="/addAddress" class="p-4">Add address<i class="icon-edit"></i></a></p> -->
-
-
+                                                                    </div><!-- End .card-dashboard -->
+                                                                </div><!-- End .col-lg-6 -->
+                                                                <% }); %>
+                                                                    <!-- <a href="/addAddress" class="p-4">Add address<i class="icon-edit"></i></a></p> -->
 
 
 
-                                                </div><!-- End .col-lg-9 -->
 
-                                            </div><!-- End .row -->
-                                           <% }%>
-                                            <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
-                                            
-                                            <!-- </form> -->
+
+                                                        </div><!-- End .col-lg-9 -->
+
+                                                    </div><!-- End .row -->
+                                                    <% }%>
+                                                        <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
+
+                                                        <!-- </form> -->
                                         </div><!-- End .container -->
                                     </div><!-- End .checkout -->
                                 </div><!-- End .page-content -->
@@ -90,7 +94,7 @@
 
 
                             </div><!-- End .col-lg-9 -->
-                            
+
                             <aside class="col-lg-3">
                                 <div class="summary">
                                     <h3 class="summary-title ">Your Order</h3><!-- End .summary-title -->
@@ -184,117 +188,241 @@
             </div><!-- End .checkout -->
         </div><!-- End .page-content -->
     </main><!-- End .main -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Billing address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeBtn">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
 
-    <script>
-        function order(pId) {
-            
-            const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-right',
-  iconColor: 'white',
-  customClass: {
-    popup: 'colored-toast'
-  },
-  showConfirmButton: false,
-  timer: 1500,
-  timerProgressBar: true
-})
-            let sA = document.getElementById('selectedAddress');
-            let selectedAddress = sA.value
-            let payment = $("input[name=payment]:checked").val();
-            let total = document.getElementById('total').value
-            console.log(total);
+                    <div class="row p-5">
+                        <div class="col-lg-9">
 
-            console.log(payment);
-            let productId = pId
-            $.ajax({
-                url: "/placeorder",
-                type: "POST",
-                data: {
-                    productId: productId,
-                    selectedAddress: selectedAddress,
-                    payment: payment,
-                    Total: total
-                },
-                success: function (response) {
-                    if (response.cash) {
-                        console.log("hello cash");
-                        console.log(response.cash);
-                    
-                        location.href = '/ordersuccess'
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Full Name *</label>
+                                    <input type="text" class="form-control" name="fullname" id="fullname">
+                                    <span class="error-message text-danger" id="fullname-error"></span>
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
 
-                    } else if (response.balance) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Insufficient Balance',
-                            text: 'You do not have enough balance to make this withdrawal.',
-                            showCancelButton: true,
-                            confirmButtonText: 'OK',
-                            cancelButtonText: 'Cancel',
-                        })
-                    } else if (response.wallet) {
-                        window.location.href = '/ordersuccess';
-                    } else if(response.outofstock) {
-                   
-                         Toast.fire({
-  icon: 'error',
-  title: 'hmmm?? out of stock'
-})
-                    }else{
-                        razorpay(response.order)
+                            <label>Country *</label>
+                            <input type="text" class="form-control" name="country" id="country">
+                            <span class="error-message text-danger" id="country-error"></span>
+
+                            <label>Street address *</label>
+                            <input type="text" class="form-control" placeholder="House number and Street name"
+                                name="housename" id="housename">
+                            <span class="error-message text-danger" id="housename-error"></span>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Town / City *</label>
+                                    <input type="text" class="form-control" name="city" id="city">
+                                    <span class="error-message text-danger" id="city-error"></span>
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>State / Country *</label>
+                                    <input type="text" class="form-control" name="state" id="state">
+                                    <span class="error-message text-danger" id="state-error"></span>
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Postcode / ZIP *</label>
+                                    <input type="text" class="form-control" name="pin" id="pin">
+                                    <span class="error-message text-danger" id="pin-error"></span>
+                                </div><!-- End .col-sm-6 -->
+
+                                <div class="col-sm-6">
+                                    <label>Phone *</label>
+                                    <input type="tel" class="form-control" name="mobile" id="mobile">
+                                    <span class="error-message text-danger" id="mobile-error"></span>
+                                </div><!-- End .col-sm-6 -->
+                            </div><!-- End .row -->
+
+                            <label>Email address *</label>
+                            <input type="email" class="form-control" name="email" id="email">
+                            <span class="error-message text-danger" id="email-error"></span>
+
+                            <!-- <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                                            <span class="btn-text">Add</span>
+                                                            <span class="btn-hover-text">Add</span>
+                                                        </button> -->
+
+
+
+                        </div><!-- End .row -->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" onclick="addAddress()">Add</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script>
+            function order(pId) {
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-right',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast'
+                    },
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true
+                })
+                let sA =  document.getElementById('selectedAddress');
+                let selectedAddress = sA == null ? undefined : sA.value
+                let payment = $("input[name=payment]:checked").val();
+                let total = document.getElementById('total').value
+                console.log(total);
+
+                console.log(payment);
+                let productId = pId
+                $.ajax({
+                    url: "/placeorder",
+                    type: "POST",
+                    data: {
+                        productId: productId,
+                        selectedAddress: selectedAddress,
+                        payment: payment,
+                        Total: total
+                    },
+                    success: function (response) {
+                        if (response.cash) {
+                            console.log("hello cash");
+                            console.log(response.cash);
+
+                            location.href = '/ordersuccess'
+
+                        } else if (response.addAddress) {
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'hmmm?? add an address'
+                            })
+                        } else if (response.balance) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Insufficient Balance',
+                                text: 'You do not have enough balance to make this withdrawal.',
+                                showCancelButton: true,
+                                confirmButtonText: 'OK',
+                                cancelButtonText: 'Cancel',
+                            })
+                        } else if (response.wallet) {
+                            window.location.href = '/ordersuccess';
+                        } else if (response.outofstock) {
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'hmmm?? out of stock',
+                               
+                            })
+                        } else {
+                            razorpay(response.order)
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
 
-        function razorpay(order) {
-            console.log(order);
-            var options = {
-                "key": "rzp_test_WNBjJNLwpHznQ3",
-                "amount": order.amount,
-                "currency": "INR",
-                "name": "NUTRIX",
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
-                "order_id": order.id,
-                handler: function (response) {
-                    verifyPayment(response, order)
-                },
-                "prefill": {
+            function razorpay(order) {
+                console.log(order);
+                var options = {
+                    "key": "rzp_test_WNBjJNLwpHznQ3",
+                    "amount": order.amount,
+                    "currency": "INR",
                     "name": "NUTRIX",
-                    "email": "nutrix@gmail.com",
-                    "contact": "9000090000"
-                },
-                "notes": {
-                    "address": "Razorpay Corporate Office"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-
-        }
-
-        function verifyPayment(payment, order) {
-         
-            const amount = document.getElementById('total').value
-            $.ajax({
-                url: '/verifypayment',
-                type: 'POST',
-                data: {
-                    payment: payment,
-                    amount: amount,
-                    order: order
-                },
-                success: function (response) {
-                    console.log(response);
-                    if (response.payment) {
-                        window.location.href = "/ordersuccess"
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "order_id": order.id,
+                    handler: function (response) {
+                        verifyPayment(response, order)
+                    },
+                    "prefill": {
+                        "name": "NUTRIX",
+                        "email": "nutrix@gmail.com",
+                        "contact": "9000090000"
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
                     }
-                }
-            })
-        }
-    </script>
-    <%- include("../layouts/user/userFooter.ejs")-%>
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+
+            }
+
+            function verifyPayment(payment, order) {
+
+                const amount = document.getElementById('total').value
+                $.ajax({
+                    url: '/verifypayment',
+                    type: 'POST',
+                    data: {
+                        payment: payment,
+                        amount: amount,
+                        order: order
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.payment) {
+                            window.location.href = "/ordersuccess"
+                        }
+                    }
+                })
+            }
+
+
+
+            function addAddress() {
+                let closeBtn = document.getElementById('closeBtn')
+                let fullname = document.getElementById('fullname').value
+                let country = document.getElementById('country').value
+                let housename = document.getElementById('housename').value
+                let city = document.getElementById('city').value
+                let state = document.getElementById('state').value
+                let pin = document.getElementById('pin').value
+                let mobile = document.getElementById('mobile').value;
+                let email = document.getElementById('email').value
+
+                $.ajax({
+                    url: '/addaddress',
+                    method: 'POST',
+                    data: {
+                        fullname: fullname,
+                        country: country,
+                        housename: housename,
+                        city: city,
+                        state: state,
+                        pin: pin,
+                        mobile: mobile,
+                        email: email
+                    },
+                    success: function (response) {
+                        if (response.added) {
+                            $("#address-reload").load("/checkout #address-reload");
+                            closeBtn.click()
+
+                        }
+                    }
+                })
+            }
+        </script>
+        <%- include("../layouts/user/userFooter.ejs")-%>

@@ -18,7 +18,8 @@ var instance = new Razorpay({
 exports.orderPlace = async (req, res) => {
   try {
     const userId = req.session.userId;
-    const addressId = req.body.selectedAddress.trim()
+    const addressId =   req.body.selectedAddress
+     
     const cartData = await Cart.findOne({ userId: userId })
     const cart = await Cart.findOne({ userId: userId }).populate('products.productId')
   
@@ -34,6 +35,11 @@ exports.orderPlace = async (req, res) => {
     const name = userData.username;
     const uniNum = Math.floor(Math.random() * 900000) + 100000;
     let status = paymentMethods === "COD" ? "placed" : "pending";
+
+
+    if(!addressId){
+      return res.json({addAddress : true})
+    }
 
  for(let i = 0; i < productStock.length; i++){
     let stock = productStock[i].productId.stock
@@ -149,6 +155,7 @@ exports.orderPlace = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message)
+    res.render('500')
   }
 }
 
@@ -164,6 +171,7 @@ exports.success = async (req, res) => {
     res.render('successful', { count, user: req.session.user, title: "Success", wishCount });
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }
 
@@ -216,6 +224,7 @@ exports.cancelOrder = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }
 
@@ -243,6 +252,7 @@ exports.orderDetails = async (req, res) => {
     res.render('orderdetails', { user: req.session.user, orderDetails,reviewed})
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }
 
@@ -298,5 +308,6 @@ exports.verifypayment = async (req, res) => {
 
   } catch (error) {
 console.log(error.message);
+res.render('500')
   }
 }

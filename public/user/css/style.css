@@ -16429,8 +16429,10 @@ button:focus {
 }
 
 .colored-toast.swal2-icon-error {
-  background-color: #f27474 !important;
+  background-color: #f27474!important;
   color: white !important;
+  font-size: 15px;
+  
 }
 
 /* Center the toast horizontally */

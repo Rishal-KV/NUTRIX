@@ -60,6 +60,9 @@
     },
     orderId: {
       type: String,
+    },
+    reason : {
+      type : String
     }
   },{strictPopulate : false});
 

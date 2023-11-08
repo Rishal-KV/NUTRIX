@@ -151,6 +151,7 @@ a {
                 <div class="d-flex ">
                   <%if(orderDetails.status == "delivered" ){%>
                     <button onclick="download()" class="btn  p-0 me-3  "><i class="fa-solid fa-file-arrow-down"></i> <span class="text">Invoice</span></button>
+
                    <%}else if(orderDetails.status == "cancelled"){%>
                     
                    <%}else{%>
@@ -284,7 +285,7 @@ a {
     </div>
   </div>
 </div>
-            
+
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
@@ -342,6 +343,7 @@ a {
       }
     });
   }
+
   
   function download(){
     window.print();
@@ -389,7 +391,8 @@ a {
     });
 }
 
- 
+
+
   </script>
   
   

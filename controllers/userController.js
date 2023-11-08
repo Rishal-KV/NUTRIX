@@ -142,6 +142,7 @@ exports.home = async (req, res) => {
 exports.verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(email);
     // console.log("he");
     const userData = await User.findOne({ email: email });
 
@@ -166,6 +167,7 @@ exports.verifyLogin = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 };
 
@@ -202,6 +204,7 @@ exports.otpConfirm = async (req, res) => {
 
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 };
 
@@ -224,6 +227,7 @@ exports.resendOtp = async (req, res) => {
 
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }
 
@@ -268,6 +272,7 @@ avgRating = rating / review?.reviews?.length
     res.render("product", { pdata, user: req.session.user, count, similar, title: "product", wishCount,review,avgRating });
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 };
 
@@ -340,6 +345,7 @@ exports.shop = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 };
 
@@ -366,6 +372,7 @@ exports.changePassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }
 
@@ -377,7 +384,8 @@ exports.forgotPassword = async (req, res) => {
     req.app.locals.err = ""
     res.render('forgotpassword', { title: "change password", user: "User", wishCount: 0, count: 0,err })
   } catch (error) {
-
+console.log(error.message);
+res.render('500')
   }
 }
 
@@ -406,6 +414,7 @@ exports.resetPassword = async (req, res) => {
   
   } catch (error) {
     console.log(error.message );
+    res.render('500')
   }
 }
 
@@ -423,6 +432,7 @@ exports.checkOtp = async(req,res) =>{
    
   } catch (error) {
    console.log(error.message);
+   res.render('500')
   }
 }
 
@@ -452,6 +462,7 @@ exports.confirmPassword = async(req, res) =>{
       }
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }
 
@@ -472,5 +483,6 @@ exports.editprofile = async(req, res) =>{
     }
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }

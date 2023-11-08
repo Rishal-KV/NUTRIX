@@ -37,6 +37,7 @@ let count = 0
       })
     } catch (error) {
        console.log(error.message);
+       res.render('500')
     }
   }
   
@@ -54,6 +55,7 @@ let count = 0
 
     } catch (error) {
         console.log(error.message);
+        res.render('500')
     }
   }
 
@@ -62,8 +64,10 @@ let count = 0
   exports.toAddAddress = async (req, res) => {
     try {
       const userId = req.session.userId;
-      const userData = await User.findOne({ _id: userId });
+      // const userData = await User.findOne({ _id: userId });
+   
       const { fullname, country, housename, city, state, pin, mobile, email } = req.body;
+      console.log(req.body);
       const address = await Address.findOne({ user: userId });
       if (address) {
         // If an address already exists, update it
@@ -98,10 +102,10 @@ let count = 0
         });
         await newAddress.save();
       }
-      res.redirect('/profile');
+      res.json({added : true})
     } catch (error) {
       console.error(error.message);
-      // Handle the error appropriately, e.g., sending an error response to the client.
+      res.render('500')
     }
   };
   
@@ -112,6 +116,7 @@ let count = 0
 exports.selectedAddress = async(req, res) =>{
   try {
       const address = req.body.selectedAddress
+    
       console.log(address);
       if(!address){
         res.redirect('/changeaddress')
@@ -120,6 +125,7 @@ exports.selectedAddress = async(req, res) =>{
       res.redirect('/checkout')
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }
 
@@ -147,6 +153,7 @@ exports.geteditaddress = async(req, res) =>{
 
   } catch (error) {
     console.log(error.message);
+    res.render('500')
   }
 }
 
@@ -177,6 +184,7 @@ exports.geteditaddress = async(req, res) =>{
         res.redirect('/profile')
     } catch (error) {
       console.log(error.message);
+      res.render('500')
     }
   }
 
@@ -195,5 +203,6 @@ exports.geteditaddress = async(req, res) =>{
 
     } catch (error) {
       console.log(error.message);
+      res.render('500')
     }
   }

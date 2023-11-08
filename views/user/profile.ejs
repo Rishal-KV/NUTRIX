@@ -326,7 +326,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/addaddress" method="post" onsubmit="return validateForm()">
+                
                         <div class="row p-5">
                             <div class="col-lg-9">
 
@@ -391,8 +391,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
-                    </form>
+                            <button onclick="" type="submit" class="btn btn-primary">Add</button>
+                   
                 </div>
 
             </div>
@@ -578,32 +578,7 @@
 
 
 
-        function logout() {
-      Swal.fire({
-        title: "Are you sure you want to log out?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, logout",
-        cancelButtonText: "Cancel",
-      }).then((result) => {
-        if (result.isConfirmed) {
-        
-          $.ajax({
-            url: '/signout',
-            method: 'get', // or 'GET' based on your server setup
-            success: function(response) {
-              // Handle the success response, e.g., redirect to the login page
-              window.location.href = '/login'; // Replace with your login page URL
-            },
-            error: function(error) {
-              console.error(error);
-              // Handle errors, e.g., display an error message
-              Swal.fire("Error", "Failed to sign out.", "error");
-            },
-          });
-        }
-      });
-    }
+    
 
     </script>
     <%- include("../layouts/user/userFooter.ejs")-%>
