@@ -321,12 +321,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Billing address</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeBtn">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                
+                    
                         <div class="row p-5">
                             <div class="col-lg-9">
 
@@ -349,13 +349,13 @@
 
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label>Town / City *</label>
+                                        <label>Town  *</label>
                                         <input type="text" class="form-control" name="city" id="city">
                                         <span class="error-message text-danger" id="city-error"></span>
                                     </div><!-- End .col-sm-6 -->
 
                                     <div class="col-sm-6">
-                                        <label>State / Country *</label>
+                                        <label>State  *</label>
                                         <input type="text" class="form-control" name="state" id="state">
                                         <span class="error-message text-danger" id="state-error"></span>
                                     </div><!-- End .col-sm-6 -->
@@ -363,7 +363,7 @@
 
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label>Postcode / ZIP *</label>
+                                        <label>Postcode  *</label>
                                         <input type="text" class="form-control" name="pin" id="pin">
                                         <span class="error-message text-danger" id="pin-error"></span>
                                     </div><!-- End .col-sm-6 -->
@@ -391,17 +391,20 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button onclick="" type="submit" class="btn btn-primary">Add</button>
-                   
+                            <button onclick="addAddress()" type="submit" class="btn btn-primary">Add</button>
+                  
                 </div>
 
             </div>
         </div>
     </div>
     <script>
+
+
+//==================================================remove address============================================
         function remove(id) {
             let addressId = id;
- let address = document.getElementById('tab-address-link')
+
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -412,7 +415,7 @@
                 cancelButtonText: 'No, keep it'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // User confirmed, proceed with the deletion
+               
                     $.ajax({
                         url: `/remove?id=${addressId}`,
                         method: 'GET',
@@ -423,17 +426,14 @@
                                address.click();
                                window.location.reload()
                             }
-                            // Handle success here
+                           
                             console.log('Address removed successfully');
-                            // You can also update the UI or take other actions as needed
+                            
                         },
-                        error: function (error) {
-                            // Handle errors here
-                            console.error('Error removing address', error);
-                        }
+                       
                     });
                 } else {
-                    // User clicked "No" or closed the dialog, do nothing
+              
                 }
             });
         }
@@ -457,7 +457,7 @@
                             confirmButtonText: 'OK'
                         }).then(() => {
                             // Redirect to the profile page
-                            window.location.href = '/profile'; // Replace 'profile.html' with your actual profile page URL
+                            window.location.href = '/profile'; 
                         });
                     } else {
                         pass.style.display = ""
@@ -467,7 +467,7 @@
         }
 
 
-
+//===============================================edit address=================================================
         function edit() {
             const name = document.getElementById('recipient-name').value;
             const email = document.getElementById('recipient-email').value
@@ -505,80 +505,141 @@
 
 
 
-        function validateForm() {
-            var fullname = document.getElementById("fullname").value;
-            var country = document.getElementById("country").value;
-            var housename = document.getElementById("housename").value;
-            var city = document.getElementById("city").value;
-            var state = document.getElementById("state").value;
-            var pin = document.getElementById("pin").value;
-            var mobile = document.getElementById("mobile").value;
-            var email = document.getElementById("email").value;
+//======================================add address==========================================
+function addAddress() {
+        // Get form input values
 
-            var isValid = true;
+var fullname = document.getElementById("fullname").value;
+var country = document.getElementById("country").value;
+var housename = document.getElementById("housename").value;
+var city = document.getElementById("city").value;
+var state = document.getElementById("state").value;
+var pin = document.getElementById("pin").value;
+var mobile = document.getElementById("mobile").value;
+var email = document.getElementById("email").value;
+var closeBtn = document.getElementById('closeBtn')
 
-            if (fullname === "") {
-                document.getElementById("fullname-error").textContent = "Full Name is required.";
-                isValid = false;
-            } else {
-                document.getElementById("fullname-error").textContent = "";
+
+var nameRegex = /^[A-Za-z\s]+$/;
+var countryRegex = /^[A-Za-z\s]+$/;
+var pinRegex = /^\d{6}$/;
+var mobileRegex = /^[0-9]{10}$/;
+var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+var cityRegex = /^[A-Za-z\s]+$/; // City validation pattern
+var stateRegex = /^[A-Za-z\s]+$/; // State validation pattern
+var housenameRegex = /^[A-Za-z0-9\s]+$/; // Housename validation pattern
+
+// Validate inputs
+var isValid = true;
+
+if (!nameRegex.test(fullname)) {
+    isValid = false;
+    document.getElementById("fullname-error").textContent = "Enter a valid full name";
+} else {
+    document.getElementById("fullname-error").textContent = "";
+}
+
+if (!countryRegex.test(country)) {
+    isValid = false;
+    document.getElementById("country-error").textContent = "Enter a country name";
+} else {
+    document.getElementById("country-error").textContent = "";
+}
+
+if (!pinRegex.test(pin)) {
+    isValid = false;
+    document.getElementById("pin-error").textContent = "Enter a valid PIN code";
+} else {
+    document.getElementById("pin-error").textContent = "";
+}
+
+if (!mobileRegex.test(mobile)) {
+    isValid = false;
+    document.getElementById("mobile-error").textContent = "Enter a valid mobile number";
+} else {
+    document.getElementById("mobile-error").textContent = "";
+}
+
+if (!emailRegex.test(email)) {
+    isValid = false;
+    document.getElementById("email-error").textContent = "Enter a valid email address";
+} else {
+    document.getElementById("email-error").textContent = "";
+}
+
+if (!cityRegex.test(city)) {
+    isValid = false;
+    document.getElementById("city-error").textContent = "Enter a valid city name";
+} else {
+    document.getElementById("city-error").textContent = "";
+}
+
+if (!stateRegex.test(state)) {
+    isValid = false;
+    document.getElementById("state-error").textContent = "Enter a valid state name";
+} else {
+    document.getElementById("state-error").textContent = "";
+}
+
+if (!housenameRegex.test(housename)) {
+    isValid = false;
+    document.getElementById("housename-error").textContent = "Enter a valid housename";
+} else {
+    document.getElementById("housename-error").textContent = "";
+}
+
+        if (isValid) {
+            $.ajax({
+            url: '/addaddress',
+            method: 'POST',
+            data: {
+                fullname: fullname,
+                country: country,
+                housename: housename,
+                city: city,
+                state: state,
+                pin: pin,
+                mobile: mobile,
+                email: email
+            },
+            success: function (response) {
+                if (response.added) {
+                    closeBtn.click()
+                }
             }
-
-            if (country === "") {
-                document.getElementById("country-error").textContent = "Country is required.";
-                isValid = false;
-            } else {
-                document.getElementById("country-error").textContent = "";
-            }
-
-            if (housename === "") {
-                document.getElementById("housename-error").textContent = "Street address is required.";
-                isValid = false;
-            } else {
-                document.getElementById("housename-error").textContent = "";
-            }
-
-            if (city === "") {
-                document.getElementById("city-error").textContent = "Town / City is required.";
-                isValid = false;
-            } else {
-                document.getElementById("city-error").textContent = "";
-            }
-
-            if (state === "") {
-                document.getElementById("state-error").textContent = "State / Country is required.";
-                isValid = false;
-            } else {
-                document.getElementById("state-error").textContent = "";
-            }
-
-            if (pin === "" || pin.length < 6) {
-                document.getElementById("pin-error").textContent = "Enter a valid pin";
-                isValid = false;
-            } else {
-                document.getElementById("pin-error").textContent = "";
-            }
-
-            if (mobile === "" || mobile.length < 10 || mobile.length > 10) {
-                document.getElementById("mobile-error").textContent = "Enter a valid number.";
-                isValid = false;
-            } else {
-                document.getElementById("mobile-error").textContent = "";
-            }
-
-            if (email === "") {
-                document.getElementById("email-error").textContent = "Email address is required.";
-                isValid = false;
-            } else {
-                document.getElementById("email-error").textContent = "";
-            }
-
-            return isValid;
+        });
         }
+    }
 
 
 
-    
+//=====================================================logout============================================================
+        function logout() {
+      Swal.fire({
+        title: "Are you sure you want to log out?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, logout",
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+        
+          $.ajax({
+            url: '/signout',
+            method: 'get', // or 'GET' based on your server setup
+            success: function(response) {
+              // Handle the success response, e.g., redirect to the login page
+              window.location.href = '/login'; // Replace with your login page URL
+            },
+            error: function(error) {
+              console.error(error);
+              // Handle errors, e.g., display an error message
+              Swal.fire("Error", "Failed to sign out.", "error");
+            },
+          });
+        }
+      });
+    }
 
     </script>
     <%- include("../layouts/user/userFooter.ejs")-%>

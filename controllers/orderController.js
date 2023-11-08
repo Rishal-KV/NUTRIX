@@ -18,7 +18,8 @@ var instance = new Razorpay({
 exports.orderPlace = async (req, res) => {
   try {
     const userId = req.session.userId;
-    const addressId =   req.body.selectedAddress
+    let  addressId ;
+    req.body.selectedAddress ? addressId = req.body.selectedAddress.trim() : undefined
      
     const cartData = await Cart.findOne({ userId: userId })
     const cart = await Cart.findOne({ userId: userId }).populate('products.productId')

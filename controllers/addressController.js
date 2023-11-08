@@ -9,7 +9,7 @@ exports.profile = async (req, res) =>{
       let wishCount = 0
       const  userId = req.session.userId
       const userDetails = await User.findOne({_id : userId})
-      let wallHistory = userDetails.walletHistory.reverse()
+      let wallHistory = userDetails.walletHistory.reverse().slice(0,5)
       // console.log(wallHistory);
 
       const addressDetails = await Address.findOne({user : userId})
