@@ -26,10 +26,12 @@
                                   <tr>
 
                                     <th class="text-white">Name</th>
+                                    <th class="text-white">Catgeory</th>
                                     <th class="text-white">Activation Date</th>
                                     <th class="text-white"> Exp Date</th>
                                     <th class="text-white">Offer Amount</th>
                                     <th class="text-white">Status</th>
+                                    <th class="text-white">Edit</th>
                                     <th class="text-white">ACTION</th>
                                   </tr>
 
@@ -38,6 +40,9 @@
                                     <tr>
                                       <td>
                                         <%=offer.name%>
+                                      </td>
+                                      <td>
+                                        <%=offer.category%>
                                       </td>
                                       <td>
                                         <%= formatDate(offer.activationDate) %>
@@ -49,16 +54,29 @@
                                         <%=offer.discountAmount%>
                                       </td>
                                       <td>
-                                        <%=offer.is_blocked%>
+                                      <% if(!offer.is_blocked){%>
+                                           <button class="btn btn-outline-success" disabled>Active</button>
+                                       <%}else{%>
+                                        <button class="btn btn-outline-danger" disabled>Blocked</button>
+                                        <%}%>
                                       </td>
-                                      <td><a href=""><button class=" btn btn-warning btn-sm" data-toggle="modal"
-                                            data-target="#edit" type="button">edit</button></a>
+                                      <td><a href="/admin/editoffer?id=<%=offer._id%>"><button class=" btn btn-outline-warning " data-toggle="modal"
+                                             type="button">edit</button></a>
 
 
-                                        <a href=""><button class="btn btn-danger btn-sm ml-2">List</button></a>
 
-                                        <a href=""><button class="btn btn-success btn-sm ml-2">Unlist</button></a>
+                                      </td>
+                                      <td>
+                                       <% if(offer.is_blocked){%>
+                                        
+                                        <a href="/admin/offerstatus?id=<%=offer._id%>"><button class="btn btn-outline-warning">Unblock</button></a>
+                                        <%}else{%>
+                                          <a href="/admin/offerstatus?id=<%=offer._id%>"><button class="btn btn-outline-warning">Block</button></a>
+                                          
+                                          <%}%>
 
+                                       
+                                       
                                       </td>
                                     </tr>
                                     <% })%>

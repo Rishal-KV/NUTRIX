@@ -16,7 +16,7 @@ exports.addToCart = async (req, res) => {
     // console.log(offer);
   //  console.log(offer.category.offer.discountAmount);
   // offer.category.offer ? price =   offer.category.offer.discountAmount : price = product.price
-  price = offer.category.offer ? offer.category.offer.discountAmount : product.price
+  price = offer.category.offer &&  new Date() < offer.category.offer.expiryDate && offer.category.offer.acivationDate <= new Date()? offer.category.offer.discountAmount : product.price
     const cart = await Cart.findOne({userId : userId })
 
     if (userId === undefined) {

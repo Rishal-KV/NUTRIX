@@ -9,13 +9,14 @@
                         <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
 
                             <li class="nav-item">
-                                <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab"
-                                    aria-controls="tab-dashboard" aria-selected="false"><i class="bi bi-person-lines-fill"></i>
-                                     </i> Profile</a>
+                                <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab"
+                                    href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
+                                    aria-selected="false"><i class="bi bi-person-lines-fill"></i>
+                                    </i> Profile</a>
                             </li>
-                            
-                           
-                            
+
+
+
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab"
                                     aria-controls="tab-orders" aria-selected="false"><i
@@ -41,7 +42,8 @@
                                         class="bi bi-shield-lock text-primary h6"></i> Change Password</a>
                             </li>
                             <li class="nav-item">
-                                <a onclick="logout()" class="nav-link" ><i class="bi bi-box-arrow-left text-primary h6"></i>
+                                <a onclick="logout()" class="nav-link"><i
+                                        class="bi bi-box-arrow-left text-primary h6"></i>
                                     Sign Out</a>
                             </li>
                         </ul>
@@ -58,11 +60,12 @@
                                     <br>
                                     From your account dashboard you can view your <a href="#tab-orders"
                                         class="tab-trigger-link link-underline">recent orders</a>, manage your <a
-                                        href="#tab-address" class="tab-trigger-link link-underline">shipping and billing addresses</a>,
-                                    and <a href="" class=" tab-trigger-link  link-underline "
-                                        data-toggle="modal" data-target="#myModal" style="background: transparent;">
-                                        Edit your account 
-                                </a>
+                                        href="#tab-address" class="tab-trigger-link link-underline">shipping and billing
+                                        addresses</a>,
+                                    and <a href="" class=" tab-trigger-link  link-underline " data-toggle="modal"
+                                        data-target="#myModal" style="background: transparent;">
+                                        Edit your account
+                                    </a>
                                 </p>
                             </div><!-- .End .tab-pane -->
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -164,16 +167,16 @@
 
                             </div><!-- .End .tab-pane -->
 
-                           
+
 
                             <div class="tab-pane fade" id="tab-address" role="tabpanel"
                                 aria-labelledby="tab-address-link">
 
-                                <h3 class="card-title p-3">Shipping Address </h3><!-- End .card-title -->
+                                <h3 class="card-title ">Shipping Address </h3><!-- End .card-title -->
 
                                 <br>
-                                <div class="ml-3 mb-3 ">
-                                    <a class="btn btn-outline-primary" data-toggle="modal"
+                                <div class="m-3">
+                                    <a class="btn btn-outline-primary p-3" data-toggle="modal"
                                         data-target="#exampleModal">Add<i class="icon-edit  "></i></a>
 
                                 </div>
@@ -187,12 +190,12 @@
 
                                     <%addressDetails?.address.forEach(function(add) { %>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12 " id="address-reload">
 
 
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-12 ">
 
-                                                <div class="card card-dashboard  border border-3">
+                                                <div class="card card-dashboard  border border-3 rounded">
 
                                                     <div class="card-body">
 
@@ -202,11 +205,11 @@
                                                                     <%=add.email%><br>
                                                                         <%=add.houseName%>,<%=add.city%>, <%=add.state%>
                                                                                     ,<%=add.country%>,<%=add.pin%><br>
-                                                                                            <a
+                                                                                            <a data-target="#editaddress" data-toggle="modal"
                                                                                                 href="/editaddress?id=<%=add._id%>">Edit
                                                                                                 Address<i
                                                                                                     class="icon-edit"></i></a>
-                                                        </p><a onclick="remove('<%=add._id%>')"><i
+                                                        </p><a href="/remove?id=<%=add._id%>"><i
                                                                 class="bi bi-trash3-fill text-primary h5"></i></a>
 
 
@@ -236,22 +239,26 @@
                                 aria-labelledby="tab-account-link">
 
 
+                                <form action="/changepassword" method="POST">
 
+                                    <label>Current password</label>
+                                    <input type="password" class="form-control" name="currentpassword">
 
-                                <label>Current password</label>
-                                <input type="password" class="form-control" name="currentpassword" id="currentpassword">
-
-                                <label>New password</label>
-                                <input type="password" class="form-control" name="newpassword" id="newpassword">
-                                <p id="passErr" style="display: none;" class="text-danger">Password Doesn't Match</p>
-                                <!--      
+                                    <label>New password</label>
+                                    <input type="password" class="form-control" name="newpassword">
+                                    <p id="passErr" class="text-danger"></p>
+                                    <!--      
                                     <label>Confirm new password</label>
                                     <input type="password" class="form-control mb-2"> -->
 
-                                <button onclick="changepassword()" type="submit" class="btn btn-outline-primary-2">
-                                    <span>SAVE CHANGES</span>
-                                    <i class="icon-long-arrow-right"></i>
-                                </button>
+                                    <button type="submit" class="btn btn-outline-primary-2">
+                                        <span>SAVE CHANGES</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </button>
+                                </form>
+
+
+
 
                             </div><!-- .End .tab-pane -->
 
@@ -326,7 +333,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+                    <form action="/addaddress" method="POST"   onsubmit="return validateForm()"     >
                         <div class="row p-5">
                             <div class="col-lg-9">
 
@@ -349,13 +356,13 @@
 
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label>Town  *</label>
+                                        <label>Town *</label>
                                         <input type="text" class="form-control" name="city" id="city">
                                         <span class="error-message text-danger" id="city-error"></span>
                                     </div><!-- End .col-sm-6 -->
 
                                     <div class="col-sm-6">
-                                        <label>State  *</label>
+                                        <label>State *</label>
                                         <input type="text" class="form-control" name="state" id="state">
                                         <span class="error-message text-danger" id="state-error"></span>
                                     </div><!-- End .col-sm-6 -->
@@ -363,7 +370,7 @@
 
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label>Postcode  *</label>
+                                        <label>Postcode *</label>
                                         <input type="text" class="form-control" name="pin" id="pin">
                                         <span class="error-message text-danger" id="pin-error"></span>
                                     </div><!-- End .col-sm-6 -->
@@ -379,10 +386,7 @@
                                 <input type="email" class="form-control" name="email" id="email">
                                 <span class="error-message text-danger" id="email-error"></span>
 
-                                <!-- <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-                                                                <span class="btn-text">Add</span>
-                                                                <span class="btn-hover-text">Add</span>
-                                                            </button> -->
+                               
 
 
 
@@ -391,255 +395,330 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button onclick="addAddress()" type="submit" class="btn btn-primary">Add</button>
-                  
+                            <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
                 </div>
 
             </div>
         </div>
     </div>
-    <script>
 
 
-//==================================================remove address============================================
-        function remove(id) {
-            let addressId = id;
+    <div class="modal fade" id="editaddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Billing address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeBtn">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/addaddress" method="POST"   onsubmit="return validateForm()"     >
+                        <div class="row p-5">
+                            <div class="col-lg-9">
 
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Full Name *</label>
+                                        <input type="text" class="form-control" name="fullname" id="fullname">
+                                        <span class="error-message text-danger" id="fullname-error"></span>
+                                    </div><!-- End .col-sm-6 -->
+                                </div><!-- End .row -->
 
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'You will not be able to recover this address!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, keep it'
-            }).then((result) => {
-                if (result.isConfirmed) {
-               
-                    $.ajax({
-                        url: `/remove?id=${addressId}`,
-                        method: 'GET',
-                        success: function (response) {
-                            if (response.success) {
-                              
-                            //    window.location.href = "/profile"
-                               address.click();
-                               window.location.reload()
-                            }
-                           
-                            console.log('Address removed successfully');
-                            
-                        },
-                       
-                    });
-                } else {
-              
-                }
-            });
-        }
+                                <label>Country *</label>
+                                <input type="text" class="form-control" name="country" id="country">
+                                <span class="error-message text-danger" id="country-error"></span>
 
-        function changepassword() {
-            let pass = document.getElementById('passErr')
-            let currentpassword = document.getElementById('currentpassword').value;
-            let newpassword = document.getElementById('newpassword').value
-            $.ajax({
-                url: "/changepassword",
-                method: "POST",
-                data: {
-                    currentpassword: currentpassword,
-                    newpassword: newpassword
-                },
-                success: function (response) {
-                    if (response.match) {
-                        Swal.fire({
-                            title: 'Password changed successfuly',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            // Redirect to the profile page
-                            window.location.href = '/profile'; 
-                        });
-                    } else {
-                        pass.style.display = ""
-                    }
-                }
-            })
-        }
+                                <label>Street address *</label>
+                                <input type="text" class="form-control" placeholder="House number and Street name"
+                                    name="housename" id="housename">
+                                <span class="error-message text-danger" id="housename-error"></span>
 
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Town *</label>
+                                        <input type="text" class="form-control" name="city" id="city">
+                                        <span class="error-message text-danger" id="city-error"></span>
+                                    </div><!-- End .col-sm-6 -->
 
-//===============================================edit address=================================================
-        function edit() {
-            const name = document.getElementById('recipient-name').value;
-            const email = document.getElementById('recipient-email').value
-            const closeBtn = document.getElementById("modalClose")
-            console.log(email);
-            $.ajax({
-                url: '/editprofile',
-                method: 'POST',
-                data: {
-                    name: name,
-                    email: email
-                },
-                success: function (response) {
-                    if (response.updated) {
-                        Swal.fire({
-                            toast: true,
-                            icon: 'success',
-                            title: 'updated',
-                            animation: false,
-                            position: 'top',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
+                                    <div class="col-sm-6">
+                                        <label>State *</label>
+                                        <input type="text" class="form-control" name="state" id="state">
+                                        <span class="error-message text-danger" id="state-error"></span>
+                                    </div><!-- End .col-sm-6 -->
+                                </div><!-- End .row -->
 
-                        })
-                        setTimeout(() => {
-                            closeBtn.click()
-                        }, 1000)
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Postcode *</label>
+                                        <input type="text" class="form-control" name="pin" id="pin">
+                                        <span class="error-message text-danger" id="pin-error"></span>
+                                    </div><!-- End .col-sm-6 -->
 
+                                    <div class="col-sm-6">
+                                        <label>Phone *</label>
+                                        <input type="tel" class="form-control" name="mobile" id="mobile">
+                                        <span class="error-message text-danger" id="mobile-error"></span>
+                                    </div><!-- End .col-sm-6 -->
+                                </div><!-- End .row -->
 
-                    }
-                }
-            })
-        }
+                                <label>Email address *</label>
+                                <input type="email" class="form-control" name="email" id="email">
+                                <span class="error-message text-danger" id="email-error"></span>
+
+                               
 
 
 
-//======================================add address==========================================
-function addAddress() {
-        // Get form input values
+                            </div><!-- End .row -->
 
-var fullname = document.getElementById("fullname").value;
-var country = document.getElementById("country").value;
-var housename = document.getElementById("housename").value;
-var city = document.getElementById("city").value;
-var state = document.getElementById("state").value;
-var pin = document.getElementById("pin").value;
-var mobile = document.getElementById("mobile").value;
-var email = document.getElementById("email").value;
-var closeBtn = document.getElementById('closeBtn')
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
-var nameRegex = /^[A-Za-z\s]+$/;
-var countryRegex = /^[A-Za-z\s]+$/;
-var pinRegex = /^\d{6}$/;
-var mobileRegex = /^[0-9]{10}$/;
-var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-var cityRegex = /^[A-Za-z\s]+$/; // City validation pattern
-var stateRegex = /^[A-Za-z\s]+$/; // State validation pattern
-var housenameRegex = /^[A-Za-z0-9\s]+$/; // Housename validation pattern
 
-// Validate inputs
-var isValid = true;
-
-if (!nameRegex.test(fullname)) {
-    isValid = false;
-    document.getElementById("fullname-error").textContent = "Enter a valid full name";
-} else {
-    document.getElementById("fullname-error").textContent = "";
-}
-
-if (!countryRegex.test(country)) {
-    isValid = false;
-    document.getElementById("country-error").textContent = "Enter a country name";
-} else {
-    document.getElementById("country-error").textContent = "";
-}
-
-if (!pinRegex.test(pin)) {
-    isValid = false;
-    document.getElementById("pin-error").textContent = "Enter a valid PIN code";
-} else {
-    document.getElementById("pin-error").textContent = "";
-}
-
-if (!mobileRegex.test(mobile)) {
-    isValid = false;
-    document.getElementById("mobile-error").textContent = "Enter a valid mobile number";
-} else {
-    document.getElementById("mobile-error").textContent = "";
-}
-
-if (!emailRegex.test(email)) {
-    isValid = false;
-    document.getElementById("email-error").textContent = "Enter a valid email address";
-} else {
-    document.getElementById("email-error").textContent = "";
-}
-
-if (!cityRegex.test(city)) {
-    isValid = false;
-    document.getElementById("city-error").textContent = "Enter a valid city name";
-} else {
-    document.getElementById("city-error").textContent = "";
-}
-
-if (!stateRegex.test(state)) {
-    isValid = false;
-    document.getElementById("state-error").textContent = "Enter a valid state name";
-} else {
-    document.getElementById("state-error").textContent = "";
-}
-
-if (!housenameRegex.test(housename)) {
-    isValid = false;
-    document.getElementById("housename-error").textContent = "Enter a valid housename";
-} else {
-    document.getElementById("housename-error").textContent = "";
-}
-
-        if (isValid) {
-            $.ajax({
-            url: '/addaddress',
-            method: 'POST',
-            data: {
-                fullname: fullname,
-                country: country,
-                housename: housename,
-                city: city,
-                state: state,
-                pin: pin,
-                mobile: mobile,
-                email: email
-            },
-            success: function (response) {
-                if (response.added) {
-                    closeBtn.click()
-                }
+    <%if(updateAdd==1){%>
+        <script>
+            function autoRun() {
+                document.getElementById("tab-address-link").click()
             }
-        });
+            window.onload = autoRun
+        </script>
+
+        <%}%>
+
+
+            <%if(updateAdd==2){%>
+                <script>
+                    function autoRun() {
+                        document.getElementById("tab-address-link").click()
+                    }
+                    window.onload = autoRun
+                </script>
+
+                <%}%>
+
+
+
+                    <%if(changePass==1){%>
+
+                        <script>
+                            function autoRun() {
+                                document.getElementById("tab-account-link").click()
+                                Swal.fire({
+                                    toast: true,
+                                    icon: 'success',
+                                    title: 'password changed',
+                                    animation: false,
+                                    position: 'top-right',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                            }
+
+                            window.onload = autoRun
+                        </script>
+
+
+                        <% }else if(changePass==2){%>
+                            <script>
+                                function Validate() {
+                                    let passErr = document.getElementById('passErr')
+                                    passErr.innerHTML = "password Doesn't match!!"
+                                }
+                                function autoRun() {
+                                    document.getElementById("tab-account-link").click()
+
+                                }
+                                Validate()
+                                window.onload = autoRun
+
+                            </script>
+
+
+                            <%}%>
+
+
+
+
+
+                                <script>
+
+
+
+
+
+                                    //===============================================edit address=================================================
+                                    function edit() {
+                                        const name = document.getElementById('recipient-name').value;
+                                        const email = document.getElementById('recipient-email').value
+                                        const closeBtn = document.getElementById("modalClose")
+                                        console.log(email);
+                                        $.ajax({
+                                            url: '/editprofile',
+                                            method: 'POST',
+                                            data: {
+                                                name: name,
+                                                email: email
+                                            },
+                                            success: function (response) {
+                                                if (response.updated) {
+                                                    Swal.fire({
+                                                        toast: true,
+                                                        icon: 'success',
+                                                        title: 'updated',
+                                                        animation: false,
+                                                        position: 'top',
+                                                        showConfirmButton: false,
+                                                        timer: 3000,
+                                                        timerProgressBar: true,
+
+                                                    })
+                                                    setTimeout(() => {
+                                                        closeBtn.click()
+                                                    }, 1000)
+
+
+                                                }
+                                            }
+                                        })
+                                    }
+
+
+
+
+
+
+
+                                    //=====================================================logout============================================================
+                                    function logout() {
+                                        Swal.fire({
+                                            title: "Are you sure you want to log out?",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonText: "Yes, logout",
+                                            cancelButtonText: "Cancel",
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+
+                                                $.ajax({
+                                                    url: '/signout',
+                                                    method: 'get', // or 'GET' based on your server setup
+                                                    success: function (response) {
+                                                        // Handle the success response, e.g., redirect to the login page
+                                                        window.location.href = '/login'; // Replace with your login page URL
+                                                    },
+                                                    error: function (error) {
+                                                        console.error(error);
+                                                        // Handle errors, e.g., display an error message
+                                                        Swal.fire("Error", "Failed to sign out.", "error");
+                                                    },
+                                                });
+                                            }
+                                        });
+                                    }
+
+
+                                    function validateForm() {
+            var isValid = true;
+
+            // Full Name
+            var fullname = document.getElementById('fullname').value;
+            if (fullname.trim() === '') {
+                document.getElementById('fullname-error').textContent = 'Full Name is required.';
+                isValid = false;
+            } else {
+                document.getElementById('fullname-error').textContent = '';
+            }
+
+            // Country
+            var country = document.getElementById('country').value;
+            if (country.trim() === '') {
+                document.getElementById('country-error').textContent = 'Country is required.';
+                isValid = false;
+            } else {
+                document.getElementById('country-error').textContent = '';
+            }
+
+            // Street Address
+            var housename = document.getElementById('housename').value;
+            if (housename.trim() === '') {
+                document.getElementById('housename-error').textContent = 'Street address is required.';
+                isValid = false;
+            } else {
+                document.getElementById('housename-error').textContent = '';
+            }
+
+            // Town
+            var city = document.getElementById('city').value;
+            if (city.trim() === '') {
+                document.getElementById('city-error').textContent = 'Town is required.';
+                isValid = false;
+            } else {
+                document.getElementById('city-error').textContent = '';
+            }
+
+            // State
+            var state = document.getElementById('state').value;
+            if (state.trim() === '') {
+                document.getElementById('state-error').textContent = 'State is required.';
+                isValid = false;
+            } else {
+                document.getElementById('state-error').textContent = '';
+            }
+
+
+            var postcode = document.getElementById('pin').value;
+            var postcodeRegex = /^\d{6}$/; 
+
+            if (!postcodeRegex.test(postcode)) {
+                document.getElementById('pin-error').textContent = 'Enter a valid US ZIP code.';
+                isValid = false;
+            } else {
+                document.getElementById('pin-error').textContent = '';
+            }
+
+            // Phone (US phone number pattern)
+            var mobile = document.getElementById('mobile').value;
+            var mobileRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
+
+            if (!mobileRegex.test(mobile)) {
+                document.getElementById('mobile-error').textContent = 'Enter a valid  phone number.';
+                isValid = false;
+            } else {
+                document.getElementById('mobile-error').textContent = '';
+            }
+
+            // Email
+            var email = document.getElementById('email').value;
+            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('email-error').textContent = 'Enter a valid email address.';
+                isValid = false;
+            } else {
+                document.getElementById('email-error').textContent = '';
+            }
+
+            return isValid;
         }
-    }
+
+                                </script>
 
 
-
-//=====================================================logout============================================================
-        function logout() {
-      Swal.fire({
-        title: "Are you sure you want to log out?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, logout",
-        cancelButtonText: "Cancel",
-      }).then((result) => {
-        if (result.isConfirmed) {
-        
-          $.ajax({
-            url: '/signout',
-            method: 'get', // or 'GET' based on your server setup
-            success: function(response) {
-              // Handle the success response, e.g., redirect to the login page
-              window.location.href = '/login'; // Replace with your login page URL
-            },
-            error: function(error) {
-              console.error(error);
-              // Handle errors, e.g., display an error message
-              Swal.fire("Error", "Failed to sign out.", "error");
-            },
-          });
-        }
-      });
-    }
-
-    </script>
-    <%- include("../layouts/user/userFooter.ejs")-%>
+                              
+                                <%- include("../layouts/user/userFooter.ejs")-%>

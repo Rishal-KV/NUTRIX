@@ -1,0 +1,64 @@
+C<%-include("../layouts/admin/sideBar.ejs")-%>
+    <%-include("../layouts/admin/adminHeader.ejs")-%>
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="card">
+                    <div class="container-fluid px-1 py-5 mx-auto ">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center ">
+
+                                <div class="mt-5 border border-1  p-4">
+                                    <h5 class="text-center m-5">Offer</h5>
+                                    <form class="form-card" action="" method="POST">
+                                        <div class="row justify-content-between text-left">
+                                            <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                                    class="form-control-label px-3">Offer name</label> <input
+                                                    value="<%=offer.name%>" type="text" id="fname" name="name"
+                                                    class="form-control "> </div>
+                                            <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                                    class="form-control-label px-3">Activation Date</label> <input
+                                                    value="<%= new Date(offer.activationDate).toISOString().split('T')[0] %>"
+                                                    type="date" name="activationdate" class="form-control"> </div>
+                                        </div>
+                                        <div class="row justify-content-between text-left">
+                                            <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                                    class="form-control-label px-3">Expire Date</label> <input
+                                                    value="<%= new Date(offer.expiryDate).toISOString().split('T')[0] %>"
+                                                    type="date" id="email" name="expiredate" class="form-control">
+                                            </div>
+                                            <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                                    class="form-control-label px-3">Offer Amount</label> <input
+                                                    value="<%=offer.discountAmount%>" type="text" id="mob"
+                                                    class="form-control" name="amount"> </div>
+                                        </div>
+
+
+                                        <div class="row justify-content-between text-left">
+                                            <div class="form-group col-sm-6 flex-column d-flex"> <label
+                                                    class="form-control-label px-3">Category</label>
+                                                <select class="p-2 border border-none"
+                                                    style=" background-color: #2A3038; color: aliceblue;"
+                                                    name="category">
+                                                    <% category.filter(cat=> !cat.Blocked).forEach(cat => { %>
+                                                        <option value="<%= cat.name %>">
+                                                            <%= cat.name %>
+                                                        </option>
+                                                        <% }); %>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+
+ <input type="hidden" name="id"  value="<%=offer._id%>">
+                                        <div class="row justify-content-center">
+                                            <div class="form-group col-sm-6"> <button type="submit"
+                                                    class="btn-block btn-primary">Add</button> </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%-include("../layouts/admin/adminFooter.ejs")-%>

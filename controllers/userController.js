@@ -148,7 +148,7 @@ exports.verifyLogin = async (req, res) => {
 
     if (userData) {
       const passMatch = await bcrypt.compare(password, userData.password);
-      if (passMatch && userData.blocked == false) {
+      if (passMatch && userData?.blocked == false) {
         req.session.userId = userData._id;
         req.session.user = userData.username;
         req.app.locals.logError = ""
@@ -365,10 +365,11 @@ exports.changePassword = async (req, res) => {
       user.password = newpass
 
       const updatedPassword = await user.save();
-      res.json({ match: true })
+      req.session.changePassword = 1
+  res.redirect('/profile')
     } else {
-
-      res.json({ match: false })
+      req.session.changePassword = 2
+     res.redirect('/profile')
     }
   } catch (error) {
     console.log(error.message);

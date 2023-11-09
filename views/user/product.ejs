@@ -88,7 +88,7 @@
                                     <a class="ratings-text" href="#product-review-link" id="review-link">(
                                         <%=review?.reviews.length%> Reviews )</a>
                                 </div><!-- End .rating-container -->
-                                <%if(pdata.category.offer){%>
+                                <%if(pdata.category.offer && pdata.category.offer.activationDate >= new Date() ){%>
                                     <div class="product-price" style="color: green;">
                                         ₹<%=pdata.category.offer.discountAmount%>
                                             <h5 class="p-2 text-danger " style="text-decoration: line-through;">₹
@@ -103,9 +103,7 @@
                                         </div><!-- End .product-price -->
                                         <%}%>
 
-                                            <p class="lead" style="text-decoration: l;">
-                                                This is a lead paragraph. It stands out from regular paragraphs.
-                                            </p>
+                                            
 
                                             <div class="product-content">
                                                 <p>
@@ -365,6 +363,8 @@
                             title: "Product added to cart",
                             showConfirmButton: false,
                             timer: 1500,
+                        }).then(()=>{
+                            window.location.reload()
                         });
                     } else if (response.exist) {
 

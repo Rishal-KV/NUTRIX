@@ -6,6 +6,9 @@ const Wishlist = require('../model/wishlistModel')
 
 exports.profile = async (req, res) =>{
     try {
+    
+
+
       let wishCount = 0
       const  userId = req.session.userId
       const userDetails = await User.findOne({_id : userId})
@@ -32,8 +35,17 @@ let count = 0
         wallHistory,
         count,
         title : "Profile ",
-        wishCount
-     
+        wishCount,
+        updateAdd: req.session.address,
+        changePass :req.session.changePassword
+      },(err, html)=>{
+        if(!err){
+          req.session.address= false;
+          req.session.changePassword = false
+          res.send(html)
+        }else{
+          console.log(err.message);
+        }
       })
     } catch (error) {
        console.log(error.message);
@@ -102,7 +114,8 @@ let count = 0
         });
         await newAddress.save();
       }
-      res.json({added : true})
+      req.session.address = 2
+   res.redirect('/profile')
     } catch (error) {
       console.error(error.message);
       res.render('500')
@@ -197,8 +210,8 @@ exports.geteditaddress = async(req, res) =>{
         { $pull: { address: { _id: addressId } } }
    
       );
-      console.log(addressId);
-      res.json({success : true})
+    req.session.address = 1
+    res.redirect('/profile')
     
 
     } catch (error) {

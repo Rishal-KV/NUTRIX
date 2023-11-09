@@ -89,5 +89,8 @@ adminRoute.post('/updatebanner',multer.bannerUpload.single('image'),bannerContro
 adminRoute.get('/offermanagement',adminAuth.isLoggedIn,offerController.offer)
 adminRoute.get('/addoffer',adminAuth.isLoggedIn,offerController.addOffer)
 adminRoute.post('/addoffer',offerController.offerAdd)
+adminRoute.get('/editoffer',adminAuth.isLoggedIn,offerController.editoffer);
+adminRoute.post('/editoffer',offerController.updateOffer)
+adminRoute.get('/offerstatus',adminAuth.isLoggedIn,offerController.updateStatus)
 
 module.exports = adminRoute;

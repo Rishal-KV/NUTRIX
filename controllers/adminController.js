@@ -107,7 +107,8 @@ exports.dashboard = async (req, res) => {
 
 
     let monthlySalesArr = [];
- 
+   
+
 
     if (monthly.length > 0) {
       let monthlySalesArray = monthly[0];
@@ -115,7 +116,7 @@ exports.dashboard = async (req, res) => {
         monthlySalesArray.months.map(monthInfo => monthlySalesArr.push(monthInfo.count));
       }
     }
-   
+
 
     let onlinePaymentCount = 0;
     let cashCount = 0;
