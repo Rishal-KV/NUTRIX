@@ -205,7 +205,7 @@
                                                                     <%=add.email%><br>
                                                                         <%=add.houseName%>,<%=add.city%>, <%=add.state%>
                                                                                     ,<%=add.country%>,<%=add.pin%><br>
-                                                                                            <a data-target="#editaddress" data-toggle="modal"
+                                                                                            <a 
                                                                                                 href="/editaddress?id=<%=add._id%>">Edit
                                                                                                 Address<i
                                                                                                     class="icon-edit"></i></a>
@@ -404,88 +404,7 @@
     </div>
 
 
-    <div class="modal fade" id="editaddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Billing address</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeBtn">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/addaddress" method="POST"   onsubmit="return validateForm()"     >
-                        <div class="row p-5">
-                            <div class="col-lg-9">
-
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label>Full Name *</label>
-                                        <input type="text" class="form-control" name="fullname" id="fullname">
-                                        <span class="error-message text-danger" id="fullname-error"></span>
-                                    </div><!-- End .col-sm-6 -->
-                                </div><!-- End .row -->
-
-                                <label>Country *</label>
-                                <input type="text" class="form-control" name="country" id="country">
-                                <span class="error-message text-danger" id="country-error"></span>
-
-                                <label>Street address *</label>
-                                <input type="text" class="form-control" placeholder="House number and Street name"
-                                    name="housename" id="housename">
-                                <span class="error-message text-danger" id="housename-error"></span>
-
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label>Town *</label>
-                                        <input type="text" class="form-control" name="city" id="city">
-                                        <span class="error-message text-danger" id="city-error"></span>
-                                    </div><!-- End .col-sm-6 -->
-
-                                    <div class="col-sm-6">
-                                        <label>State *</label>
-                                        <input type="text" class="form-control" name="state" id="state">
-                                        <span class="error-message text-danger" id="state-error"></span>
-                                    </div><!-- End .col-sm-6 -->
-                                </div><!-- End .row -->
-
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label>Postcode *</label>
-                                        <input type="text" class="form-control" name="pin" id="pin">
-                                        <span class="error-message text-danger" id="pin-error"></span>
-                                    </div><!-- End .col-sm-6 -->
-
-                                    <div class="col-sm-6">
-                                        <label>Phone *</label>
-                                        <input type="tel" class="form-control" name="mobile" id="mobile">
-                                        <span class="error-message text-danger" id="mobile-error"></span>
-                                    </div><!-- End .col-sm-6 -->
-                                </div><!-- End .row -->
-
-                                <label>Email address *</label>
-                                <input type="email" class="form-control" name="email" id="email">
-                                <span class="error-message text-danger" id="email-error"></span>
-
-                               
-
-
-
-                            </div><!-- End .row -->
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
+    
 
     <%if(updateAdd==1){%>
         <script>

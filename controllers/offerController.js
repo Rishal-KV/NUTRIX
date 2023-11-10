@@ -76,13 +76,18 @@ exports.editoffer = async(req, res) =>{
 exports.updateOffer = async(req, res) =>{
     try {
       const offerId = req.body.id;
-      const {name,discountAmount,expiryDate,category} = req.body
-      const updateOffer = await Offer.findByIdAndUpdate({_id : offerId},{
+      const {name,discountAmount,activationDate,expiryDate,category} = req.body
+      const updateOffer = await Offer.updateOne({_id : offerId},{
+       $set : {
         name : name,
         discountAmount : discountAmount,
-        expiredate : expiryDate,
+        activationDate : activationDate,
+        expiryDate : expiryDate,
         category : category
+        }
       })  
+   console.log(updateOffer);
+      console.log(offerId);
       res.redirect('/admin/offermanagement')
     } catch (error) {
         console.log(error.message);

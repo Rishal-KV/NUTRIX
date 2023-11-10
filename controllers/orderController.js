@@ -23,6 +23,9 @@ exports.orderPlace = async (req, res) => {
      
     const cartData = await Cart.findOne({ userId: userId })
     const cart = await Cart.findOne({ userId: userId }).populate('products.productId')
+    if(cart==undefined){
+      return res.redirect('/home')
+    }
   
     const products = cartData.products
     const productStock = cart.products

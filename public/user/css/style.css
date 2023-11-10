@@ -2502,12 +2502,12 @@ blockquote.text-white cite span {
   align-items: center;
 }
 .mobile-search .form-control {
-  height: 36px;
+  height: 32px;
   margin-bottom: 0;
   -webkit-appearance: none;
   font-size: 1.2rem;
   line-height: 1.5;
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 1.0rem;
   max-width: calc(100% - 36px);
   background-color: #333;
   border-color: rgba(255, 255, 255, 0.1);
@@ -2898,6 +2898,9 @@ p {
   .header-3 .compare-dropdown,
   .header-3 .wishlist {
     padding-left: 1.4rem;
+  }
+  .mobile-search{
+    display: none;
   }
 }
 @media screen and (max-width: 1119px) {
