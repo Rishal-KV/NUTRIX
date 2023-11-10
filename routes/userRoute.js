@@ -30,7 +30,7 @@ userRoute.get("/signout", userController.signout);
 userRoute.get('/forgotpassword',userController.forgotPassword)
 userRoute.post('/resetpassword',userController.resetPassword)
 userRoute.post('/confirm_otp',userController.checkOtp)
-userRoute.get('/change_password',userController.changePasswordPage)
+userRoute.get('/change_password',userAuth.otpConfirm,userController.changePasswordPage)
 userRoute.post('/confirm_password',userController.confirmPassword)
 
 

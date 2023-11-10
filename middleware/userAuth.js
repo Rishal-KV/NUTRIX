@@ -33,3 +33,15 @@ exports.isLoggedOut = async(req, res, next) =>{
       console.log(error.message);
   }
 }
+
+exports.otpConfirm = async (req, res,next) =>{
+    try {
+        if(req.session.email){
+           next()
+        }else{
+         res.redirect('/login')   
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+}
