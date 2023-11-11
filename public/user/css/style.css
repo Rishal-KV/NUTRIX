@@ -79,10 +79,10 @@ img {
   background-color: #f4f5f8 !important;
 }
 .bg-primary {
-  background-color: #c96 !important;
+  background-color: #333 !important;
 }
 .bg-secondary {
-  background-color: #a6c76c !important;
+  background-color: rgb(101, 94, 94) !important;
 }
 .bg-image {
   background-color: #ccc;
@@ -163,20 +163,20 @@ h6,
   letter-spacing: -0.01em;
 }
 a {
-  color: #c96;
+  color: #333;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 a:hover,
 a:focus {
-  color: #bf8040;
+  color:  rgb(101, 94, 94);
   text-decoration: none;
 }
 .link-underline {
-  box-shadow: 0 1px 0 0 #c96;
+  box-shadow: 0 1px 0 0 #333;
 }
 .text-primary {
-  color: #c96 !important;
+  color: #333 !important;
 }
 .text-secondary {
   color: #a6c76c !important;
@@ -581,7 +581,7 @@ blockquote.text-white cite span {
 }
 .header-top a:hover,
 .header-top a:focus {
-  color: #c96;
+  color: rgb(101, 94, 94);
 }
 .header-top .container,
 .header-top .container-fluid {
@@ -830,7 +830,7 @@ blockquote.text-white cite span {
 .cart-dropdown.show .dropdown-toggle,
 .compare-dropdown:hover .dropdown-toggle,
 .compare-dropdown.show .dropdown-toggle {
-  color: #c96;
+  color:  rgb(101, 94, 94);;
 }
 .cart-dropdown:hover .dropdown-menu,
 .cart-dropdown.show .dropdown-menu,
@@ -918,7 +918,7 @@ blockquote.text-white cite span {
   margin-left: 0.2rem;
   margin-top: 0.1rem;
   color: #fff;
-  background-color: #c96;
+  background-color: #333;
 }
 .cart-dropdown .dropdown-cart-products {
   margin-top: -1rem;
@@ -1014,11 +1014,11 @@ blockquote.text-white cite span {
   margin-left: 0.7rem;
   margin-top: 0.1rem;
   color: #fff;
-  background-color: #c96;
+  background-color: #333;
 }
 .wishlist-link:hover,
 .wishlist-link:focus {
-  color: #c96;
+  color:  rgb(101, 94, 94);
 }
 .search-toggle {
   position: relative;
@@ -1609,8 +1609,8 @@ blockquote.text-white cite span {
   .header-search .select-custom {
     display: none;
   }
-  .compare-dropdown,
-  .wishlist-link {
+  .compare-dropdown
+ {
     display: none;
   }
   .cart-dropdown {
@@ -1623,8 +1623,8 @@ blockquote.text-white cite span {
   }
   .compare-dropdown,
   .wishlist,
-  .account,
-  .wishlist-link {
+  .account
+  {
     display: none !important;
   }
 }
@@ -3483,8 +3483,8 @@ p {
 .header-7 .btn-primary:not(:disabled):not(.disabled).active,
 .header-7 .show > .btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #cc6666;
-  border-color: #cc6666;
+  background-color:  rgb(101, 94, 94);;
+  border-color:  rgb(101, 94, 94);
   box-shadow: none;
 }
 .header-7 .top-menu:not(.top-link-menu) ul {
@@ -5079,7 +5079,7 @@ p {
 }
 .page-header h1 span {
   display: block;
-  color: #c96;
+  color:  rgb(101, 94, 94)
   font-size: 1.6rem;
   margin-top: 0.8rem;
 }
@@ -5607,9 +5607,9 @@ p {
 }
 .nav.nav-pills .nav-item.show .nav-link,
 .nav.nav-pills .nav-item .nav-link.active {
-  color: #c96;
+  color: #333;
   border-color: #d7d7d7;
-  border-bottom-color: #c96;
+  border-bottom-color: #333;
 }
 .nav-pills + .tab-content .tab-pane {
   padding: 1.4rem 0;
@@ -5825,8 +5825,8 @@ p {
 }
 .btn-primary {
   color: #fff;
-  background-color: #c96;
-  border-color: #c96;
+  background-color:  rgb(101, 94, 94);;
+  border-color:  rgb(101, 94, 94);;
   box-shadow: none;
 }
 .btn-primary:hover,
@@ -5836,8 +5836,8 @@ p {
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #a6c76c;
-  border-color: #a6c76c;
+  background-color:  rgb(101, 94, 94);
+  border-color:  rgb(101, 94, 94);
   box-shadow: none;
 }
 .btn-primary.disabled,
@@ -5848,8 +5848,8 @@ p {
 }
 .btn-secondary {
   color: #fff;
-  background-color: #a6c76c;
-  border-color: #a6c76c;
+  background-color: rgb(101, 94, 94);;
+  border-color:rgb(101, 94, 94);;
   box-shadow: none;
 }
 .btn-secondary:hover,
@@ -5859,8 +5859,8 @@ p {
 .btn-secondary:not(:disabled):not(.disabled).active,
 .show > .btn-secondary.dropdown-toggle {
   color: #fff;
-  background-color: #c96;
-  border-color: #c96;
+  background-color: rgb(101, 94, 94);;
+  border-color: rgb(101, 94, 94);;
   box-shadow: none;
 }
 .btn-secondary.disabled,
@@ -6011,7 +6011,7 @@ p {
   color: #c96;
   background-color: transparent;
   background-image: none;
-  border-color: #c96;
+  border-color: #333;
   box-shadow: none;
 }
 .btn-outline-primary:hover,
@@ -6031,10 +6031,10 @@ p {
   background-color: transparent;
 }
 .btn-outline-primary-2 {
-  color: #c96;
+  color:  rgb(101, 94, 94);
   background-color: transparent;
   background-image: none;
-  border-color: #c96;
+  border-color:  rgb(101, 94, 94);
   box-shadow: none;
 }
 .btn-outline-primary-2:hover,
@@ -6044,8 +6044,8 @@ p {
 .btn-outline-primary-2:not(:disabled):not(.disabled).active,
 .show > .btn-outline-primary-2.dropdown-toggle {
   color: #fff;
-  background-color: #c96;
-  border-color: #c96;
+  background-color:  rgb(101, 94, 94);
+  border-color:  rgb(101, 94, 94);
   box-shadow: none;
 }
 .btn-outline-primary-2.disabled,
@@ -6539,7 +6539,7 @@ p {
   font-weight: 400;
   font-size: 1.6rem;
   line-height: 1.25;
-  color: #c96;
+  color: #333;
   margin-bottom: 1.3rem;
 }
 .new-price {
@@ -6708,7 +6708,7 @@ p {
   margin-right: 0;
 }
 .btn-product {
-  color: #c96;
+  color: #333;
   position: relative;
   display: flex;
   align-items: center;
@@ -10772,8 +10772,8 @@ button:focus {
 .product-details-action .btn-cart {
   padding: 1rem 1.5rem;
   max-width: 198px;
-  color: #c96;
-  border: 0.1rem solid #c96;
+  color: #333;
+  border: 0.1rem solid #333;
 }
 .product-details-action .btn-cart span {
   font-size: 1.4rem;
@@ -10788,8 +10788,8 @@ button:focus {
 .product-details-action .btn-cart:hover,
 .product-details-action .btn-cart:focus {
   color: #fff;
-  border-color: #c96;
-  background-color: #c96;
+  border-color: rgb(101, 94, 94);;
+  background-color: rgb(101, 94, 94);;
 }
 .details-action-wrapper {
   display: flex;
@@ -10864,8 +10864,8 @@ button:focus {
 }
 .product-details-tab .nav.nav-pills .nav-link:hover,
 .product-details-tab .nav.nav-pills .nav-link:focus {
-  color: #c96;
-  border-bottom-color: #c96;
+  color: #333;
+  border-bottom-color: #333;
 }
 .product-details-tab .nav.nav-pills .nav-item + .nav-item {
   margin-left: 2rem;
@@ -13800,7 +13800,7 @@ button:focus {
 .nav-dashboard .nav-link:hover,
 .nav-dashboard .nav-link:focus,
 .nav-dashboard .nav-link.active {
-  color: #c96;
+  color: #333;
 }
 .nav-dashboard .nav-link.active {
   padding-left: 2rem;
@@ -16396,7 +16396,7 @@ button:focus {
 }
 
 .register-photo form .btn-primary {
-  background:#c96;;
+  background: rgb(101, 94, 94);
   border:none;
   border-radius:4px;
   padding:11px;
@@ -16407,7 +16407,7 @@ button:focus {
 }
 
 .register-photo form .btn-primary:hover, .register-photo form .btn-primary:active {
-  background:#eb3b60;
+  background: rgb(101, 94, 94)  ;
 }
 
 .register-photo form .btn-primary:active {
