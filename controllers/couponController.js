@@ -1,6 +1,7 @@
 
 const Coupon = require('../model/couponModel')
 const Cart = require('../model/cartModel');
+const { getLogger } = require('nodemailer/lib/shared');
 exports.coupon = async(req, res) =>{
     try {
         const coupons = await Coupon.find();
@@ -16,11 +17,24 @@ exports.addCoupon = async(req, res) =>{
         var coupErr = req.app.locals.coupErr
         var coupErrPur  = req.app.locals.coupErrPur
         var coupErrDis = req.app.locals.coupErrDis
-      
+        req.session.dateValidation
         req.app.locals.coupErr = ""
         req.app.locals.coupErrPur = " "
         req.app.locals.coupErrDis = " "
-        res.render('addcoupon',{title: "Coupon management",title : "Coupon management",coupErr,coupErrPur,coupErrDis})
+        res.render('addcoupon',{title: "Coupon management",
+        title : "Coupon management",
+        coupErr,
+        coupErrPur,
+        coupErrDis,
+        dateVal : req.session.dateValidation
+    },(err,html)=>{
+            if(!err){
+                req.session.dateValidation = false
+                res.send(html)
+            }else{
+                  console.log(err.message);
+            }
+        })
     } catch (error) {
         console.log(error.message);
     }
@@ -31,6 +45,12 @@ exports.addcouponPost = async(req,res) =>{
     try {
       const {name,purchase,discount, date} = req.body
     let existingCoupon = await Coupon.findOne({couponName : name})
+     let today = new Date();
+     let expireDate = new Date(date)
+     if(expireDate < today){
+        req.session.dateValidation = 1
+       return  res.redirect('/admin/addcoupon') 
+     }
     if(existingCoupon){
         req.app.locals.coupErr = "Coupon Already Added"
         return res.redirect('/admin/addcoupon')
@@ -40,15 +60,19 @@ exports.addcouponPost = async(req,res) =>{
     }else if(discount < 0){
         req.app.locals.coupErrDis = "cannot set negative values"
         return res.redirect('/admin/addcoupon')
+    }else{
+
+        const coupon = new  Coupon({
+            couponName : name,
+            minimumPurchase : purchase,
+            maximumDiscount : discount,
+            lastDate : date
+          })
+          await coupon.save();
+            res.redirect('/admin/couponmanagement')
     }
-      const coupon = new  Coupon({
-        couponName : name,
-        minimumPurchase : purchase,
-        maximumDiscount : discount,
-        lastDate : date
-      })
-        res.redirect('/admin/couponmanagement')
-      await coupon.save();
+     
+    
     } catch (error) {
         
     }

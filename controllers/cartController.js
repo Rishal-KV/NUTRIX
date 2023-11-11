@@ -264,6 +264,10 @@ exports.checkout = async (req, res) => {
     const userId = req.session.userId;
     const addressDetails = await Address.findOne({ user: userId });
     const carts = await Cart.findOne({ userId: req.session.userId });
+    console.log(carts + "heyyyyyy")
+    if(carts.products==[]){
+      return res.redirect('/home')
+    }
     const wishlist = await Wishlist.findOne({ user: req.session.userId })
     let count = 0;
     count = carts.products.length;

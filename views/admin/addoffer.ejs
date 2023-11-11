@@ -37,5 +37,36 @@
             </div>
         </div>
     </div>
+    
 </div>  
+<%if(dateval == 1){%>
+    <script>
+        Swal.fire({
+               toast: true,
+               icon: 'error',
+               title: 'offer already added!!!',
+               animation: false,
+               position: 'top-right',
+               showConfirmButton: false,
+               timer: 3000,
+               timerProgressBar: true,
+             })
+           </script> 
+          
+<%}%>
+<%if(dateval != false && dateval > 1){%>
+    <script>
+        Swal.fire({
+               toast: true,
+               icon: 'error',
+               title: 'Enter a valid date!!!',
+               animation: false,
+               position: 'top-right',
+               showConfirmButton: false,
+               timer: 3000,
+               timerProgressBar: true,
+             })
+           </script> 
+          
+<%}%>
 <%-include("../layouts/admin/adminFooter.ejs")-%>

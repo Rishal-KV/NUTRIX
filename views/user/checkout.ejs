@@ -20,170 +20,170 @@
             <div class="checkout">
                 <div class="container">
 
-                    <form action="/placeorder" method="post">
-                        <div class="row">
-                            <div class="col-lg-9">
+
+                    <div class="row">
+                        <div class="col-lg-9">
 
 
 
-                                <div class="page-content mb-4" id="address-reload">
-                                    <div class="checkout">
-                                        <div class="container">
-                                            <h3 class="card-title p-3">Billing Address</h3><!-- End .card-title -->
-                                            <% if(addressDetails?.address.length==0 || addressDetails==undefined){%>
-                                                <div class="ml-3 mb-3">
-                                                    <a class="btn btn-outline-primary" data-toggle="modal"
-                                                        data-target="#exampleModal">Add<i class="icon-edit  "></i></a>
-                                                </div>
-                                                <% }else{%>
-                                                    <div class="row">
-                                                        <div class="col-lg-9">
+                            <div class="page-content mb-4" id="address-reload">
+                                <div class="checkout">
+                                    <div class="container">
+                                        <h3 class="card-title p-3">Billing Address</h3><!-- End .card-title -->
+                                        <% if(addressDetails?.address.length==0 || addressDetails==undefined){%>
+                                            <div class="ml-3 mb-3">
+                                                <a class="btn btn-outline-primary" data-toggle="modal"
+                                                    data-target="#exampleModal">Add<i class="icon-edit  "></i></a>
+                                            </div>
+                                            <% }else{%>
+                                                <div class="row">
+                                                    <div class="col-lg-9">
 
-                                                            <%addressDetails?.address.forEach(function(add) { %>
-                                                                <div class="col-lg-9">
-                                                                    <div class="card card-dashboard">
-                                                                        <div class="card-body">
-                                                                            <input id="selectedAddress" type="radio"
-                                                                                name="selectedAddress"
-                                                                                value="<%= add._id %> "
-                                                                                <%=(add._id===addressDetails.address[0]._id)
-                                                                                ? 'checked' : '' %>>
-
-
-
-                                                                            <p>
-                                                                                <%=add.fullname%><br>
-                                                                                    <%=add.mobile%><br>
-                                                                                        <%=add.email%><br>
-                                                                                            <%=add.houseName%>,
-                                                                                                <%=add.city%>,
-                                                                                                    <%=add.state%>,
-                                                                                                        <%=add.country%>
-                                                                                                            ,
-                                                                                                            <%=add.pin%>
-                                                                                                                <br>
-                                                                                                                <a
-                                                                                                                    href="/editaddress?id=<%=add._id%>">Edit
-                                                                                                                    Address<i
-                                                                                                                        class="icon-edit"></i></a>
-                                                                            </p>
-
-                                                                        </div><!-- End .card-body -->
-
-                                                                    </div><!-- End .card-dashboard -->
-                                                                </div><!-- End .col-lg-6 -->
-                                                                <% }); %>
-                                                                    <!-- <a href="/addAddress" class="p-4">Add address<i class="icon-edit"></i></a></p> -->
+                                                        <%addressDetails?.address.forEach(function(add) { %>
+                                                            <div class="col-lg-9">
+                                                                <div class="card card-dashboard">
+                                                                    <div class="card-body">
+                                                                        <input id="selectedAddress" type="radio"
+                                                                            name="selectedAddress"
+                                                                            value="<%= add._id %> "
+                                                                            <%=(add._id===addressDetails.address[0]._id)
+                                                                            ? 'checked' : '' %>>
 
 
 
+                                                                        <p>
+                                                                            <%=add.fullname%><br>
+                                                                                <%=add.mobile%><br>
+                                                                                    <%=add.email%><br>
+                                                                                        <%=add.houseName%>,
+                                                                                            <%=add.city%>,
+                                                                                                <%=add.state%>,
+                                                                                                    <%=add.country%>
+                                                                                                        ,
+                                                                                                        <%=add.pin%>
+                                                                                                            <br>
+                                                                                                            <a
+                                                                                                                href="/editaddress?id=<%=add._id%>">Edit
+                                                                                                                Address<i
+                                                                                                                    class="icon-edit"></i></a>
+                                                                        </p>
 
+                                                                    </div><!-- End .card-body -->
 
-                                                        </div><!-- End .col-lg-9 -->
-
-                                                    </div><!-- End .row -->
-                                                    <% }%>
-                                                        <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
-
-                                                        <!-- </form> -->
-                                        </div><!-- End .container -->
-                                    </div><!-- End .checkout -->
-                                </div><!-- End .page-content -->
+                                                                </div><!-- End .card-dashboard -->
+                                                            </div><!-- End .col-lg-6 -->
+                                                            <% }); %>
+                                                                <!-- <a href="/addAddress" class="p-4">Add address<i class="icon-edit"></i></a></p> -->
 
 
 
 
-                            </div><!-- End .col-lg-9 -->
 
-                            <aside class="col-lg-3">
-                                <div class="summary">
-                                    <h3 class="summary-title ">Your Order</h3><!-- End .summary-title -->
+                                                    </div><!-- End .col-lg-9 -->
 
-                                    <table class="table table-summary mt-2">
-                                        <thead>
+                                                </div><!-- End .row -->
+                                                <% }%>
+                                                    <!-- <form action="/selectedAddress" method="post" id="addressForm"> -->
+
+                                                    <!-- </form> -->
+                                    </div><!-- End .container -->
+                                </div><!-- End .checkout -->
+                            </div><!-- End .page-content -->
+
+
+
+
+                        </div><!-- End .col-lg-9 -->
+
+                        <aside class="col-lg-3">
+                            <div class="summary">
+                                <h3 class="summary-title ">Your Order</h3><!-- End .summary-title -->
+
+                                <table class="table table-summary mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <%products.forEach(function(item) { %>
+
                                             <tr>
-                                                <th>Product</th>
-                                                <th>Total</th>
+                                                <td><a href="#">
+                                                        <%=item.productId.name%>
+                                                    </a></td>
+                                                <td>
+                                                    <%=item.totalPrice%>
+                                                </td>
                                             </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <%products.forEach(function(item) { %>
+                                            <% }); %>
 
                                                 <tr>
-                                                    <td><a href="#">
-                                                            <%=item.productId.name%>
-                                                        </a></td>
-                                                    <td>
-                                                        <%=item.totalPrice%>
-                                                    </td>
+                                                    <td>Shipping:</td>
+                                                    <td>Free shipping</td>
                                                 </tr>
-                                                <% }); %>
+                                                <tr class="summary-total">
+                                                    <td>Total:</td>
+                                                    <td>₹<%=Total%>
+                                                    </td>
+                                                    <input id="total" type="hidden" value="<%=Total%>" name="Total">
+                                                </tr><!-- End .summary-total -->
+                                    </tbody>
+                                </table><!-- End .table table-summary -->
 
-                                                    <tr>
-                                                        <td>Shipping:</td>
-                                                        <td>Free shipping</td>
-                                                    </tr>
-                                                    <tr class="summary-total">
-                                                        <td>Total:</td>
-                                                        <td>₹<%=Total%>
-                                                        </td>
-                                                        <input id="total" type="hidden" value="<%=Total%>" name="Total">
-                                                    </tr><!-- End .summary-total -->
-                                        </tbody>
-                                    </table><!-- End .table table-summary -->
+                                <div class="accordion-summary" id="accordion-payment">
+                                    <div class="card">
+                                        <div class="card-header" id="heading-1">
 
-                                    <div class="accordion-summary" id="accordion-payment">
-                                        <div class="card">
-                                            <div class="card-header" id="heading-1">
+                                        </div><!-- End .card-header -->
 
-                                            </div><!-- End .card-header -->
+                                    </div><!-- End .card -->
 
-                                        </div><!-- End .card -->
+                                    <div class="card">
+                                        <div class="card-header" id="heading-2">
 
-                                        <div class="card">
-                                            <div class="card-header" id="heading-2">
+                                        </div><!-- End .card-header -->
 
-                                            </div><!-- End .card-header -->
+                                    </div><!-- End .card -->
 
-                                        </div><!-- End .card -->
+                                    <div class="card">
+                                        <div class="card-header" id="heading-3">
+                                            <h2 class="card-title">
 
-                                        <div class="card">
-                                            <div class="card-header" id="heading-3">
-                                                <h2 class="card-title">
+                                                <input type="radio" value="COD" name="payment" checked> Cash on
+                                                delivery<br>
+                                                <input type="radio" value="online payment" name="payment" class="mt-1">
+                                                Online payment<br>
+                                                <input type="radio" value="wallet" name="payment" class="mt-1">
+                                                wallet
+                                            </h2>
+                                        </div><!-- End .card-header -->
 
-                                                    <input type="radio" value="COD" name="payment" checked> Cash on
-                                                    delivery<br>
-                                                    <input type="radio" value="online payment" name="payment"
-                                                        class="mt-1"> Online payment<br>
-                                                    <input type="radio" value="wallet" name="payment" class="mt-1">
-                                                    wallet
-                                                </h2>
-                                            </div><!-- End .card-header -->
+                                    </div><!-- End .card -->
 
-                                        </div><!-- End .card -->
-
-                                        <div class="card">
+                                    <div class="card">
 
 
-                                        </div><!-- End .card -->
+                                    </div><!-- End .card -->
 
-                                        <div class="card">
-
-
-                                        </div><!-- End .card -->
-                                    </div><!-- End .accordion -->
+                                    <div class="card">
 
 
-                                    <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block   "
-                                        onclick="order('<%products.productId%>')">
-                                        <span class="btn-text">Place Order</span>
-                                        <span class="btn-hover-text">Proceed to Checkout</span>
-                                    </button>
-                                </div><!-- End .summary -->
-                            </aside><!-- End .col-lg-3 -->
-                        </div><!-- End .row -->
-                        <!-- </form> -->
+                                    </div><!-- End .card -->
+                                </div><!-- End .accordion -->
+
+
+                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block   "
+                                    onclick="order('<%products.productId%>')">
+                                    <span class="btn-text">Place Order</span>
+                                    <span class="btn-hover-text">Proceed to Checkout</span>
+                                </button>
+                            </div><!-- End .summary -->
+                        </aside><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+                    <!-- </form> -->
                 </div><!-- End .container -->
             </div><!-- End .checkout -->
         </div><!-- End .page-content -->
@@ -222,13 +222,13 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <label>Town  *</label>
+                                    <label>Town *</label>
                                     <input type="text" class="form-control" name="city" id="city">
                                     <span class="error-message text-danger" id="city-error"></span>
                                 </div><!-- End .col-sm-6 -->
 
                                 <div class="col-sm-6">
-                                    <label>State  *</label>
+                                    <label>State *</label>
                                     <input type="text" class="form-control" name="state" id="state">
                                     <span class="error-message text-danger" id="state-error"></span>
                                 </div><!-- End .col-sm-6 -->
@@ -236,7 +236,7 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <label>Postcode  *</label>
+                                    <label>Postcode *</label>
                                     <input type="text" class="form-control" name="pin" id="pin">
                                     <span class="error-message text-danger" id="pin-error"></span>
                                 </div><!-- End .col-sm-6 -->
@@ -285,13 +285,12 @@
                     timer: 1500,
                     timerProgressBar: true
                 })
-                let sA =  document.getElementById('selectedAddress');
+                let sA = document.getElementById('selectedAddress');
                 let selectedAddress = sA == null ? undefined : sA.value
                 let payment = $("input[name=payment]:checked").val();
                 let total = document.getElementById('total').value
-                console.log(total);
+            
 
-                console.log(payment);
                 let productId = pId
                 $.ajax({
                     url: "/placeorder",
@@ -305,9 +304,21 @@
                     success: function (response) {
                         if (response.cash) {
                             console.log("hello cash");
-                            console.log(response.cash);
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: 'Do you want to place the order?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes, place the order',
+                                cancelButtonText: 'No, cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/ordersuccess';
+                                }
+                            })
 
-                            location.href = '/ordersuccess'
+
+                          
 
                         } else if (response.addAddress) {
                             Toast.fire({
@@ -324,16 +335,40 @@
                                 cancelButtonText: 'Cancel',
                             })
                         } else if (response.wallet) {
-                            window.location.href = '/ordersuccess';
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: 'Do you want to place the order?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes, place the order',
+                                cancelButtonText: 'No, cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/ordersuccess';
+                                }
+                            })
+
                         } else if (response.outofstock) {
 
                             Toast.fire({
                                 icon: 'error',
                                 title: 'hmmm?? out of stock',
-                               
+
                             })
                         } else {
-                            razorpay(response.order)
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: 'Do you want to place the order?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes, place the order',
+                                cancelButtonText: 'No, cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    razorpay(response.order)
+                                }
+                            })
+                          
                         }
                     }
                 })
@@ -392,109 +427,109 @@
 
 
             function addAddress() {
-        // Get form input values
+                // Get form input values
 
-var fullname = document.getElementById("fullname").value;
-var country = document.getElementById("country").value;
-var housename = document.getElementById("housename").value;
-var city = document.getElementById("city").value;
-var state = document.getElementById("state").value;
-var pin = document.getElementById("pin").value;
-var mobile = document.getElementById("mobile").value;
-var email = document.getElementById("email").value;
-var closeBtn = document.getElementById('closeBtn')
+                var fullname = document.getElementById("fullname").value;
+                var country = document.getElementById("country").value;
+                var housename = document.getElementById("housename").value;
+                var city = document.getElementById("city").value;
+                var state = document.getElementById("state").value;
+                var pin = document.getElementById("pin").value;
+                var mobile = document.getElementById("mobile").value;
+                var email = document.getElementById("email").value;
+                var closeBtn = document.getElementById('closeBtn')
 
-var nameRegex = /^[A-Za-z\s]+$/;
-var countryRegex = /^[A-Za-z\s]+$/;
-var pinRegex = /^\d{6}$/;
-var mobileRegex = /^[0-9]{10}$/;
-var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-var cityRegex = /^[A-Za-z\s]+$/; // City validation pattern
-var stateRegex = /^[A-Za-z\s]+$/; // State validation pattern
-var housenameRegex = /^[A-Za-z0-9\s]+$/; // Housename validation pattern
+                var nameRegex = /^[A-Za-z\s]+$/;
+                var countryRegex = /^[A-Za-z\s]+$/;
+                var pinRegex = /^\d{6}$/;
+                var mobileRegex = /^[0-9]{10}$/;
+                var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+                var cityRegex = /^[A-Za-z\s]+$/; // City validation pattern
+                var stateRegex = /^[A-Za-z\s]+$/; // State validation pattern
+                var housenameRegex = /^[A-Za-z0-9\s]+$/; // Housename validation pattern
 
-// Validate inputs
-var isValid = true;
+                // Validate inputs
+                var isValid = true;
 
-if (!nameRegex.test(fullname)) {
-    isValid = false;
-    document.getElementById("fullname-error").textContent = "Enter a valid full name";
-} else {
-    document.getElementById("fullname-error").textContent = "";
-}
+                if (!nameRegex.test(fullname)) {
+                    isValid = false;
+                    document.getElementById("fullname-error").textContent = "Enter a valid full name";
+                } else {
+                    document.getElementById("fullname-error").textContent = "";
+                }
 
-if (!countryRegex.test(country)) {
-    isValid = false;
-    document.getElementById("country-error").textContent = "Enter a valid country name";
-} else {
-    document.getElementById("country-error").textContent = "";
-}
+                if (!countryRegex.test(country)) {
+                    isValid = false;
+                    document.getElementById("country-error").textContent = "Enter a valid country name";
+                } else {
+                    document.getElementById("country-error").textContent = "";
+                }
 
-if (!pinRegex.test(pin)) {
-    isValid = false;
-    document.getElementById("pin-error").textContent = "Enter a valid PIN code";
-} else {
-    document.getElementById("pin-error").textContent = "";
-}
+                if (!pinRegex.test(pin)) {
+                    isValid = false;
+                    document.getElementById("pin-error").textContent = "Enter a valid PIN code";
+                } else {
+                    document.getElementById("pin-error").textContent = "";
+                }
 
-if (!mobileRegex.test(mobile)) {
-    isValid = false;
-    document.getElementById("mobile-error").textContent = "Enter a valid mobile number";
-} else {
-    document.getElementById("mobile-error").textContent = "";
-}
+                if (!mobileRegex.test(mobile)) {
+                    isValid = false;
+                    document.getElementById("mobile-error").textContent = "Enter a valid mobile number";
+                } else {
+                    document.getElementById("mobile-error").textContent = "";
+                }
 
-if (!emailRegex.test(email)) {
-    isValid = false;
-    document.getElementById("email-error").textContent = "Enter a valid email address";
-} else {
-    document.getElementById("email-error").textContent = "";
-}
+                if (!emailRegex.test(email)) {
+                    isValid = false;
+                    document.getElementById("email-error").textContent = "Enter a valid email address";
+                } else {
+                    document.getElementById("email-error").textContent = "";
+                }
 
-if (!cityRegex.test(city)) {
-    isValid = false;
-    document.getElementById("city-error").textContent = "Enter a valid city name";
-} else {
-    document.getElementById("city-error").textContent = "";
-}
+                if (!cityRegex.test(city)) {
+                    isValid = false;
+                    document.getElementById("city-error").textContent = "Enter a valid city name";
+                } else {
+                    document.getElementById("city-error").textContent = "";
+                }
 
-if (!stateRegex.test(state)) {
-    isValid = false;
-    document.getElementById("state-error").textContent = "Enter a valid state name";
-} else {
-    document.getElementById("state-error").textContent = "";
-}
+                if (!stateRegex.test(state)) {
+                    isValid = false;
+                    document.getElementById("state-error").textContent = "Enter a valid state name";
+                } else {
+                    document.getElementById("state-error").textContent = "";
+                }
 
-if (!housenameRegex.test(housename)) {
-    isValid = false;
-    document.getElementById("housename-error").textContent = "Enter a valid housename";
-} else {
-    document.getElementById("housename-error").textContent = "";
-}
+                if (!housenameRegex.test(housename)) {
+                    isValid = false;
+                    document.getElementById("housename-error").textContent = "Enter a valid housename";
+                } else {
+                    document.getElementById("housename-error").textContent = "";
+                }
 
-        if (isValid) {
-            $.ajax({
-            url: '/addaddress',
-            method: 'POST',
-            data: {
-                fullname: fullname,
-                country: country,
-                housename: housename,
-                city: city,
-                state: state,
-                pin: pin,
-                mobile: mobile,
-                email: email
-            },
-            success: function (response) {
-                if (response.added) {
-                    $("#address-reload").load("/checkout #address-reload", function () {
-                        closeBtn.click();
+                if (isValid) {
+                    $.ajax({
+                        url: '/addaddress',
+                        method: 'POST',
+                        data: {
+                            fullname: fullname,
+                            country: country,
+                            housename: housename,
+                            city: city,
+                            state: state,
+                            pin: pin,
+                            mobile: mobile,
+                            email: email
+                        },
+                        success: function (response) {
+                            if (response.added) {
+                                $("#address-reload").load("/checkout #address-reload", function () {
+                                    closeBtn.click();
+                                });
+                            }
+                        }
                     });
                 }
             }
-        });
-        }
-    }
         </script>
         <%- include("../layouts/user/userFooter.ejs")-%>

@@ -115,9 +115,18 @@
 
 
                                             <div class="product-details-action">
-                                                <button class="btn-product btn-cart add-to-cart"
+                                                <%if(pdata.stock > 0){ %>
+                                                    <button class="btn-product btn-cart add-to-cart"
+                                                
                                                     onclick="addToCart('<%=pdata._id%>')"><span>Add to
                                                         cart</span></button>
+                                                    <%}else{%>
+                                                        <button class="btn btn-lg text-dark btn-outline-primary-2 disabled"
+                                                
+                                                       disabled ><span>Out of stock
+                                                            </span></button>
+                                                 <%}%>
+                                                
 <!-- 
                                                 <div class="details-action-wrapper">
                                                     <a href="#" class="btn-product btn-wishlist"
@@ -292,10 +301,8 @@
                                 <div class="product-action-vertical">
                                     <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
                                             wishlist</span></a>
-                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview"
-                                        title="Quick view"><span>Quick view</span></a>
-                                    <a href="#" class="btn-product-icon btn-compare"
-                                        title="Compare"><span>Compare</span></a>
+                                   
+                                   
                                 </div><!-- End .product-action-vertical -->
 
                                 <div class="product-action">

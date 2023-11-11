@@ -1,6 +1,6 @@
     
 <%-include("../layouts/user/userHeader")-%>
-<% if (wishlistItem.products.length === 0) { %>
+<% if (wishlistItem?.products?.length === 0) { %>
    
         <main class="main">
             <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
@@ -101,8 +101,53 @@
             </div><!-- End .container -->
         </div><!-- End .page-content -->
     </main><!-- End .main -->
+    
     <%}%>
- 
+    <script>
 
+   
+ function remove(productId) {
+              $.ajax({
+                url: '/removewishlist',
+                type: 'POST',
+                data: {
+                  productId: productId,
+                },
+                success: function (response) {
+                  if (response.remove) {
+                    location.reload();
+                  }
+                }
+              });
+            }
+
+
+            function addToCart(productId) {
+              $.ajax({
+                url: '/add',
+                type: 'POST',
+                data: {
+                  product: productId,
+                },
+                success: function (response) {
+                  if (response.success) {
+                    swal.fire({
+                      position: "center",
+                      icon: "success",
+                      title: "Product added to cart",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  } else if (response.exist) {
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'Item Already in Cart',
+                      text: 'This item is already in your cart.',
+                    });
+                  } 
+                },
+              })
+            }
+        </script>
 
     <%- include("../layouts/user/userFooter.ejs")-%>
