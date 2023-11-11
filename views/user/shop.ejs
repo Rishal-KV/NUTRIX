@@ -52,6 +52,9 @@
                         <% product.forEach((product)=>{%>
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3 col-xxl-2">
                                 <div class="product">
+                                    <%if(product.category.offer &&  product.category.offer.expiryDate > new Date() ){%>
+                                        <span class="product-label label-sale"><%=product.category.offer.discountAmount%>% off</span>
+                                       <% }%>
                                     <figure class="product-media">
 
                                         <a href="product.html">

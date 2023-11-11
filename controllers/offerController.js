@@ -47,7 +47,8 @@ exports.offerAdd = async (req, res) => {
         let today = new Date();
         let activationDate = new Date(activationdate);
         let expireDate = new Date(expiredate)
-
+console.log(today);
+console.log(activationDate);
         if (duplicate) {
             req.session.offervalidation = 1
            return res.redirect('/admin/addoffer')

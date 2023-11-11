@@ -7,6 +7,7 @@ const Wishlist = require('../model/wishlistModel');
 const Banner = require('../model/bannerModel');
 const Category = require('../model/catergoryModel');
 const Review = require('../model/reviewModel')
+const Offer = require('../model/offerModel')
 
 
 
@@ -96,14 +97,18 @@ exports.register = async (req, res) => {
 exports.home = async (req, res) => {
   try {
 
-
+   
     const banner = await Banner.find({status : true});
     const userId = req.session.userId
     let search = req.query.search || ""
     const items = await Product.find({
       is_blocked: false,
       name: { $regex: '^' + search, $options: "i" }
-    }).limit(4);
+    }).limit(4).populate('category');
+    for(let i = 0; i < items.length ; i++){
+      await items[i].populate('category.offer');
+    }
+    
 
 
     const carts = await Cart?.findOne({ userId }); //
@@ -127,12 +132,12 @@ exports.home = async (req, res) => {
       count = 0
     }
 
-    //removing offer if expired
+  
 
 
 
 
-    res.render("home", { user: req.session.user, items, count, wishListStrin, title: "NUTRIX", wishCount, banner });
+    res.render("home", { user: req.session.user, items, count, wishListStrin, title: "NUTRIX", wishCount, banner});
   } catch (error) {
     console.log(error.message);
   }
@@ -245,10 +250,16 @@ exports.productDetails = async (req, res) => {
     let wishCount = 0
     let  avgRating = 0;
     let rating
+    let discount
     const id = req.query.id;
     const pdata = await Product.findById({ _id: id }).populate('category');
     await pdata.populate('category.offer')
-    // console.log(pdata);
+    if(pdata.category.offer && pdata.category.offer.expiryDate > new Date()){
+         let percentage  = pdata.price * pdata.category.offer.discountAmount / 100
+          discount = pdata.price -  Math.floor(percentage)
+    }
+    
+    
     const wishlist = await Wishlist.findOne({ user: req.session.userId })
     const similar = await Product.find({ category: pdata.category._id })
     console.log(similar);
@@ -269,7 +280,7 @@ avgRating = rating / review?.reviews?.length
       }
     }
 
-    res.render("product", { pdata, user: req.session.user, count, similar, title: "product", wishCount,review,avgRating });
+    res.render("product", { pdata, user: req.session.user, count, similar, title: "product", wishCount,review,avgRating,discount });
   } catch (error) {
     console.log(error.message);
     res.render('500')
@@ -327,8 +338,16 @@ exports.shop = async (req, res) => {
       name: { $regex: search, $options: "i" },
       category: { $in: selectedCategory },
       ...priceRangeQuery
-    }).sort({ price: sort }).skip((pageNum - 1) * perPage).limit(perPage)
-    // console.log(product);
+    }).sort({ price: sort }).skip((pageNum - 1) * perPage).limit(perPage).populate('category')
+
+    
+    for(let i = 0; i < product.length ; i++){
+      await product[i].populate('category.offer');
+    }
+    
+   
+   
+    console.log(product);
 
     res.render("shop", {
       product,

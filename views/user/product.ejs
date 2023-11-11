@@ -88,12 +88,13 @@
                                     <a class="ratings-text" href="#product-review-link" id="review-link">(
                                         <%=review?.reviews.length%> Reviews )</a>
                                 </div><!-- End .rating-container -->
-                                <%if(pdata.category.offer && pdata.category.offer.activationDate <= new Date() ){%>
-                                    <div class="product-price" style="color: green;">
-                                        ₹<%=pdata.category.offer.discountAmount%>
-                                            <h5 class="p-2 text-danger " style="text-decoration: line-through;">₹
+                                <%if(pdata.category.offer && pdata.category.offer.activationDate <= new Date() &&  pdata.category.offer.expiryDate >  new Date()   ){%>
+                                    <div class="product-price">
+                                        ₹<%=discount%>
+                                            <h5 class="p-2 " style="text-decoration: line-through;">₹
                                                 <%=pdata.price%>
                                                     <h5>
+                                                        <p class="text-danger">(<%=pdata.category.offer.discountAmount%>%offer)</p>
                                     </div><!-- End .product-price -->
 
                                     <%}else{%>
