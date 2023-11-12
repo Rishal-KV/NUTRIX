@@ -382,7 +382,7 @@ exports.Sorting = async (req, res) => {
       },
     ]);
 // console.log(orderData);
-    res.render('salesReport', { orderData,title : "Sales report" });
+    res.render('salesreport', { orderData,title : "Sales report" });
   } catch (error) {
     console.log(error.message);
 
