@@ -57,7 +57,7 @@ userRoute.post('/addaddress',addressController.toAddAddress)
 userRoute.post('/selectedAddress',addressController.selectedAddress)
 userRoute.get('/editaddress', userAuth.isLoggedIn,addressController.geteditaddress);
 userRoute.post('/editaddress',addressController.editaddress)
-
+userRoute.post('/addaddresscheckout',addressController.toAddAddressCheckout)
 
 
 //================================wishlist===========================

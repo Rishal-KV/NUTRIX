@@ -17,7 +17,7 @@ exports.addToCart = async (req, res) => {
     let offer = await product.populate('category.offer');
  
   let price = product.price
-  if(offer && offer.category.offer.expiryDate > new Date() && !offer.category.offer.is_blocked){
+  if(offer && offer?.category?.offer?.expiryDate > new Date() && !offer?.category?.offer?.is_blocked){
     let percentage = product.price * offer.category.offer.discountAmount /100
      price  = product.price - Math.floor(percentage)
   }

@@ -219,3 +219,58 @@ exports.geteditaddress = async(req, res) =>{
       res.render('500')
     }
   }
+
+
+
+
+
+  exports.toAddAddressCheckout = async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      // const userData = await User.findOne({ _id: userId });
+   
+      const { fullname, country, housename, city, state, pin, mobile, email } = req.body;
+      console.log(req.body);
+      const address = await Address.findOne({ user: userId });
+      if (address) {
+        // If an address already exists, update it
+        await Address.updateOne({ user: userId }, {
+          $push: {
+            address: {
+              fullname: fullname,
+              mobile: mobile,
+              email: email,
+              houseName: housename,
+              city: city,
+              state: state,
+              country: country,
+              pin: pin,
+            },
+          },
+        });
+        res.json({added : true})
+      } else {
+        // If no address exists, create a new address document
+        const newAddress = new Address({
+          user: userId,
+          address: [{
+            fullname: fullname,
+            mobile: mobile,
+            email: email,
+            houseName: housename,
+            city: city,
+            state: state,
+            country: country,
+            pin: pin,
+          }],
+        });
+        await newAddress.save();
+        res.json({added:true})
+      }
+ 
+    } catch (error) {
+      console.error(error.message);
+      res.render('500')
+    }
+  };
+  

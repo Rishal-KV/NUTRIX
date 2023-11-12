@@ -112,9 +112,8 @@
                                             <tr>
                                                 <th scope="col">Sno</th>
                                                 <th scope="col">Date</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">Payment</th>
-                                                <th scope="col">Status</th>
+                                                
+                                              
                                                 <th scope="col">Details</th>
 
 
@@ -132,17 +131,11 @@
                                                         <%= new Date(item.date).toLocaleDateString('en-US', {
                                                             year: 'numeric' , month: 'long' , day: 'numeric' }) %>
                                                     </td>
-                                                    <td>
-                                                        <%=item.totalAmount%>
-                                                    </td>
+                                                   
 
 
-                                                    <td>
-                                                        <%=item.paymentMethod%>
-                                                    </td>
-                                                    <td>
-                                                        <%=item.status%>
-                                                    </td>
+                                                   
+                                                    
 
 
                                                     <td><a href="orderdetails?id=<%=item._id%>">Show details</a></td>

@@ -3,8 +3,8 @@ C<%-include("../layouts/admin/sideBar.ejs")-%>
 <div class="content-wrapper ">
   <div class="row">
     <div class="col-sm-12 grid-margin mt-5 col-lg-6">
-      <div class="card" style="height: 25rem;">
-        <div class="m-5"  id="piechart" style="color: black; ">
+      <div class="card " style="height: 25rem;">
+        <div class="pt-5"  id="piechart" style="color: black; ">
  <input id="online" type="hidden" name="online" value="<%=onlinePaymentCount%>">
  <input id="cash" type="hidden" name="cash" value="<%=cashCount%>">
  <input type="hidden" id="wallet" name="wallet" value="<%=walletCount%>" >
@@ -169,12 +169,13 @@ var options = {
             colors: 'white' // Set the legend text color to white
         }
     },
+    
     responsive: [
         {
             breakpoint: 480,
             options: {
                 chart: {
-                    width: 200
+                    width: 350
                 },
                 legend: {
                     position: 'bottom'
@@ -232,6 +233,8 @@ chart.render();
         fill: {
           opacity: 1
         },
+     
+
         tooltip: {
           y: {
             formatter: function (val) {
