@@ -39,7 +39,7 @@
 
   .card-header {
     color: white !important;
-    background: #c96 !important;
+    background: rgb(101, 94, 94) !important;
     text-align: center;
   }
 
@@ -54,14 +54,14 @@
 
   .form-control:focus {
     box-shadow: none !important;
-    border: 1px solid #c96 !important;
+    border: 1px solid rgb(101, 94, 94)!important;
   }
 
   .verify-btn {
     border-radius: 20px !important;
     border: 0px !important;
     width: 140px;
-    background-color: #c96 !important;
+    background-color: rgb(101, 94, 94) !important;
   }
 </style>
 
@@ -103,8 +103,8 @@
     </div>
   </div>
 
-  <div class="container d-flex justify-content-center align-items-center">
-    <div class="card text-center">
+  <div class="container col-12 d-flex justify-content-center align-items-center ">
+    <div class="card text-center ">
       <div class="card-header p-5">
         <h5 class="mb-2">OTP VERIFICATION</h5>
         <div>
@@ -268,13 +268,7 @@
     }
 
 
-    function changeColor(){
- let otp = document.getElementById('otp');
- setTimeout(()=>{
-  otp.style.color = "#c96"
- },5000)
-}
-changeColor()
+ 
 
   </script>
 </body>

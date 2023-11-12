@@ -7,7 +7,7 @@ const { updateOne } = require('../model/userModel');
 exports.offer = async (req, res) => {
     try {
         const offer = await Offer.find();
-        res.render('offer', { title: "Offer management", offer })
+        res.render('offer', { title: "Offer management", offer,admin : req.session.admin })
     } catch (error) {
         console.log(error.message);
     }
@@ -47,8 +47,7 @@ exports.offerAdd = async (req, res) => {
         let today = new Date();
         let activationDate = new Date(activationdate);
         let expireDate = new Date(expiredate)
-console.log(today);
-console.log(activationDate);
+
         if (duplicate) {
             req.session.offervalidation = 1
            return res.redirect('/admin/addoffer')
@@ -102,7 +101,7 @@ exports.editoffer = async (req, res) => {
         let offerId = req.query.id;
         const category = await Category.find()
         const offer = await Offer.findOne({ _id: offerId })
-        res.render('editoffer', { offer, title: "Offer management", category })
+        res.render('editoffer', { offer, title: "Offer management", category,admin:req.session.admin })
     } catch (error) {
         console.log(error.message);
     }

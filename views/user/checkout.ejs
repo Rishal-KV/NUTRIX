@@ -9,8 +9,8 @@
         <nav aria-label="breadcrumb" class="breadcrumb-nav">
             <div class="container">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/shop">Shop</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                 </ol>
             </div><!-- End .container -->
@@ -289,10 +289,20 @@
                 let selectedAddress = sA == null ? undefined : sA.value
                 let payment = $("input[name=payment]:checked").val();
                 let total = document.getElementById('total').value
-            
+
 
                 let productId = pId
-                $.ajax({
+
+                Swal.fire({
+                                title: 'Are you sure?',
+                                text: 'Do you want to place the order?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes, place the order',
+                                cancelButtonText: 'No, cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
                     url: "/placeorder",
                     type: "POST",
                     data: {
@@ -304,21 +314,13 @@
                     success: function (response) {
                         if (response.cash) {
                             console.log("hello cash");
-                            Swal.fire({
-                                title: 'Are you sure?',
-                                text: 'Do you want to place the order?',
-                                icon: 'question',
-                                showCancelButton: true,
-                                confirmButtonText: 'Yes, place the order',
-                                cancelButtonText: 'No, cancel',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/ordersuccess';
-                                }
-                            })
+
+                            window.location.href = '/ordersuccess';
 
 
-                          
+
+
+
 
                         } else if (response.addAddress) {
                             Toast.fire({
@@ -335,18 +337,10 @@
                                 cancelButtonText: 'Cancel',
                             })
                         } else if (response.wallet) {
-                            Swal.fire({
-                                title: 'Are you sure?',
-                                text: 'Do you want to place the order?',
-                                icon: 'question',
-                                showCancelButton: true,
-                                confirmButtonText: 'Yes, place the order',
-                                cancelButtonText: 'No, cancel',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/ordersuccess';
-                                }
-                            })
+
+
+                            window.location.href = '/ordersuccess';
+
 
                         } else if (response.outofstock) {
 
@@ -356,22 +350,17 @@
 
                             })
                         } else {
-                            Swal.fire({
-                                title: 'Are you sure?',
-                                text: 'Do you want to place the order?',
-                                icon: 'question',
-                                showCancelButton: true,
-                                confirmButtonText: 'Yes, place the order',
-                                cancelButtonText: 'No, cancel',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    razorpay(response.order)
-                                }
-                            })
-                          
+
+                            razorpay(response.order)
+
+
+
                         }
                     }
                 })
+                                }
+                            })
+              
             }
 
             function razorpay(order) {

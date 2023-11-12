@@ -120,12 +120,15 @@ exports.dashboard = async (req, res) => {
 
     let onlinePaymentCount = 0;
     let cashCount = 0;
-
+    let walletCount = 0
+console.log(Payment);
     if (Payment.length > 0) {
       const onlinePayment = Payment.find(payment => payment._id === "online payment");
       const cashPayment = Payment.find(payment => payment._id === "COD");
+      const walletPayment = Payment.find(payment => payment._id === "wallet");
       if (onlinePayment) onlinePaymentCount = onlinePayment.count || 0;
       if (cashPayment) cashCount = cashPayment.count || 0;
+      if (walletPayment) walletCount = walletPayment.count || 0;
     }
 
     let Total = 0;
@@ -134,7 +137,7 @@ exports.dashboard = async (req, res) => {
       Total = revenue[0]?.totalAmount || 0;
     }
 
-    res.render("dashboard", { admin: req.session.admin, Total, totalSales, onlinePaymentCount, cashCount, users, monthlySalesArr,title : "dashboard" });
+    res.render("dashboard", { admin: req.session.admin, Total, totalSales, onlinePaymentCount, cashCount,walletCount, users, monthlySalesArr,title : "dashboard" });
   } catch (error) {
     console.log(error.message);
   }
@@ -245,7 +248,7 @@ exports.orderDetails = async(req, res) => {
     // const deliveryDetails = JSON.parse(orderDetails.deliveryDetails);
 
 
-    res.render('orderdetails',{orderDetails,title : "Order management"});
+    res.render('orderdetails',{admin:req.session.admin,orderDetails,title : "Order management"});
   } catch (error) {
     console.log(error.message);
   }
@@ -337,7 +340,7 @@ exports.salesReport = async(req, res) =>{
         },
       ]);
       // console.log(orderData);
-   res.render('salesreport',{orderData,title : "Sales report"});
+   res.render('salesreport',{admin : req.session.admin,orderData,title : "Sales report"});
   }catch(error){
 console.log(error.message);
   }

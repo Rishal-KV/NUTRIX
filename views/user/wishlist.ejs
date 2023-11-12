@@ -1,6 +1,6 @@
     
 <%-include("../layouts/user/userHeader")-%>
-<% if (wishlistItem?.products?.length === 0) { %>
+<% if (wishlistItem === null ||   wishlistItem?.products?.length === 0) { %>
    
         <main class="main">
             <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">

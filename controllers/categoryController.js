@@ -41,7 +41,7 @@ exports.editCategory = async (req, res) => {
   try {
     let cId = req.query.id;
     let cinfo = await Category.findById({ _id: cId });
-    res.render("editcategory", { cinfo,title : "Category management"});
+    res.render("editcategory", { cinfo,title : "Category management",admin : req.session.admin});
   } catch (error) {
     console.log(error.message);
   }

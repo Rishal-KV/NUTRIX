@@ -100,11 +100,10 @@ exports.getCart = async (req, res) => {
     });
 
     // console.log(userId);
-    const cartData = await Cart.findOne({ userId: userId }).populate(
-      "products.productId"
-    );
-     await cartData.populate('products.productId.category')
-      await cartData.populate('products.productId.category.offer')
+    const cartData = await Cart.findOne({ userId: userId })
+  
+    //  await cartData.populate('products.productId.category')
+    //   await cartData.populate('products.productId.category.offer')
       // console.log(cartData.products[0].productId.category);
    
     const wishlist = await Wishlist.findOne({ user: req.session.userId });
@@ -115,6 +114,9 @@ exports.getCart = async (req, res) => {
     let count = 0;
     wishlist ? wishCount = wishlist.products.length : 0
     if (cartData ) {
+      await cartData.populate('products.productId')
+      await cartData.populate('products.productId.category')
+      await cartData.populate('products.productId.category.offer')
         // for(let i = 0; i < cartData.products.length ; i++){
         //   let offer = await Offer.findOne({_id : cartData?.products[i]?.productId.category.offer})
         //   if(offer && offer.expiryDate > new Date() &&!offer.is_blocked){
@@ -196,17 +198,22 @@ exports.getCart = async (req, res) => {
 
 exports.updateCart = async (req, res) => {
   try {
+    let productPrice ;
     const userId = req.session.userId;
     const productId = req.body.productId;
     let count = req.body.count;
     count = parseInt(count);
-
+    
     const cartData = await Cart.findOne({ userId: userId });
     const productData = await Product.findOne({ _id: productId }).populate('category');
     const offer = await productData.populate('category.offer')
-    let percentage = productData.price* offer.category.offer.discountAmount / 100
-    let discount = productData.price - Math.floor(percentage)
-
+     if(offer && offer.category.offer.expiryDate > new Date() && offer.category.offer.is_blocked == false){
+      let percentage = productData.price * offer.category.offer.discountAmount / 100;
+     productPrice = productData.price - Math.floor(percentage)
+     }else{
+      productPrice = productData.price
+     }
+   
 
     if (!cartData || !productData) {
       res.json({ success: false, message: "Cart or product not found." });
@@ -238,7 +245,7 @@ exports.updateCart = async (req, res) => {
     cartData.products[existingProductIndex].count = updatedQuantity;
 
     // Calculate the updated total price for the product
-    let productPrice = productData.price
+    
 
     const productTotal = productPrice * updatedQuantity;
     cartData.products[existingProductIndex].totalPrice = productTotal;
@@ -283,8 +290,8 @@ exports.checkout = async (req, res) => {
     const userId = req.session.userId;
     const addressDetails = await Address.findOne({ user: userId });
     const carts = await Cart.findOne({ userId: req.session.userId });
-    console.log(carts + "heyyyyyy")
-    if(carts.products==[]){
+    
+    if(carts.products.length === 0){
       return res.redirect('/home')
     }
     const wishlist = await Wishlist.findOne({ user: req.session.userId })

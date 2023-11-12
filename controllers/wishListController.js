@@ -11,10 +11,11 @@ exports.Wishlist = async (req, res) => {
     const cart = await Cart.findOne({ userId: req.session.userId });
     let count = 0;
 
-    count = count + cart?.products.length;
+     cart ? count = cart.products.length : count = 0
     const wishlistItem = await Wishlist.findOne({ user: userId }).populate(
       "products.productId"
     );
+    console.log(wishlistItem);
      wishlistItem ? wishCount = wishlistItem.products.length : 0
     res.render("wishlist", { user: req.session.user, count, wishlistItem,title : "Wishlist",wishCount });
   } catch (error) {

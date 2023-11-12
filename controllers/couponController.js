@@ -23,6 +23,7 @@ exports.addCoupon = async(req, res) =>{
         req.app.locals.coupErrDis = " "
         res.render('addcoupon',{title: "Coupon management",
         title : "Coupon management",
+        admin : req.session.admin,
         coupErr,
         coupErrPur,
         coupErrDis,
@@ -44,6 +45,7 @@ exports.addCoupon = async(req, res) =>{
 exports.addcouponPost = async(req,res) =>{
     try {
       const {name,purchase,discount, date} = req.body
+      console.log(purchase);
     let existingCoupon = await Coupon.findOne({couponName : name})
      let today = new Date();
      let expireDate = new Date(date)
@@ -83,7 +85,7 @@ exports.editcoupon = async(req, res) =>{
     try {
         const couponId = req.query.id
         const coupon = await Coupon.findOne({_id : couponId})
-         res.render("editcoupon",{coupon,title : "Coupon management"})
+         res.render("editcoupon",{coupon,title : "Coupon management",admin:req.session.admin})
 
     } catch (error) {
         
@@ -91,12 +93,12 @@ exports.editcoupon = async(req, res) =>{
 }
 exports.updateCoupon = async(req, res) =>{
     try {
-        const {id,couponname,minimumPurchase,discount,date} = req.body;
+        const {id,couponname,minPurchase,discount,date} = req.body;
         console.log(id);
         await Coupon.updateOne({_id : id},{
             $set:{
                  couponName : couponname,
-                 minimumPurchase : minimumPurchase,
+                 minimumPurchase : minPurchase,
                  maximumDiscount : discount,
                  lastDate : date
             }

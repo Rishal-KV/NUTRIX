@@ -231,16 +231,16 @@ a {
                 </div>
               </div>
             <!-- Button trigger modal -->
-          <input type="hidden" value="<%=reviewed%>"  id="reviewed">
+         
             <%if(orderDetails.status == "delivered"){%>
 
-             <% if(!reviewed){%>
+           
                 <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="button">
                   Add Review
                 </button>
-             <% }else{%>
+            
 
-            <%  }%>
+         
              
               
             <%}else{%>
@@ -274,7 +274,7 @@ a {
             <input type="radio" id="star1" name="rate" value="1" />
             <label for="star1" title="text"></label>
           </div>
-          <input id="orderId" type="hidden"  value="<%=orderDetails._id%>">
+        
        
       </div>
       

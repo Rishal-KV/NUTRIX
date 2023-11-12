@@ -233,25 +233,16 @@ exports.cancelOrder = async (req, res) => {
 
 exports.orderDetails = async (req, res) => {
   try {
-    let reviewed = false
+   
     const orderId = req.query.id;
     const userId = req.session.userId
     const orderDetails = await Order.findOne({ _id: orderId }).populate('products.productId');
     let products = orderDetails.products
-  
+  console.log(orderDetails);
  
 
-     for (let product of products){
-      let review = await Review.findOne({product : product.productId._id,userId : req.session.userId})
-      console.log(review);
-      if(review){
-        reviewed = true
-      }else{
-       
-        reviewed = false
-      }      
-     }
-    res.render('orderdetails', { user: req.session.user, orderDetails,reviewed})
+     
+    res.render('orderdetails', { user: req.session.user, orderDetails})
   } catch (error) {
     console.log(error.message);
     res.render('500')

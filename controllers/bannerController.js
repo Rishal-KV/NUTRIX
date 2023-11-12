@@ -3,7 +3,7 @@ const Banner = require('../model/bannerModel');
 exports.banner = async(req, res) =>{
     try {
         const bannerData = await Banner.find();
-        res.render('banner',{title : "banner management",bannerData})
+        res.render('banner',{title : "banner management",bannerData,admin : req.session.admin})
     } catch (error) {
         console.log(error.message);
     }
@@ -12,7 +12,7 @@ exports.banner = async(req, res) =>{
 exports.addBanner = async(req, res) =>{
     try {
       
-        res.render('addbanner',{title : "banner management"})
+        res.render('addbanner',{title : "banner management",admin : req.session.admin})
     } catch (error) {
         console.log(error.message);
     }
@@ -66,7 +66,7 @@ exports.editBanner = async(req, res) =>{
     try {
         const id = req.query.id;
         const banner = await Banner.findOne({_id : id});
-        res.render('editbanner',{title : "Banner management",banner})
+        res.render('editbanner',{title : "Banner management",banner,admin:req.session.admin})
     } catch (error) {
         console.log(error.message);
     }

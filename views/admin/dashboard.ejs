@@ -7,6 +7,7 @@ C<%-include("../layouts/admin/sideBar.ejs")-%>
         <div class="m-5"  id="piechart" style="color: black; ">
  <input id="online" type="hidden" name="online" value="<%=onlinePaymentCount%>">
  <input id="cash" type="hidden" name="cash" value="<%=cashCount%>">
+ <input type="hidden" id="wallet" name="wallet" value="<%=walletCount%>" >
         </div>
       </div>
     </div>
@@ -132,8 +133,8 @@ C<%-include("../layouts/admin/sideBar.ejs")-%>
     ;
     let online = document.getElementById('online').value
   let cash = document.getElementById('cash').value
-
-
+let wallet = document.getElementById('wallet').value
+console.log(wallet);
  
 
 // Declare variables for each input element using a single line per variable
@@ -142,18 +143,19 @@ C<%-include("../layouts/admin/sideBar.ejs")-%>
 // Now, you can use these variables to work with the input elements
 
 // Calculate the percentages
-var total = online + cash;
+var total = online + cash + wallet;
 var onlinePercentage = (online / total) * 100;
 var cashPercentage = (cash / total) * 100;
-  
+var walletPercentage = (wallet/total) * 100
+ console.log(walletPercentage);
   
 var options = {
-    series: [onlinePercentage, cashPercentage],
+    series: [onlinePercentage, cashPercentage,walletPercentage],
     chart: {
         width: 380,
         type: 'pie',
     },
-    labels: ['Online Payment', 'Cash'],
+    labels: ['Online Payment', 'Cash', 'wallet'],
     plotOptions: {
         pie: {
             dataLabels: {
