@@ -28,7 +28,7 @@ exports.orderPlace = async (req, res) => {
   
     const products = cartData.products
     const productStock = cart.products
-    const total = parseInt(req.body.Total);
+  let total = cart.products.reduce((acc, curr)=> acc + curr.totalPrice,0)
 
     const paymentMethods = req.body.payment;
     // console.log(paymentMethods);

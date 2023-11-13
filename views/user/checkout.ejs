@@ -288,7 +288,7 @@
                 let sA = document.getElementById('selectedAddress');
                 let selectedAddress = sA == null ? undefined : sA.value
                 let payment = $("input[name=payment]:checked").val();
-                let total = document.getElementById('total').value
+                
 
 
                 let productId = pId
@@ -309,7 +309,7 @@
                         productId: productId,
                         selectedAddress: selectedAddress,
                         payment: payment,
-                        Total: total
+                       
                     },
                     success: function (response) {
                         if (response.cash) {
