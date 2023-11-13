@@ -8,7 +8,8 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Coupon = require('../model/couponModel');
 const Wishlist = require('../model/wishlistModel')
-const Review = require('../model/reviewModel')
+const _ = require('lodash');
+
 
 var instance = new Razorpay({
   key_id: process.env.RAZ_ID,
@@ -237,12 +238,11 @@ exports.orderDetails = async (req, res) => {
     const orderId = req.query.id;
     const userId = req.session.userId
     const orderDetails = await Order.findOne({ _id: orderId }).populate('products.productId');
-    let products = orderDetails.products
-  console.log(orderDetails);
+
  
 
      
-    res.render('orderdetails', { user: req.session.user, orderDetails})
+    res.render('orderdetails', { user: req.session.user, orderDetails,lodash : _})
   } catch (error) {
     console.log(error.message);
     res.render('500')

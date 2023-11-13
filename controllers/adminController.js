@@ -8,7 +8,7 @@ const ejs = require('ejs');
 const path = require('path')
 const fs = require('fs')
 const ExcelJS = require('exceljs');
-
+const _ = require('lodash')
 
 
 
@@ -250,7 +250,7 @@ exports.orderDetails = async(req, res) => {
     // const deliveryDetails = JSON.parse(orderDetails.deliveryDetails);
 
 
-    res.render('orderdetails',{admin:req.session.admin,orderDetails,title : "Order management"});
+    res.render('orderdetails',{admin:req.session.admin,orderDetails,title : "Order management",lodash : _});
   } catch (error) {
     console.log(error.message);
   }

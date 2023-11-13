@@ -43,11 +43,15 @@ exports.signup = async (req, res) => {
 exports.signIn = async (req, res) => {
   try {
 
-    var logError = req.app.locals.logError
-    req.app.locals.passError = " "
+  req.session.loginValidation;
+console.log(req.session.loginValidation);
 
-
-    res.render("login", { user: req.session.user, logError, title: "Login" });
+    res.render("login", { user: req.session.user, title: "Login",loginval :   req.session.loginValidation },(err,html)=>{
+      if(!err){
+        req.session.loginValidation = false ;
+        res.send(html)
+      }
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -156,18 +160,19 @@ exports.verifyLogin = async (req, res) => {
       if (passMatch && userData?.blocked == false) {
         req.session.userId = userData._id;
         req.session.user = userData.username;
-        req.app.locals.logError = ""
+       
         return res.redirect("/home");
       } else {
         if (userData.blocked) {
-          req.app.locals.logError = "Account is blocked";
+          req.session.loginValidation = 1
           return res.redirect("/login");
         }
-        req.app.locals.logError = "Incorrect password. Please try again.";
+        req.session.loginValidation = 2
         return res.redirect("/login");
+       
       }
     } else {
-      req.app.locals.logError = "Invalid email address. Please try again.";
+      req.session.loginValidation = 3
       return res.redirect("/login");
     }
   } catch (error) {
