@@ -98,7 +98,7 @@ exports.getCart = async (req, res) => {
         { showStatus: true }
       ]
     });
-
+console.log(coupon);
     // console.log(userId);
     const cartData = await Cart.findOne({ userId: userId })
   

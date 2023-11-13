@@ -4,6 +4,7 @@ const productController = require('../controllers/productController')
 const couponController = require('../controllers/couponController')
 const bannerController = require('../controllers/bannerController')
 const offerController = require('../controllers/offerController')
+
 const express = require("express");
 const adminRoute = express();
 const adminAuth = require("../middleware/adminAuth");
@@ -12,7 +13,6 @@ adminRoute.set("view engine", "ejs"); // Set the view engine
 adminRoute.set("views", "./views/admin"); 
 adminRoute.use(express.json());
 adminRoute.use(express.urlencoded({ extended: true }));
-
 
 //==========================admin Auth===========================
 adminRoute.get("/", adminAuth.isLoggedOut, adminController.adminLogin);

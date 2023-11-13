@@ -340,7 +340,7 @@ exports.shop = async (req, res) => {
       ...priceRangeQuery
     }).sort({ price: sort }).skip((pageNum - 1) * perPage).limit(perPage).populate('category')
 
-    
+    console.log(product);
     for(let i = 0; i < product.length ; i++){
       await product[i].populate('category.offer');
     }

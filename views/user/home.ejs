@@ -356,7 +356,7 @@
                                 <div class="product-item furniture col-12 col-md-4 col-lg-3   ">
                                     <div class="product product-4">
                                         <div class="product-media">
-                                           <%if(item.category.offer &&  item.category.offer.expiryDate > new Date() ){%>
+                                           <%if(item.category.offer &&  item.category.offer.expiryDate > new Date() && item.category.offer.is_blocked == false ){%>
                                             <span class="product-label label-sale"><%=item.category.offer.discountAmount%>% off</span>
                                            <% }%>
                                            

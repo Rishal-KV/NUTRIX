@@ -1,6 +1,7 @@
 
 <%-include("../layouts/admin/sideBar.ejs")-%>
 <%-include("../layouts/admin/adminHeader.ejs")-%>
+<% var _ = lodash; %>
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="row">
@@ -27,7 +28,7 @@
               </tr>
               <%product.forEach((products,index)=>{ %>
                 <td> <%=index+1%></td>
-                <td><%= products.name%></td>
+                <td><%= _.truncate(products.name, { length: 10 }) %></td>
                 <td class="py-1"  >
                   <img     style="border-radius:  0%; height: 50px; width : 50px;" src="/product/img/<%= product[index].image.image1%>" alt="image" />
                 </td>

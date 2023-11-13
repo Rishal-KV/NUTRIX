@@ -1,11 +1,12 @@
 const Category = require("../model/catergoryModel");
 const Product = require("../model/productModel");
+const _ = require('lodash');
 
 exports.productmanagement = async (req, res) => {
   try {
     const product = await Product.find().populate('category')
 
-    res.render("pmanagement", { admin: req.session.admin, product, title: "Product management" });
+    res.render("pmanagement", { admin: req.session.admin, product, title: "Product management",lodash : _ });
   } catch (error) {
     console.log(error.message);
 
