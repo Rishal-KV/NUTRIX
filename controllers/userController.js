@@ -301,22 +301,25 @@ exports.shop = async (req, res) => {
     let wishListStrin = [];
     //taking page num thorugh query
     let pageNum = req.query.page  || 1
-  
+    
+ 
     //setting how much product should be display in shop
     let perPage = 3;
 
     //taking doc Count
     let docCount = await Product.countDocuments();
 
-   
+    let pages = Math.ceil(docCount / perPage);
+  
     // let catToFront
     let sort = req.query.id
-    const search = req.query.search || " ";
- const categoryId = await Category.find({},{_id : 1});
- console.log(categoryId);
-    let selectedCategory = req.query.category ?  req.query.category.split(',') : ''
-    
-    console.log(selectedCategory);
+    const search = req.query.search || "";
+
+    let selectedCategory = req.query.category || ''
+   if( !Array.isArray(selectedCategory) && selectedCategory !=''){
+    selectedCategory = req.query.category.split(',')
+
+   }
     // console.log(selectedCategory);
     const selectedPriceRanges = req.query.price || '';
     // console.log(selectedPriceRanges);
@@ -332,6 +335,7 @@ exports.shop = async (req, res) => {
       let cat = await Category.find({}, { _id: 1 })
       selectedCategory = cat.map((val) => val._id.toString());
     }
+    console.log(selectedCategory);
     // console.log(catToFront);
     const category = await Category.find();
     const wishlist = await Wishlist.findOne({ user: req.session.userId });
@@ -339,18 +343,9 @@ exports.shop = async (req, res) => {
     wishlist?.products.map((ele) => {
       wishListStrin.push(ele.productId)
     })
+    console.log(pageNum-1);
     cart ? count = cart.products.length : 0
     wishlist ? wishCount = wishlist.products.length : 0
-    docCount = await Product.countDocuments({
-      is_blocked: false,
-      name: { $regex: search, $options: "i" },
-      category: { $in: selectedCategory },
-      ...priceRangeQuery
-    }).sort({ price: sort }).skip((pageNum - 1) * perPage).limit(perPage).populate('category')
-
-    let pages = Math.ceil(docCount / perPage);
-
-
     const product = await Product.find({
       is_blocked: false,
       name: { $regex: search, $options: "i" },
@@ -358,13 +353,14 @@ exports.shop = async (req, res) => {
       ...priceRangeQuery
     }).sort({ price: sort }).skip((pageNum - 1) * perPage).limit(perPage).populate('category')
 
+   
     for(let i = 0; i < product.length ; i++){
       await product[i].populate('category.offer');
     }
     
    
    
-    console.log(product);
+    
 
     res.render("shop", {
       product,
@@ -377,8 +373,8 @@ exports.shop = async (req, res) => {
       docCount,
       pages,
       pageNum,
-      wishListStrin,selectedCategory,
-      selectedPriceRanges
+      wishListStrin,
+      selectedCategory
     });
   } catch (error) {
     console.log(error.message);
