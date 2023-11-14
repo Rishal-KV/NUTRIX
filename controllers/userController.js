@@ -308,12 +308,15 @@ exports.shop = async (req, res) => {
     //taking doc Count
     let docCount = await Product.countDocuments();
 
-    let pages = Math.ceil(docCount / perPage);
+   
     // let catToFront
     let sort = req.query.id
-    const search = req.query.search || "";
-
-    let selectedCategory = req.query.category || ''
+    const search = req.query.search || " ";
+ const categoryId = await Category.find({},{_id : 1});
+ console.log(categoryId);
+    let selectedCategory = req.query.category ?  req.query.category.split(',') : ''
+    
+    console.log(selectedCategory);
     // console.log(selectedCategory);
     const selectedPriceRanges = req.query.price || '';
     // console.log(selectedPriceRanges);
@@ -338,6 +341,16 @@ exports.shop = async (req, res) => {
     })
     cart ? count = cart.products.length : 0
     wishlist ? wishCount = wishlist.products.length : 0
+    docCount = await Product.countDocuments({
+      is_blocked: false,
+      name: { $regex: search, $options: "i" },
+      category: { $in: selectedCategory },
+      ...priceRangeQuery
+    }).sort({ price: sort }).skip((pageNum - 1) * perPage).limit(perPage).populate('category')
+
+    let pages = Math.ceil(docCount / perPage);
+
+
     const product = await Product.find({
       is_blocked: false,
       name: { $regex: search, $options: "i" },
@@ -345,7 +358,6 @@ exports.shop = async (req, res) => {
       ...priceRangeQuery
     }).sort({ price: sort }).skip((pageNum - 1) * perPage).limit(perPage).populate('category')
 
-    console.log(product);
     for(let i = 0; i < product.length ; i++){
       await product[i].populate('category.offer');
     }
@@ -365,7 +377,8 @@ exports.shop = async (req, res) => {
       docCount,
       pages,
       pageNum,
-      wishListStrin,selectedCategory
+      wishListStrin,selectedCategory,
+      selectedPriceRanges
     });
   } catch (error) {
     console.log(error.message);
