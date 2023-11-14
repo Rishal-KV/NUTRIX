@@ -365,7 +365,7 @@ exports.shop = async (req, res) => {
       docCount,
       pages,
       pageNum,
-      wishListStrin
+      wishListStrin,selectedCategory
     });
   } catch (error) {
     console.log(error.message);
