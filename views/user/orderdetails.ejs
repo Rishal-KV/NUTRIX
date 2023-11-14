@@ -235,7 +235,7 @@ a {
             <%if(orderDetails.status == "delivered"){%>
 
            
-                <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="button">
+                <button  type="button" class="btn btn-secondary" data-toggle="modal" data-target="#myModal" id="button">
                   Add Review
                 </button>
             
@@ -277,7 +277,14 @@ a {
         
        
       </div>
-      
+     <div class="p-4">
+      <select   class="form-select" name="productId" aria-label="Select a product">
+        <option selected disabled>Select a product</option>
+        <% orderDetails.products.forEach(product=> { %>
+            <option  value="<%= product.productId._id %>"><%= product.productId.name %></option>
+        <% }) %>
+    </select>
+     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button onclick="addReview()" type="button" class="btn btn-primary">Add Review</button>
@@ -349,12 +356,15 @@ a {
     window.print();
   }
 
-
-  function addReview() {
+ 
+    function addReview() {
     const review = document.getElementById('review').value;
     const orderId = document.getElementById('orderId').value;
     const radioInputs = document.querySelectorAll('input[name="rate"]');
     let selectedValue = null;
+    let selectedProduct = document.querySelector('select[name="productId"]').value;
+
+
 
     radioInputs.forEach(input => {
         if (input.checked) {
@@ -368,7 +378,10 @@ a {
         data: {
             review: review,
             orderId: orderId,
-            rating: selectedValue
+            rating: selectedValue,
+            selectedProduct : selectedProduct
+             
+            
         },
         success: function (response) {
             if (response.review) {
@@ -390,6 +403,10 @@ a {
         }
     });
 }
+
+
+
+
 
 
 

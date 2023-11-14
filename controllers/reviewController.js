@@ -7,15 +7,17 @@ exports.addReview = async (req, res) => {
         const userReview = req.body.review;
         const orderId = req.body.orderId;
         const rating = req.body.rating;
-        const order = await Order.findOne({ _id: orderId });
+        const selectedProduct = req.body.selectedProduct
+        console.log(selectedProduct);
+        
         const user = req.session.userId
 
-        for (const product of order.products) {
-            const existingReview = await Review.findOne({ product: product.productId });
+      
+            const existingReview = await Review.findOne({ product: selectedProduct });
 
             if (existingReview) {
                 await Review.findOneAndUpdate(
-                    { product: product.productId },
+                    { product: selectedProduct },
                     {
                         $push: {
                             reviews: { review: userReview, user: req.session.userId, rating: rating }
@@ -26,13 +28,13 @@ exports.addReview = async (req, res) => {
                 res.json({ review: true });
             } else {
                 const newReview = new Review({
-                    product: product.productId,
+                    product: selectedProduct,
                     reviews: [{ review: userReview, userId: user, rating: rating }]
                 });
                 await newReview.save();
                 res.json({ review: true });
             }
-        }
+        
     } catch (error) {
         console.log(error.message);
        res.render('500')
