@@ -88,7 +88,15 @@
                                                 </a></h3>
                                             <!-- End .product-title -->
                                             <div class="product-price">
+                                                <%if(product.category.offer &&  product.category.offer.expiryDate > new Date() ){%>
+                                              <p class="text-danger" style="text-decoration: line-through;"> <%=product.price%></p> 
+                                              <% var percentage = product.price * product.category.offer.discountAmount / 100 %>
+                                              <% var discountAmount = product.price - Math.floor(percentage)%>
+
+                                              <p class="text-dark"><%=discountAmount%></p>
+                                                <%}else{%>
                                                 <%=product.price%>
+                                               <% }%>
                                             </div><!-- End .product-price -->
                                             
     

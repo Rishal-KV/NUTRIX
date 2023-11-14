@@ -386,7 +386,15 @@
                                                     <%= item.name %>
                                                 </a></h3><!-- End .product-title -->
                                             <div class="product-price">
-                                                ₹ <%= item.price %>
+                                                <% if (item.category.offer && item.category.offer.expiryDate > new Date()) { %>
+                                                    <p class="text-danger" style="text-decoration: line-through;"><%= item.price %></p> 
+                                                    <% var percentage = item.price * item.category.offer.discountAmount / 100 %>
+                                                    <% var discountAmount = item.price - Math.floor(percentage) %>
+                                                    <p class="text-dark"><%= discountAmount %></p>
+                                                <% } else { %>
+                                                    <%= item.price %>
+                                                <% } %>
+                                                
                                             </div><!-- End .product-price -->
 
 
