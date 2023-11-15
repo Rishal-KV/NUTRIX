@@ -235,7 +235,7 @@ exports.updateCart = async (req, res) => {
     const updatedQuantity = existingProduct.count + count;
 
     if (updatedQuantity < 0 || updatedQuantity > productQuantity) {
-      res.json({ success: false, message: "Invalid quantity." });
+      // res.json({ success: false, message: "Invalid quantity." });
       return;
     }
     if (updatedQuantity <= 0 || updatedQuantity > productQuantity) {
