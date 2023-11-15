@@ -207,8 +207,8 @@ exports.updateCart = async (req, res) => {
     const cartData = await Cart.findOne({ userId: userId });
     const productData = await Product.findOne({ _id: productId }).populate('category');
     const offer = await productData.populate('category.offer')
-     if(offer && offer.category.offer.expiryDate > new Date() && offer.category.offer.is_blocked == false){
-      let percentage = productData.price * offer.category.offer.discountAmount / 100;
+     if(offer && offer.category?.offer?.expiryDate > new Date() && offer?.category?.offer.is_blocked == false){
+      let percentage = productData.price * offer?.category.offer.discountAmount / 100;
      productPrice = productData.price - Math.floor(percentage)
      }else{
       productPrice = productData.price
@@ -235,7 +235,7 @@ exports.updateCart = async (req, res) => {
     const updatedQuantity = existingProduct.count + count;
 
     if (updatedQuantity < 0 || updatedQuantity > productQuantity) {
-      // res.json({ success: false, message: "Invalid quantity." });
+      res.json({ success: false, message: "Invalid quantity." });
       return;
     }
     if (updatedQuantity <= 0 || updatedQuantity > productQuantity) {
