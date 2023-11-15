@@ -248,30 +248,29 @@
                     <% similar.forEach(function(item) { %>
                         <div class="product product-7 text-center">
                             <figure class="product-media">
-                                <a href="product.html">
+                                <a href="/productdetails?id=<%=item._id%>">
                                     <img src="product/img/<%=item.image.image1%>" alt="Product image"
                                         class="product-image">
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
-                                            wishlist</span></a>
+                                   
                                    
                                    
                                 </div><!-- End .product-action-vertical -->
 
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    <a onclick="addToCart('<%=item._id%>')" class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                             </figure><!-- End .product-media -->
 
                             <div class="product-body">
                                 <div class="product-cat">
-                                    <a href="#">
+                                    <a href="/productdetails?id=<%=item._id%>">
                                         <%=item.category?.name%>
                                     </a>
                                 </div><!-- End .product-cat -->
-                                <h3 class="product-title"><a href="product.html">
+                                <h3 class="product-title"><a href="/productdetails?id=<%=item._id%>">
                                         <%=item.name%>
                                     </a></h3><!-- End .product-title -->
                                 <div class="product-price">

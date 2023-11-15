@@ -79,28 +79,22 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-
                                             <div class="form-group p-5">
-                                                <label for="recipient-name" class="col-form-label  ">Name</label>
-                                                <input type="text" value="<%=userDetails.username%>"
-                                                    class="form-control border border-5" id="recipient-name"
-                                                    name="name">
+                                                <label for="recipient-name" class="col-form-label">Name</label>
+                                                <input type="text" value="<%=userDetails.username%>" class="form-control border border-5" id="recipient-name" name="name" required>
+                                                <span id="nameError" class="text-danger"></span>
                                             </div>
                                             <div class="form-group p-5">
-                                                <label for="recipient-name" class="col-form-label ">Email</label>
-                                                <input type="email" value="<%=userDetails.email%>"
-                                                    class="form-control border border-5" id="recipient-email"
-                                                    name="email">
+                                                <label for="recipient-email" class="col-form-label">Email</label>
+                                                <input type="email" value="<%=userDetails.email%>" class="form-control border border-5" id="recipient-email" name="email" required>
+                                                <span id="emailError" class="text-danger"></span>
                                             </div>
-
-
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" id="modalClose"
-                                                data-dismiss="modal">Close</button>
-                                            <button onclick="edit()" type="button"
-                                                class="btn btn-primary">Update</button>
+                                            <button type="button" class="btn btn-secondary" id="modalClose" data-dismiss="modal">Close</button>
+                                            <button onclick="edit()" type="button" class="btn btn-primary" id="updateBtn">Update</button>
                                         </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -112,6 +106,7 @@
                                             <tr>
                                                 <th scope="col">Sno</th>
                                                 <th scope="col">Date</th>
+                                                <th scope="col">Status</th>
                                                 
                                               
                                                 <th scope="col">Details</th>
@@ -131,6 +126,7 @@
                                                         <%= new Date(item.date).toLocaleDateString('en-US', {
                                                             year: 'numeric' , month: 'long' , day: 'numeric' }) %>
                                                     </td>
+                                                    <td><%=item.status%></td>
                                                    
 
 
@@ -477,39 +473,57 @@
 
                                     //===============================================edit address=================================================
                                     function edit() {
-                                        const name = document.getElementById('recipient-name').value;
-                                        const email = document.getElementById('recipient-email').value
-                                        const closeBtn = document.getElementById("modalClose")
-                                        console.log(email);
-                                        $.ajax({
-                                            url: '/editprofile',
-                                            method: 'POST',
-                                            data: {
-                                                name: name,
-                                                email: email
-                                            },
-                                            success: function (response) {
-                                                if (response.updated) {
-                                                    Swal.fire({
-                                                        toast: true,
-                                                        icon: 'success',
-                                                        title: 'updated',
-                                                        animation: false,
-                                                        position: 'top',
-                                                        showConfirmButton: false,
-                                                        timer: 3000,
-                                                        timerProgressBar: true,
+    // Reset previous error messages
+    document.getElementById('nameError').innerText = "";
+    document.getElementById('emailError').innerText = "";
 
-                                                    })
-                                                    setTimeout(() => {
-                                                        closeBtn.click()
-                                                    }, 1000)
+    // Get the values from the form
+    const name = document.getElementById('recipient-name').value;
+    const email = document.getElementById('recipient-email').value;
+    const closeBtn = document.getElementById("modalClose");
 
+    // Validate the name field
+    if (name.trim() === "") {
+        document.getElementById('nameError').innerText = "Name is required!";
+        return;
+    }
 
-                                                }
-                                            }
-                                        })
-                                    }
+    // Validate the email field using a regular expression
+    const emailRegex = /^[^\s@]+@gmail\.com$/;
+    if (!emailRegex.test(email)) {
+        document.getElementById('emailError').innerText = "Invalid Gmail address!";
+        return;
+    }
+
+    // If all validations pass, proceed with the AJAX request
+    $.ajax({
+        url: '/editprofile',
+        method: 'POST',
+        data: {
+            name: name,
+            email: email
+        },
+        success: function (response) {
+            if (response.updated) {
+                Swal.fire({
+                    toast: true,
+                    icon: 'success',
+                    title: 'Updated',
+                    animation: false,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+
+                setTimeout(() => {
+                    closeBtn.click();
+                }, 1000);
+            }
+        }
+    });
+}
+
 
 
 

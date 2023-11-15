@@ -188,11 +188,12 @@ exports.cancelOrder = async (req, res) => {
      let products = orderData.products
      for(let i = 0 ; i < products.length; i++){
       const purchasedProduct = await Product.findOneAndUpdate(
-        { _id: products.productId },
+        { _id: products[i].productId },
         { $inc: { stock:  products[i].count } } 
       );
+      console.log(purchasedProduct);
      }
-   
+  
     // console.log(totalAmount);
     const cancelOrder = await Order.updateOne({ _id: orderId }, {
       $set: {

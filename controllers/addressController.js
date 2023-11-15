@@ -154,7 +154,7 @@ exports.geteditaddress = async(req, res) =>{
     let wishlist = await Wishlist.findOne({user : req.session.userId}) ;
     wishlist ? wishCount = wishlist.products.length : wishCount = 0
     let count = 0;
-     count = carts.products.length;
+     count = carts?.products?.length;
     const address = addressData.address[0]
      
     console.log(address);
